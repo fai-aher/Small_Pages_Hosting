@@ -33,6 +33,62 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            padding-top: 80px;
+        }
+
+        /* Floating Navigation */
+        .floating-nav {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            z-index: 1000;
+            padding: 10px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .nav-tab {
+            padding: 8px 15px;
+            border: none;
+            background: var(--primary-light);
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-tab:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .nav-tab.active {
+            background: var(--primary-dark);
+        }
+
+        .nav-tab i {
+            font-size: 0.8rem;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
         }
         
         header {
@@ -178,7 +234,7 @@
         .team-leaders {
             margin-top: 30px;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
         }
 
@@ -378,6 +434,21 @@
         .lottery-notice h3 i {
             margin-right: 10px;
         }
+
+        .privacy-notice {
+            margin-top: 20px;
+            background-color: #E8F5E8;
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            border-radius: 4px;
+        }
+        
+        .privacy-notice h3 {
+            margin-top: 0;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+        }
         
         .budget-container {
             display: flex;
@@ -419,8 +490,72 @@
             align-items: center;
             font-size: 0.8rem;
         }
+
+        .register-container {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .register-image {
+            width: 300px;
+            max-width: 100%;
+            margin-bottom: 30px;
+            border-radius: 12px;
+        }
+
+        .register-btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .register-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+
+        .points-highlight {
+            background-color: #E3F2FD;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+
+        .points-highlight h3 {
+            margin-top: 0;
+            color: #1976D2;
+        }
         
         @media (max-width: 768px) {
+            .floating-nav {
+                position: relative;
+                top: 0;
+                right: 0;
+                margin-bottom: 20px;
+            }
+
+            .dashboard {
+                padding-top: 20px;
+            }
+
+            .nav-tabs {
+                justify-content: center;
+            }
+
+            .nav-tab {
+                font-size: 0.8rem;
+                padding: 6px 12px;
+            }
+            
             .growth-stages {
                 overflow-x: auto;
                 padding-bottom: 10px;
@@ -439,7 +574,6 @@
             }
         }
 
-        /* Add Font Awesome icons */
         .fas {
             font-family: "Font Awesome 5 Free";
             font-weight: 900;
@@ -448,513 +582,956 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-    <div class="dashboard">
-        <header>
-            <div class="header-bg"></div>
-            <img id="logo-img" src="SEED Alumni Garden.png" alt="Logo" />
-            <h1>The SEED Garden Project 2025</h1>
-            <p>Global Connections Rooted in Japan and Growing Around the World </p>
-        </header>
-        
-        <div class="section">
-            <h2>About the SEED Garden</h2>
-            <div class="section-intro">
-                <p>The SEED Garden is a new and innovative approach to the SEED Alumni Project for 2025. It reimagines our community as a thriving ecosystem where each participant contributes to a beautiful, diverse, and productive network of relationships that span across countries, cohorts, and cultures.</p>
-                
-                <p>Through this initiative, we aim to foster meaningful connections between current SEED 2025 participants and alumni from previous years (2022-2024), creating a supportive community that continues to grow long after the program ends. The SEED Garden combines professional development, cultural exchange, and mutual support in a gamified structure that rewards engagement and contribution.</p>
-                
-                <p>Key objectives of the SEED Garden include:</p>
-                <ul>
-                    <li>Strengthening connections between alumni across all cohorts</li>
-                    <li>Providing mentorship opportunities for current participants</li>
-                    <li>Supporting Yamanashi producers through continued engagement</li>
-                    <li>Creating valuable networking opportunities across countries</li>
-                    <li>Maintaining and deepening everyone's connection to Japanese culture</li>
-                </ul>
-
-                <p>Join us in cultivating this unique community where everyone can grow, share knowledge, and build lasting professional relationships!</p>
-            </div>
+    <div class="floating-nav">
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('overview')">
+                <i class="fas fa-home"></i> Overview
+            </button>
+            <button class="nav-tab" onclick="showTab('points')">
+                <i class="fas fa-trophy"></i> Points & Rewards
+            </button>
+            <button class="nav-tab" onclick="showTab('leaders')">
+                <i class="fas fa-users"></i> Leader Roles
+            </button>
+            <button class="nav-tab" onclick="showTab('protocol')">
+                <i class="fas fa-file-alt"></i> Event Protocol
+            </button>
+            <button class="nav-tab" onclick="showTab('register')">
+                <i class="fas fa-user-plus"></i> Register
+            </button>
         </div>
-        
-        <div class="section">
-            <h2>Growth Stages</h2>
-            <div class="section-intro">
-                <p>The SEED Garden employs a gamified engagement system where each participant begins as a seed and progresses through various growth stages by earning points. This structure provides clear goals and recognition for your contributions to the community.</p>
-                
-                <p>At the Young Tree stage (400 points), you'll discover which type of tree you'll become, adding an element of excitement and personalization to your journey. As you continue to participate and contribute, your tree will blossom and reach mythical status!</p>
+    </div>
+
+    <div class="dashboard">
+        <!-- OVERVIEW TAB -->
+        <div id="overview" class="tab-content active">
+            <header>
+                <div class="header-bg"></div>
+                <img id="logo-img" src="SEED Alumni Garden.png" alt="Logo" />
+                <h1>The SEED Garden Project 2025</h1>
+                <p>Global Connections Rooted in Japan and Growing Around the World</p>
+            </header>
+            
+            <div class="section">
+                <h2>About the SEED Garden</h2>
+                <div class="section-intro">
+                    <p>The SEED Garden is a new and innovative approach to the SEED Alumni Project for 2025. It reimagines our community as a thriving ecosystem where each participant contributes to a beautiful, diverse, and productive network of relationships that span across countries, cohorts, and cultures.</p>
+                    
+                    <p>Through this initiative, we aim to foster meaningful connections between current SEED 2025 participants and alumni from previous years (2022-2024), creating a supportive community that continues to grow long after the program ends. The SEED Garden combines professional development, cultural exchange, and mutual support in a gamified structure that rewards engagement and contribution.</p>
+                    
+                    <p>Key objectives of the SEED Garden include:</p>
+                    <ul>
+                        <li>Strengthening connections between alumni across all cohorts</li>
+                        <li>Providing mentorship opportunities for current participants</li>
+                        <li>Supporting Yamanashi producers through continued engagement</li>
+                        <li>Creating valuable networking opportunities across countries</li>
+                        <li>Maintaining and deepening everyone's connection to Japanese culture</li>
+                        <li>Building <strong>Professional Groves</strong> - specialized communities where alumni with similar academic backgrounds, career goals, or professional interests can collaborate and share insights</li>
+                    </ul>
+
+                    <p>Join us in cultivating this unique community where everyone can grow, share knowledge, and build lasting professional relationships!</p>
+                </div>
             </div>
             
-            <div class="growth-stages">
-                <div class="stage">
-                    <div class="stage-icon">🌱</div>
-                    <div class="stage-name">Seed 種</div>
-                    <div class="stage-points">0 pts</div>
+            <div class="section">
+                <h2>Growth Stages</h2>
+                <div class="section-intro">
+                    <p>The SEED Garden employs a gamified engagement system where each participant begins as a seed and progresses through various growth stages by earning points. This structure provides clear goals and recognition for your contributions to the community.</p>
+                    
+                    <p>At the Young Tree stage (400 points), you'll discover which type of tree you'll become, adding an element of excitement and personalization to your journey. As you continue to participate and contribute, your tree will blossom and reach mythical status!</p>
+
+                    <p><strong>Monthly Leaderboard:</strong> Every month, we'll announce the current standings to celebrate our most active garden cultivators. Remember, these are not final winners - anyone can still climb to the top positions throughout the year!</p>
                 </div>
                 
-                <div class="stage">
-                    <div class="stage-icon">🌿</div>
-                    <div class="stage-name">Sprout 芽</div>
-                    <div class="stage-points">50 pts</div>
+                <div class="growth-stages">
+                    <div class="stage">
+                        <div class="stage-icon">🌱</div>
+                        <div class="stage-name">Seed 種</div>
+                        <div class="stage-points">0 pts</div>
+                    </div>
+                    
+                    <div class="stage">
+                        <div class="stage-icon">🌿</div>
+                        <div class="stage-name">Sprout 芽</div>
+                        <div class="stage-points">50 pts</div>
+                    </div>
+                    
+                    <div class="stage">
+                        <div class="stage-icon">🍃</div>
+                        <div class="stage-name">Sapling 苗</div>
+                        <div class="stage-points">250 pts</div>
+                    </div>
+                    
+                    <div class="stage">
+                        <div class="stage-icon">🌴</div>
+                        <div class="stage-name">Young Tree 若</div>
+                        <div class="stage-points">400 pts</div>
+                    </div>
+                    
+                    <div class="stage">
+                        <div class="stage-icon">🌳</div>
+                        <div class="stage-name">Blooming 咲</div>
+                        <div class="stage-points">600 pts</div>
+                    </div>
+                    
+                    <div class="stage">
+                        <div class="stage-icon">🌸</div>
+                        <div class="stage-name">Radiant Blossom 花</div>
+                        <div class="stage-points">800 pts</div>
+                    </div>
+                    
+                    <div class="stage">
+                        <div class="stage-icon">🌲</div>
+                        <div class="stage-name">Mythical Tree 莆</div>
+                        <div class="stage-points">1200 pts</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Professional Groves</h2>
+                <div class="section-intro">
+                    <p>Professional Groves are specialized communities within the SEED Garden where alumni with similar academic backgrounds, career paths, or professional interests can connect in more intimate spaces. These groves facilitate deeper conversations, knowledge sharing, and collaborative opportunities among like-minded individuals.</p>
+                    
+                    <p>Current Professional Groves include:</p>
+                    <ul>
+                        <li><strong>Engineering Grove:</strong> For engineers and technical professionals</li>
+                        <li><strong>Business Grove:</strong> For entrepreneurs, consultants, and business professionals</li>
+                        <li><strong>Design Grove:</strong> For designers, artists, and creative professionals</li>
+                        <li><strong>Academic Grove:</strong> For researchers, professors, and those in academic careers</li>
+                        <li><strong>Social Impact Grove:</strong> For those working in NGOs, social enterprises, and sustainability</li>
+                        <li><strong>Technology Grove:</strong> For software developers, data scientists, and tech innovators</li>
+                    </ul>
+                    
+                    <p>Participation in Professional Groves provides additional networking opportunities and specialized mentorship that complements the broader SEED Garden activities.</p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>SEED Garden Leaders</h2>
+                <div class="section-intro">
+                    <p>Our SEED Garden is led by a diverse team of alumni from different countries and program years. Each leader brings unique expertise and cultural perspective to help our garden flourish across borders.</p>
                 </div>
                 
-                <div class="stage">
-                    <div class="stage-icon">🍃</div>
-                    <div class="stage-name">Sapling 苗</div>
-                    <div class="stage-points">250 pts</div>
+                <div class="team-leaders">
+                    <div class="leader-card">
+                        <div class="leader-photo"><img src="photos/Fai.jpg" alt="Alonso" width="120px" style="border-radius: 45%;" /></div>
+                        <div class="leader-name">Alonso Hernandez</div>
+                        <div class="leader-role">Project Coordinator</div>
+                        <div class="leader-info">SEED 2023 Alumni</div>
+                    </div>
+
+                    <div class="leader-card">
+                        <div class="leader-photo"><img src="photos/Luli.png" alt="Lucia" width="120px" style="border-radius: 45%;" /></div>
+                        <div class="leader-name">Lucia Bocalandro</div>
+                        <div class="leader-role">Argentina Alumni Leader</div>
+                        <div class="leader-info">SEED 2024 Alumni</div>
+                    </div>
+
+                    <div class="leader-card">
+                        <div class="leader-photo"><img src="photos/Eduardo.jpg" alt="Eduardo" width="120px" style="border-radius: 45%;" /></div>
+                        <div class="leader-name">Eduardo Viel</div>
+                        <div class="leader-role">Brazil Alumni Leader</div>
+                        <div class="leader-info">SEED 2024 Alumni</div>
+                    </div>
+                    
+                    <div class="leader-card">
+                        <div class="leader-photo"><img src="photos/Ana Herazo.jpg" alt="Ana" width="120px" style="border-radius: 45%;" /></div>
+                        <div class="leader-name">Ana Herazo</div>
+                        <div class="leader-role">Colombia Alumni Leader</div>
+                        <div class="leader-info">SEED 2024 Alumni</div>
+                    </div>
+
+                    <div class="leader-card">
+                        <div class="leader-photo"><img src="photos/Tomomi.png" alt="Tomomi" width="120px" style="border-radius: 45%;" /></div>
+                        <div class="leader-name">Tomomi Suzuki</div>
+                        <div class="leader-role">Japan Alumni Leader</div>
+                        <div class="leader-info">SEED 2024 Alumni</div>
+                    </div>
+                    
+                    <div class="leader-card">
+                        <div class="leader-photo"><img src="photos/Ben.jpg" alt="Benjamin" width="120px" style="border-radius: 45%;" /></div>
+                        <div class="leader-name">Benjamin Velez</div>
+                        <div class="leader-role">Medellin Alumni Leader</div>
+                        <div class="leader-info">SEED 2023 Alumni</div>
+                    </div>
+
+                    <div class="leader-card">
+                        <div class="leader-photo"><img src="photos/Mar.jpg" alt="Mar" width="120px" style="border-radius: 45%;" /></div>
+                        <div class="leader-name">Mar Sampedro</div>
+                        <div class="leader-role">Bogota Alumni Leader</div>
+                        <div class="leader-info">SEED 2024 Alumni</div>
+                    </div>
+
+                    <div class="leader-card">
+                        <div class="leader-photo"><img src="photos/Camilo.png" alt="Camilo" height="120px" width="120px" style="border-radius: 45%;" /></div>
+                        <div class="leader-name">Camilo Rodriguez</div>
+                        <div class="leader-role">Global Moderator</div>
+                        <div class="leader-info">SEED 2023 Alumni</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Events Calendar 2025</h2>
+                <div class="section-intro">
+                    <p>Our calendar features a variety of engaging activities throughout the year to build connections, share knowledge, and support SEED 2025 participants. Each event provides points that contribute to your growth in the SEED Garden.</p>
+                    
+                    <p>We've designed a balanced mix of remote and in-person activities to accommodate different schedules and locations. The mandatory Welcome Ceremony on July 10th will officially launch the program, while subsequent events will focus on specific skills, cultural exchange, and project support.</p>
                 </div>
                 
-                <div class="stage">
-                    <div class="stage-icon">🌴</div>
-                    <div class="stage-name">Young Tree 若</div>
-                    <div class="stage-points">400 pts</div>
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="event-dot" style="background-color: #2196F3;"></div>
+                        <span>In-Person Activities</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="event-dot" style="background-color: #9C27B0;"></div>
+                        <span>Remote Activities</span>
+                    </div>
                 </div>
                 
-                <div class="stage">
-                    <div class="stage-icon">🌳</div>
-                    <div class="stage-name">Blooming 咲</div>
-                    <div class="stage-points">600 pts</div>
+                <div class="calendar">
+                    <div class="month">
+                        <div class="month-header">June 2025</div>
+                        <div class="events">
+                            <div class="event event-virtual">
+                                <div class="event-dot"></div>
+                                <span>June 6: Checking the SEED Intranet Tutorial (20 pts)</span>
+                            </div>
+                            <div class="event event-virtual">
+                                <div class="event-dot"></div>
+                                <span>June 7: SEED 2025 Self-Introduction in Intranet Forums (30 pts)</span>
+                            </div>
+                            <div class="event event-virtual">
+                                <div class="event-dot"></div>
+                                <span>June 11: SEED 2025 and Alumni comment the forums (40 pts)</span>
+                            </div>
+                            <div class="event event-inperson">
+                                <div class="event-dot"></div>
+                                <span>June 28: In person SEED Alumni Meeting with 2025 Participants (100 pts)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="month">
+                        <div class="month-header">July 2025</div>
+                        <div class="events">
+                            <div class="event event-cultural">
+                                <div class="event-dot"></div>
+                                <span>Jul 10: SEED 2025 Welcome Ceremony (120 pts)</span>
+                            </div>
+                            <div class="event event-virtual">
+                                <div class="event-dot"></div>
+                                <span>Jul 24: Fun Activity - My Favorite Japan Memory (60 pts)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="month">
+                        <div class="month-header">August 2025</div>
+                        <div class="events">
+                            <div class="event event-virtual">
+                                <div class="event-dot"></div>
+                                <span>August 7: Producer Mentoring Session - Sake/Wine (80 pts)</span>
+                            </div>
+                            <div class="event event-virtual">
+                                <div class="event-dot"></div>
+                                <span>Aug 20: Survey & Interview Techniques Workshop (80 pts)</span>
+                            </div>
+                            <div class="event event-inperson">
+                                <div class="event-dot"></div>
+                                <span>Aug 28: Buenos Aires - Japanese Garden Visit (100 pts)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="month">
+                        <div class="month-header">September 2025</div>
+                        <div class="events">
+                            <div class="event event-virtual">
+                                <div class="event-dot"></div>
+                                <span>Sep 4: Japanese Marketing Strategies Workshop (80 pts)</span>
+                            </div>
+                            <div class="event event-virtual">
+                                <div class="event-dot"></div>
+                                <span>Sep 18: Fun Activity - Virtual Japanese Cooking Class (60 pts)</span>
+                            </div>
+                            <div class="event event-virtual">
+                                <div class="event-dot"></div>
+                                <span>Sep 25: Presentation Skills Coaching Session (80 pts)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="month">
+                        <div class="month-header">October 2025</div>
+                        <div class="events">
+                            <div class="event event-virtual">
+                                <div class="event-dot"></div>
+                                <span>Oct 4: Project Progress Review Session (100 pts)</span>
+                            </div>
+                            <div class="event event-inperson">
+                                <div class="event-dot"></div>
+                                <span>Oct 15: São Paulo - Japanese Neighborhood Dinner (100 pts)</span>
+                            </div>
+                            <div class="event event-virtual">
+                                <div class="event-dot"></div>
+                                <span>Oct 9: Research Progress Feedback Session (100 pts)</span>
+                            </div>
+                            <div class="event event-virtual">
+                                <div class="event-dot"></div>
+                                <span>Oct 23: Fun Activity - Japan Trivia Competition (60 pts)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="month">
+                        <div class="month-header">November 2025</div>
+                        <div class="events">
+                            <div class="event event-virtual">
+                                <div class="event-dot"></div>
+                                <span>Nov 13: Final Presentation Feedback Session (120 pts)</span>
+                            </div>
+                            <div class="event event-virtual">
+                                <div class="event-dot"></div>
+                                <span>Nov 20: Pre-Trip Survival Guide & Tips Session (100 pts)</span>
+                            </div>
+                            <div class="event event-virtual">
+                                <div class="event-dot"></div>
+                                <span>Nov 27: Fun Activity - Share Your Expectations (60 pts)</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="stage">
-                    <div class="stage-icon">🌸</div>
-                    <div class="stage-name">Radiant Blossom 花</div>
-                    <div class="stage-points">800 pts</div>
-                </div>
-                
-                <div class="stage">
-                    <div class="stage-icon">🌲</div>
-                    <div class="stage-name">Mythical Tree 莆</div>
-                    <div class="stage-points">1200 pts</div>
+            </div>
+
+            <div class="section">
+                <h2>How to Participate</h2>
+                <div class="section-intro">
+                    <p>Participating in the SEED Garden is easy and rewarding! Here's how to get started and make the most of this unique community:</p>
+                    
+                    <ol>
+                        <li><strong>Register on the SEED Intranet:</strong> Ensure your profile is complete and up-to-date</li>
+                        <li><strong>Attend the Welcome Ceremony:</strong> Join us on July 10th for the official launch</li>
+                        <li><strong>Participate in Activities:</strong> Check the calendar regularly and join events that match your schedule</li>
+                        <li><strong>Track Your Progress:</strong> Monitor your growth stage and points on the SEED Intranet real-time leaderboard</li>
+                        <li><strong>Join Professional Groves:</strong> Connect with alumni in your field of expertise</li>
+                        <li><strong>Give Feedback:</strong> Help us improve by sharing your thoughts on activities and the overall program</li>
+                    </ol>
+                    
+                    <p>Remember that your participation not only helps you earn rewards but also creates tremendous value for current SEED participants who benefit from your experience and insights. Together, we can create a vibrant, supportive community that extends far beyond the formal SEED Program timeline.</p>
                 </div>
             </div>
         </div>
-        
+
+        <!-- POINTS & REWARDS TAB -->
+        <div id="points" class="tab-content">
+            <header>
+                <div class="header-bg"></div>
+                <h1>Points & Rewards System</h1>
+                <p>Earn points, grow your tree, and win amazing rewards!</p>
+            </header>
+
+            <div class="section">
+                <h2>Point-Earning Activities</h2>
+                <div class="section-intro">
+                    <p>The SEED Garden offers various ways to earn points through engagement in different types of activities. Participants can accumulate points by joining events, contributing knowledge, and supporting current SEED teams.</p>
+                </div>
+
+                <div class="points-highlight">
+                    <h3><i class="fas fa-video"></i> Camera Engagement Bonus</h3>
+                    <p><strong>Keep your camera ON during video calls to earn extra points!</strong> Participants who maintain their camera on for the majority of virtual meetings and events will receive bonus points (20-30 additional points per session). This helps create a more engaging and connected community experience.</p>
+                </div>
+                
+                <div class="activity-groups">
+                    <div class="activity-group">
+                        <h3><i class="fas fa-laptop"></i> <span>Remote Activities</span></h3>
+                        <ul class="activity-list">
+                            <li><i class="fas fa-briefcase"></i> <strong>Business Activities</strong> - Strategy development, market research (80-100 pts)</li>
+                            <li><i class="fas fa-bullhorn"></i> <strong>Promotion Activities</strong> - Social media content, blog posts (40-60 pts)</li>
+                            <li><i class="fas fa-users"></i> <strong>SEED Teams Support</strong> - Project feedback, advisory sessions (80-100 pts)</li>
+                            <li><i class="fas fa-chalkboard-teacher"></i> <strong>Mentoring Activities</strong> - Knowledge sharing, guidance sessions (80-100 pts)</li>
+                            <li><i class="fas fa-theater-masks"></i> <strong>Cultural Activities</strong> - Japanese cultural workshops (60-80 pts)</li>
+                            <li><i class="fas fa-gamepad"></i> <strong>Fun Activities</strong> - Virtual social events, games (40-60 pts)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity-group">
+                        <h3><i class="fas fa-map-marker-alt"></i> <span>In-Person Activities</span></h3>
+                        <ul class="activity-list">
+                            <li><i class="fas fa-handshake"></i> <strong>Networking Activities</strong> - Regional gatherings, professional events (100 pts)</li>
+                            <li><i class="fas fa-torii-gate"></i> <strong>Cultural Activities</strong> - Japanese cultural immersion events (100 pts)</li>
+                            <li><i class="fas fa-chart-line"></i> <strong>Business Activities</strong> - Workshops, panels, discussions (80-100 pts)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity-group">
+                        <h3><i class="fas fa-calendar-check"></i> <span>Special Events</span></h3>
+                        <ul class="activity-list">
+                            <li><i class="fas fa-door-open"></i> <strong>Welcome Ceremony</strong> - July 10th official launch (120 pts)</li>
+                            <li><i class="fas fa-comments"></i> <strong>Producer Mentoring Sessions</strong> - Direct support for teams (80 pts)</li>
+                            <li><i class="fas fa-graduation-cap"></i> <strong>Skills Workshops</strong> - Survey techniques, presentation skills (80 pts)</li>
+                            <li><i class="fas fa-file-alt"></i> <strong>Project Reviews</strong> - Progress feedback sessions (100 pts)</li>
+                            <li><i class="fas fa-plane-departure"></i> <strong>Pre-Trip Preparation</strong> - Japan travel guidance (100 pts)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Monthly Leaderboard</h2>
+                <div class="section-intro">
+                    <p>Every month, we celebrate our most active garden cultivators with special announcements highlighting the current leaderboard standings. This monthly recognition helps maintain motivation and friendly competition throughout the year.</p>
+                    
+                    <p><strong>Important:</strong> Monthly leaderboard positions are not final winners - anyone can still climb to the top positions throughout the entire year! The real-time leaderboard on the SEED Intranet ensures complete transparency and fairness in point tracking.</p>
+
+                    <p>Check the <strong>SEED Intranet Leaderboard</strong> section to see live updates of your current position and points accumulated.</p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Rewards System</h2>
+                <div class="section-intro">
+                    <p>The SEED Garden features a comprehensive rewards system that recognizes and celebrates your engagement and contributions. As you progress through growth stages, you'll unlock increasingly valuable rewards.</p>
+                    
+                    <p>There are separate reward tracks for current participants (who will receive their rewards during the Study Tour in Japan) and alumni (who will receive rewards during Goro Mutsuura's visits to their countries or through international shipping).</p>
+                </div>
+                
+                <table class="rewards-table">
+                    <thead>
+                        <tr>
+                            <th>Growth Stage</th>
+                            <th>Points</th>
+                            <th>Current Participants</th>
+                            <th>Alumni Participants</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>🌱 Seed 種</td>
+                            <td>0</td>
+                            <td>Digital welcome card</td>
+                            <td>Digital welcome card</td>
+                        </tr>
+                        <tr>
+                            <td>🌿 Sprout 芽</td>
+                            <td>50</td>
+                            <td>Certificate of Contribution + Japanese snacks</td>
+                            <td>Certificate of Contribution + Japanese snacks</td>
+                        </tr>
+                        <tr>
+                            <td>🍃 Sapling 苗</td>
+                            <td>250</td>
+                            <td>Special recognition + Japanese snack gift from Yamanashi</td>
+                            <td>Japanese snack gift from Yamanashi</td>
+                        </tr>
+                        <tr>
+                            <td>🌴 Young Tree 若</td>
+                            <td>400</td>
+                            <td>Special souvenir set from Japan + Yamanashi Producer's Souvenir</td>
+                            <td>Special souvenir set from Japan + Yamanashi Producer's Souvenir</td>
+                        </tr>
+                        <tr>
+                            <td>🌳 Blooming 咲</td>
+                            <td>600</td>
+                            <td>TeamLabs Tokyo ticket (Top 2)</td>
+                            <td>Japanese food cooking set (Top 1 per city)</td>
+                        </tr>
+                        <tr>
+                            <td>🌸 Radiant Blossom 花</td>
+                            <td>800</td>
+                            <td>Special dinner in Tokyo or Latin America (Top 2)</td>
+                            <td>Special dinner in Tokyo or Latin America (Top 2)</td>
+                        </tr>
+                        <tr>
+                            <td>🌲 Mythical Tree 莆</td>
+                            <td>1200</td>
+                            <td>Yamanashi premium gift set with sake, wine and souvenirs (Top 1)</td>
+                            <td>Yamanashi premium gift set with sake, wine and souvenirs (Top 1)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="lottery-notice">
+                    <h3><i class="fas fa-ticket-alt"></i> Reward Distribution Policy</h3>
+                    <p>If more participants reach a growth stage than there are available rewards for that stage (e.g., 10 people reach Blooming stage but only 7 rewards are available), a random lottery system will be used in December to determine the winners.</p>
+                    <p>For the exclusive Mythical Tree rewards, only one SEED 2025 participant and one Alumni member can win this prize. The first person from each category to reach this stage will receive the premium gift set.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- LEADER ROLES TAB -->
+        <div id="leaders" class="tab-content">
+        <header>
+            <div class="header-bg"></div>
+            <h1>Leadership Structure & Responsibilities</h1>
+            <p>Meet our dedicated leaders and their specialized expertise areas</p>
+        </header>
+
         <div class="section">
-            <h2>SEED Garden Leaders</h2>
+            <h2>SEED Garden Leaders - Expertise & Specializations</h2>
             <div class="section-intro">
-                <p>Our SEED Garden is led by a diverse team of alumni from different countries and program years. Each leader brings unique expertise and cultural perspective to help our garden flourish across borders.</p>
+                <p>Each SEED Garden leader brings unique expertise to support our community. Each leader can help all SEED 2025 participants and SEED Alumni with their specialty.</p>
             </div>
             
             <div class="team-leaders">
                 <div class="leader-card">
-                    <div class="leader-photo"><img src="photos/Fai.jpg" alt="fai" width="120px" style="border-radius: 45%;" /></div>
+                    <div class="leader-photo"><img src="photos/Fai.jpg" alt="Alonso" width="120px" style="border-radius: 45%;" /></div>
                     <div class="leader-name">Alonso Hernandez</div>
                     <div class="leader-role">Project Coordinator</div>
-                    <div class="leader-info">SEED 2023 Alumni</div>
+                    <div class="leader-info"><strong>Community Coordinator & IT Specialist</strong></div>
+                    <div style="text-align: left; margin-top: 10px; font-size: 0.85rem;">
+                        <strong>Ask Alonso for help with:</strong>
+                        <ul style="margin: 5px 0; padding-left: 15px;">
+                            <li>Technical platform management & website issues</li>
+                            <li>Strategic planning & program objectives</li>
+                            <li>Communication with GOROM Association</li>
+                            <li>Social media content & promotional materials</li>
+                            <li>Overall program coordination & conflict resolution</li>
+                        </ul>
+                    </div>
                 </div>
 
                 <div class="leader-card">
-                    <div class="leader-photo"><img src="photos/Luli.png" alt="fai" width="120px" style="border-radius: 45%;" /></div>
+                    <div class="leader-photo"><img src="photos/Luli.png" alt="Lucia" width="120px" style="border-radius: 45%;" /></div>
                     <div class="leader-name">Lucia Bocalandro</div>
                     <div class="leader-role">Argentina Alumni Leader</div>
-                    <div class="leader-info">SEED 2024 Alumni</div>
+                    <div class="leader-info"><strong>Design Thinking & UX Specialist</strong></div>
+                    <div style="text-align: left; margin-top: 10px; font-size: 0.85rem;">
+                        <strong>Ask Lucia for help with:</strong>
+                        <ul style="margin: 5px 0; padding-left: 15px;">
+                            <li>Design Thinking process guidance</li>
+                            <li>User Experience & Customer Experience insights</li>
+                            <li>Visual design & presentation improvements</li>
+                            <li>Creative problem-solving methodologies</li>
+                            <li>Design consistency across deliverables</li>
+                        </ul>
+                    </div>
                 </div>
 
                 <div class="leader-card">
-                    <div class="leader-photo"><img src="photos/Eduardo.jpg" alt="fai" width="120px" style="border-radius: 45%;" /></div>
-                    <div class="leader-name">Eduardo Viel</div>
-                    <div class="leader-role">Brazil Alumni Leader</div>
-                    <div class="leader-info">SEED 2024 Alumni</div>
-                </div>
-                
-                <div class="leader-card">
-                    <div class="leader-photo"><img src="photos/Ana Herazo.jpg" alt="fai" width="120px" style="border-radius: 45%;" /></div>
+                    <div class="leader-photo"><img src="photos/Ana Herazo.jpg" alt="Ana" width="120px" style="border-radius: 45%;" /></div>
                     <div class="leader-name">Ana Herazo</div>
                     <div class="leader-role">Colombia Alumni Leader</div>
-                    <div class="leader-info">SEED 2024 Alumni</div>
+                    <div class="leader-info"><strong>Team Leadership Specialist</strong></div>
+                    <div style="text-align: left; margin-top: 10px; font-size: 0.85rem;">
+                        <strong>Ask Ana for help with:</strong>
+                        <ul style="margin: 5px 0; padding-left: 15px;">
+                            <li>Team leadership improvement & best practices</li>
+                            <li>Project methodology implementation</li>
+                            <li>Team communication optimization</li>
+                            <li>Leadership role coaching & development</li>
+                            <li>Team progress monitoring & reporting</li>
+                        </ul>
+                    </div>
                 </div>
 
                 <div class="leader-card">
-                    <div class="leader-photo"><img src="photos/Tomomi.png" alt="fai" width="120px" style="border-radius: 45%;" /></div>
+                    <div class="leader-photo"><img src="photos/Eduardo.jpg" alt="Eduardo" width="120px" style="border-radius: 45%;" /></div>
+                    <div class="leader-name">Eduardo Viel</div>
+                    <div class="leader-role">Brazil Alumni Leader</div>
+                    <div class="leader-info"><strong>Digital Marketing & Engagement Specialist</strong></div>
+                    <div style="text-align: left; margin-top: 10px; font-size: 0.85rem;">
+                        <strong>Ask Eduardo for help with:</strong>
+                        <ul style="margin: 5px 0; padding-left: 15px;">
+                            <li>Digital marketing strategy development</li>
+                            <li>Social media promotion & SNS strategies</li>
+                            <li>Content creation & engagement optimization</li>
+                            <li>Producer marketing solutions</li>
+                            <li>Innovative promotional ideas</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="leader-card">
+                    <div class="leader-photo"><img src="photos/Tomomi.png" alt="Tomomi" width="120px" style="border-radius: 45%;" /></div>
                     <div class="leader-name">Tomomi Suzuki</div>
                     <div class="leader-role">Japan Alumni Leader</div>
-                    <div class="leader-info">SEED 2024 Alumni</div>
+                    <div class="leader-info"><strong>Japan-Latam Relations Specialist</strong></div>
+                    <div style="text-align: left; margin-top: 10px; font-size: 0.85rem;">
+                        <strong>Ask Tomomi for help with:</strong>
+                        <ul style="margin: 5px 0; padding-left: 15px;">
+                            <li>Team-producer relationship monitoring</li>
+                            <li>Communication with Japanese producers & universities</li>
+                            <li>Japanese culture & language insights</li>
+                            <li>Japanese participant leadership & guidance</li>
+                            <li>Cultural preparation for Japan trip</li>
+                        </ul>
+                    </div>
                 </div>
                 
                 <div class="leader-card">
-                    <div class="leader-photo"><img src="photos/Ben.jpg" alt="fai" width="120px" style="border-radius: 45%;" /></div>
+                    <div class="leader-photo"><img src="photos/Ben.jpg" alt="Benjamin" width="120px" style="border-radius: 45%;" /></div>
                     <div class="leader-name">Benjamin Velez</div>
                     <div class="leader-role">Medellin Alumni Leader</div>
-                    <div class="leader-info">SEED 2023 Alumni</div>
+                    <div class="leader-info"><strong>Economics & Japanese Labor Culture Specialist</strong></div>
+                    <div style="text-align: left; margin-top: 10px; font-size: 0.85rem;">
+                        <strong>Ask Benjamin for help with:</strong>
+                        <ul style="margin: 5px 0; padding-left: 15px;">
+                            <li>Business & economics insights for research</li>
+                            <li>Survey design & data analysis assistance</li>
+                            <li>Japanese labor culture understanding</li>
+                            <li>Economic feasibility studies</li>
+                            <li>Market research methodologies</li>
+                        </ul>
+                    </div>
                 </div>
 
                 <div class="leader-card">
-                    <div class="leader-photo"><img src="photos/Mar.jpg" alt="fai" width="120px" style="border-radius: 45%;" /></div>
+                    <div class="leader-photo"><img src="photos/Mar.jpg" alt="Mar" width="120px" style="border-radius: 45%;" /></div>
                     <div class="leader-name">Mar Sampedro</div>
                     <div class="leader-role">Bogota Alumni Leader</div>
-                    <div class="leader-info">SEED 2024 Alumni</div>
+                    <div class="leader-info"><strong>Entrepreneurship & Business Specialist</strong></div>
+                    <div style="text-align: left; margin-top: 10px; font-size: 0.85rem;">
+                        <strong>Ask Mar for help with:</strong>
+                        <ul style="margin: 5px 0; padding-left: 15px;">
+                            <li>Business idea development & improvement</li>
+                            <li>Feasibility analysis & convenience evaluation</li>
+                            <li>Entrepreneurship-focused insights</li>
+                            <li>Workflow guidance & objective fulfillment</li>
+                            <li>Business strategy optimization</li>
+                        </ul>
+                    </div>
                 </div>
 
                 <div class="leader-card">
-                    <div class="leader-photo"><img src="photos/Camilo.png" alt="fai" height="120px" width="120px" style="border-radius: 45%;" /></div>
+                    <div class="leader-photo"><img src="photos/Camilo.png" alt="Camilo" height="120px" width="120px" style="border-radius: 45%;" /></div>
                     <div class="leader-name">Camilo Rodriguez</div>
                     <div class="leader-role">Global Moderator</div>
-                    <div class="leader-info">SEED 2023 Alumni</div>
+                    <div class="leader-info"><strong>International Relations & Asian Culture Specialist</strong></div>
+                    <div style="text-align: left; margin-top: 10px; font-size: 0.85rem;">
+                        <strong>Ask Camilo for help with:</strong>
+                        <ul style="margin: 5px 0; padding-left: 15px;">
+                            <li>Business idea communication & pitch presentations</li>
+                            <li>Cross-regional information & coordination</li>
+                            <li>Japan-Latin America cultural insights</li>
+                            <li>Historical context & cultural significance</li>
+                            <li>Remote activity moderation & support</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-        
+
         <div class="section">
-            <h2>Leadership Structure</h2>
+            <h2>Leadership Benefits and Professional Development</h2>
             <div class="two-columns">
                 <div class="card">
-                    <h3><i class="fas fa-tasks"></i> Leaders' Responsibilities</h3>
-                    <p>Our regional leaders play a vital role in maintaining connections and organizing activities for the SEED Garden community.</p>
-                    
+                    <h3>Professional Growth Opportunities</h3>
                     <ul>
-                        <li><strong>Active Communication:</strong> Maintain ongoing contact with all Alumni from your representing country</li>
-                        <li><strong>Cultural Education:</strong> Prepare and deliver 2-3 lectures on Japanese cultural topics of your choice (e.g., food, history, arts)</li>
-                        <li><strong>Project Development:</strong> Contribute ideas and assistance to improve the overall project structure</li>
-                        <li><strong>Activity Moderation:</strong> Serve as moderators for both in-person and remote activities throughout the year</li>
-                        <li><strong>Network Building:</strong> Help connect alumni with similar interests across different cohorts</li>
-                        <li><strong>Feedback Collection:</strong> Gather input from participants to continuously improve the program</li>
+                        <li><strong>Leadership Experience:</strong> Gain valuable international community management and cross-cultural communication skills</li>
+                        <li><strong>Professional Recognition:</strong> LinkedIn-worthy role with official GOROM Association certificates</li>
+                        <li><strong>Career Development:</strong> Concrete examples of leadership capability for future opportunities</li>
+                        <li><strong>Global Network:</strong> Connect with professionals across Latin America, Japan, and the United States</li>
                     </ul>
                 </div>
                 
                 <div class="card">
-                    <h3><i class="fas fa-globe-asia"></i> Japanese Alumni Integration</h3>
-                    <p>Japanese alumni serve as cultural bridges and vital resources for both current participants and international alumni.</p>
-                    
+                    <h3>Special Leader Benefits</h3>
                     <ul>
-                        <li>Facilitating communication between teams and producers through translation assistance</li>
-                        <li>Leading authentic cultural workshops that provide genuine Japanese perspectives</li>
-                        <li>Maintaining connections with Yamanashi producers and providing local updates</li>
-                        <li>Supporting current participants with practical knowledge of Japanese business culture</li>
-                        <li>Assisting with logistics and cultural preparation for the Study Tour</li>
-                        <li>Providing guidance on cultural etiquette and customs before the trip to Japan</li>
+                        <li><strong>Priority Access:</strong> Preferential consideration for future GOROM Association internship programs in Japan</li>
+                        <li><strong>Recognition Rewards:</strong> Special souvenirs, commemorative certificates, and public recognition</li>
+                        <li><strong>Automatic Points:</strong> 50 bonus points monthly for leadership role</li>
+                        <li><strong>Direct Communication:</strong> Direct channel with GOROM Association leadership</li>
                     </ul>
                 </div>
             </div>
         </div>
-        
+
         <div class="section">
-            <h2>Point-Earning Activities</h2>
+            <h2>Core Leadership Responsibilities</h2>
             <div class="section-intro">
-                <p>The SEED Garden offers various ways to earn points through engagement in different types of activities. Participants can accumulate points by joining events, contributing knowledge, and supporting current SEED teams.</p>
+                <p>All SEED Garden leaders share fundamental responsibilities while bringing their unique expertise to the community.</p>
             </div>
             
-            <div class="activity-groups">
-                <div class="activity-group">
-                    <h3><i class="fas fa-laptop"></i> <span>Remote Activities</span></h3>
-                    <ul class="activity-list">
-                        <li><i class="fas fa-briefcase"></i> <strong>Business Activities</strong> - Strategy development, market research (80-100 pts)</li>
-                        <li><i class="fas fa-bullhorn"></i> <strong>Promotion Activities</strong> - Social media content, blog posts (40-60 pts)</li>
-                        <li><i class="fas fa-users"></i> <strong>SEED Teams Support</strong> - Project feedback, advisory sessions (80-100 pts)</li>
-                        <li><i class="fas fa-chalkboard-teacher"></i> <strong>Mentoring Activities</strong> - Knowledge sharing, guidance sessions (80-100 pts)</li>
-                        <li><i class="fas fa-theater-masks"></i> <strong>Cultural Activities</strong> - Japanese cultural workshops (60-80 pts)</li>
-                        <li><i class="fas fa-gamepad"></i> <strong>Fun Activities</strong> - Virtual social events, games (40-60 pts)</li>
+            <div class="two-columns">
+                <div class="card">
+                    <h3>Community Management</h3>
+                    <ul>
+                        <li><strong>Active Communication:</strong> Maintain ongoing contact with all alumni from representing region</li>
+                        <li><strong>Cultural Education:</strong> Prepare and deliver 2-3 lectures on Japanese cultural topics</li>
+                        <li><strong>Network Building:</strong> Facilitate connections between alumni with similar interests</li>
+                        <li><strong>Feedback Collection:</strong> Gather input from participants to improve the program</li>
                     </ul>
                 </div>
                 
-                <div class="activity-group">
-                    <h3><i class="fas fa-map-marker-alt"></i> <span>In-Person Activities</span></h3>
-                    <ul class="activity-list">
-                        <li><i class="fas fa-handshake"></i> <strong>Networking Activities</strong> - Regional gatherings, professional events (100 pts)</li>
-                        <li><i class="fas fa-torii-gate"></i> <strong>Cultural Activities</strong> - Japanese cultural immersion events (100 pts)</li>
-                        <li><i class="fas fa-chart-line"></i> <strong>Business Activities</strong> - Workshops, panels, discussions (80-100 pts)</li>
-                    </ul>
-                </div>
-                
-                <div class="activity-group">
-                    <h3><i class="fas fa-calendar-check"></i> <span>Special Events</span></h3>
-                    <ul class="activity-list">
-                        <li><i class="fas fa-door-open"></i> <strong>Welcome Ceremony</strong> - July 10th official launch (120 pts)</li>
-                        <li><i class="fas fa-comments"></i> <strong>Producer Mentoring Sessions</strong> - Direct support for teams (80 pts)</li>
-                        <li><i class="fas fa-graduation-cap"></i> <strong>Skills Workshops</strong> - Survey techniques, presentation skills (80 pts)</li>
-                        <li><i class="fas fa-file-alt"></i> <strong>Project Reviews</strong> - Progress feedback sessions (100 pts)</li>
-                        <li><i class="fas fa-plane-departure"></i> <strong>Pre-Trip Preparation</strong> - Japan travel guidance (100 pts)</li>
+                <div class="card">
+                    <h3>Project Support</h3>
+                    <ul>
+                        <li><strong>Activity Moderation:</strong> Serve as moderators for virtual and in-person activities</li>
+                        <li><strong>Project Development:</strong> Contribute ideas and assistance to improve program structure</li>
+                        <li><strong>Quality Assurance:</strong> Maintain standards for cultural education sessions</li>
+                        <li><strong>Mentorship:</strong> Provide guidance and support to current SEED 2025 participants</li>
                     </ul>
                 </div>
             </div>
         </div>
-        
+
         <div class="section">
-            <h2>Events Calendar 2025</h2>
+            <h2>Decision-Making and Governance</h2>
             <div class="section-intro">
-                <p>Our calendar features a variety of engaging activities throughout the year to build connections, share knowledge, and support SEED 2025 participants. Each event provides points that contribute to your growth in the SEED Garden.</p>
-                
-                <p>We've designed a balanced mix of remote and in-person activities to accommodate different schedules and locations. The mandatory Welcome Ceremony on July 10th will officially launch the program, while subsequent events will focus on specific skills, cultural exchange, and project support.</p>
-                
-                <p>Mark these dates in your calendar and plan to participate in as many events as possible to maximize your growth and contribution to the community!</p>
-            </div>
-            
-            <div class="legend">
-                <div class="legend-item">
-                    <div class="event-dot" style="background-color: #2196F3;"></div>
-                    <span>In-Person Activities</span>
-                </div>
-                <div class="legend-item">
-                    <div class="event-dot" style="background-color: #9C27B0;"></div>
-                    <span>Remote Activities</span>
-                </div>
-            </div>
-            
-            <div class="calendar">
-                <div class="month">
-                    <div class="month-header">June 2025</div>
-                    <div class="events">
-                        <div class="event event-virtual">
-                            <div class="event-dot"></div>
-                            <span>June 6: Checking the SEED Intranet Tutorial (20 pts)</span>
-                        </div>
-                        <div class="event event-virtual">
-                            <div class="event-dot"></div>
-                            <span>June 7: SEED 2025 Self-Introduction in Intranet Forums (30 pts)</span>
-                        </div>
-                        <div class="event event-virtual">
-                            <div class="event-dot"></div>
-                            <span>June 11: SEED 2025 and Alumni comment the forums (40 pts)</span>
-                        </div>
-                        <div class="event event-inperson">
-                            <div class="event-dot"></div>
-                            <span>June 28: In person SEED Alumni Meeting with 2025 Participants (100 pts)</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="month">
-                    <div class="month-header">July 2025</div>
-                    <div class="events">
-                        <div class="event event-cultural">
-                            <div class="event-dot"></div>
-                            <span>Jul 10: SEED 2025 Welcome Ceremony (120 pts)</span>
-                        </div>
-                        <div class="event event-virtual">
-                            <div class="event-dot"></div>
-                            <span>Jul 24: Fun Activity - My Favorite Japan Memory (60 pts)</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="month">
-                    <div class="month-header">August 2025</div>
-                    <div class="events">
-                        <div class="event event-virtual">
-                            <div class="event-dot"></div>
-                            <span>August 7: Producer Mentoring Session - Sake/Wine (80 pts)</span>
-                        </div>
-                        <div class="event event-virtual">
-                            <div class="event-dot"></div>
-                            <span>Aug 20: Survey & Interview Techniques Workshop (80 pts)</span>
-                        </div>
-                        <div class="event event-inperson">
-                            <div class="event-dot"></div>
-                            <span>Aug 28: Buenos Aires - Japanese Garden Visit (100 pts)</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="month">
-                    <div class="month-header">September 2025</div>
-                    <div class="events">
-                        <div class="event event-virtual">
-                            <div class="event-dot"></div>
-                            <span>Sep 4: Japanese Marketing Strategies Workshop (80 pts)</span>
-                        </div>
-                        <div class="event event-virtual">
-                            <div class="event-dot"></div>
-                            <span>Sep 18: Fun Activity - Virtual Japanese Cooking Class (60 pts)</span>
-                        </div>
-                        <div class="event event-virtual">
-                            <div class="event-dot"></div>
-                            <span>Sep 25: Presentation Skills Coaching Session (80 pts)</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="month">
-                    <div class="month-header">October 2025</div>
-                    <div class="events">
-                        <div class="event event-virtual">
-                            <div class="event-dot"></div>
-                            <span>Oct 4: Project Progress Review Session (100 pts)</span>
-                        </div>
-                        <div class="event event-inperson">
-                            <div class="event-dot"></div>
-                            <span>Oct 15: São Paulo - Japanese Neighborhood Dinner (100 pts)</span>
-                        </div>
-                        <div class="event event-virtual">
-                            <div class="event-dot"></div>
-                            <span>Oct 9: Research Progress Feedback Session (100 pts)</span>
-                        </div>
-                        <div class="event event-virtual">
-                            <div class="event-dot"></div>
-                            <span>Oct 23: Fun Activity - Japan Trivia Competition (60 pts)</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="month">
-                    <div class="month-header">November 2025</div>
-                    <div class="events">
-                        <div class="event event-virtual">
-                            <div class="event-dot"></div>
-                            <span>Nov 13: Final Presentation Feedback Session (120 pts)</span>
-                        </div>
-                        <div class="event event-virtual">
-                            <div class="event-dot"></div>
-                            <span>Nov 20: Pre-Trip Survival Guide & Tips Session (100 pts)</span>
-                        </div>
-                        <div class="event event-virtual">
-                            <div class="event-dot"></div>
-                            <span>Nov 27: Fun Activity - Share Your Expectations (60 pts)</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-            
-        <div class="section">
-            <h2>Rewards System</h2>
-            <div class="section-intro">
-                <p>The SEED Garden features a comprehensive rewards system that recognizes and celebrates your engagement and contributions. As you progress through growth stages, you'll unlock increasingly valuable rewards.</p>
-                
-                <p>There are separate reward tracks for current participants (who will receive their rewards during the Study Tour in Japan) and alumni (who will receive rewards during Goro Mutsuura's visits to their countries or through international shipping).</p>
-                
-                <p>The most exclusive rewards are reserved for those who reach the highest levels, creating healthy competition while ensuring everyone can achieve meaningful recognition for their participation.</p>
-            </div>
-            
-            <table class="rewards-table">
-                <thead>
-                    <tr>
-                        <th>Growth Stage</th>
-                        <th>Points</th>
-                        <th>Current Participants</th>
-                        <th>Alumni Participants</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>🌱 Seed 種</td>
-                        <td>0</td>
-                        <td>Digital welcome card</td>
-                        <td>Digital welcome card</td>
-                    </tr>
-                    <tr>
-                        <td>🌿 Sprout 芽</td>
-                        <td>50</td>
-                        <td>Certificate of Contribution + Japanese snacks</td>
-                        <td>Certificate of Contribution + Japanese snacks</td>
-                    </tr>
-                    <tr>
-                        <td>🍃 Sapling 苗</td>
-                        <td>250</td>
-                        <td>Special recognition + Japanese snack gift from Yamanashi</td>
-                        <td>Japanese snack gift from Yamanashi</td>
-                    </tr>
-                    <tr>
-                        <td>🌴 Young Tree 若</td>
-                        <td>400</td>
-                        <td>Special souvenir set from Japan + Yamanashi Producer's Souvenir</td>
-                        <td>Special souvenir set from Japan + Yamanashi Producer's Souvenir</td>
-                    </tr>
-                    <tr>
-                        <td>🌳 Blooming 咲</td>
-                        <td>600</td>
-                        <td>TeamLabs Tokyo ticket (Top 2)</td>
-                        <td>Japanese food cooking set (Top 1 per city)</td>
-                    </tr>
-                    <tr>
-                        <td>🌸 Radiant Blossom 花</td>
-                        <td>800</td>
-                        <td>Special dinner in Tokyo or Latin America (Top 2)</td>
-                        <td>Special dinner in Tokyo or Latin America (Top 2)</td>
-                    </tr>
-                    <tr>
-                        <td>🌲 Mythical Tree 莆</td>
-                        <td>1200</td>
-                        <td>Yamanashi premium gift set with sake, wine and souvenirs (Top 1)</td>
-                        <td>Yamanashi premium gift set with sake, wine and souvenirs (Top 1)</td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            <div class="lottery-notice">
-                <h3><i class="fas fa-ticket-alt"></i> Reward Distribution Policy</h3>
-                <p>If more participants reach a growth stage than there are available rewards for that stage (e.g., 10 people reach Blooming stage but only 7 rewards are available), a random lottery system will be used in December to determine the winners.</p>
-                <p>For the exclusive Mythical Tree rewards, only one SEED 2025 participant and one Alumni member can win this prize. The first person from each category to reach this stage will receive the premium gift set.</p>
-            </div>
-            
-        </div>
-        
-        <div class="section">
-            <h2>Implementation Timeline</h2>
-            <div class="section-intro">
-                <p>The SEED Garden will be implemented in phases throughout 2025, with careful preparation beforehand to ensure a smooth and engaging experience for all participants. Below is our planned timeline from development through completion.</p>
+                <p>The SEED Garden leadership operates on principles of collaborative decision-making, transparency, and mutual respect.</p>
             </div>
             
             <div class="cards-container">
                 <div class="card">
-                    <h3>April-May 2025</h3>
+                    <h3>Collaborative Process</h3>
+                    <ol>
+                        <li><strong>Proposal Phase:</strong> Any leader can propose new initiatives through leadership channels</li>
+                        <li><strong>Discussion Phase:</strong> Open discussion with feedback and suggestions from all leaders</li>
+                        <li><strong>Refinement Phase:</strong> Proposals modified based on collective input</li>
+                        <li><strong>Consensus Building:</strong> Work together to reach agreement ensuring all voices heard</li>
+                        <li><strong>Implementation:</strong> Project Coordinator coordinates implementation with regional leaders</li>
+                    </ol>
+                </div>
+
+                <div class="card">
+                    <h3>Authority Structure</h3>
                     <ul>
-                        <li>Finalize leadership team</li>
-                        <li>Develop Intranet improvements</li>
-                        <li>Create communication materials</li>
+                        <li><strong>Project Coordinator:</strong> Overall responsibility and primary liaison with GOROM Association</li>
+                        <li><strong>Regional Leaders:</strong> Autonomy in specific areas while adhering to program standards</li>
+                        <li><strong>Global Moderator:</strong> Cross-regional coordination and community standards enforcement</li>
+                        <li><strong>Emergency Decisions:</strong> Project Coordinator can make urgent decisions with two other leaders</li>
                     </ul>
                 </div>
-                
+
                 <div class="card">
-                    <h3>June 2025</h3>
+                    <h3>Commitment Standards</h3>
                     <ul>
-                        <li>Host Garden Awakening kickoff</li>
-                        <li>Assign Garden Plots</li>
-                        <li>Launch Growth Points system</li>
-                    </ul>
-                </div>
-                
-                <div class="card">
-                    <h3>July-November 2025</h3>
-                    <ul>
-                        <li>Regular event calendar</li>
-                        <li>Track engagement and points</li>
-                        <li>Complete team missions</li>
-                    </ul>
-                </div>
-                
-                <div class="card">
-                    <h3>December 2025</h3>
-                    <ul>
-                        <li>Award ceremony during Study Tour</li>
-                        <li>Year-end celebration</li>
-                        <li>Planning for 2026</li>
+                        <li><strong>Time Dedication:</strong> 3-4 hours weekly for community engagement and planning</li>
+                        <li><strong>Monthly Activities:</strong> Organize and lead 1-2 regional activities per month</li>
+                        <li><strong>Cultural Lectures:</strong> 5-6 hours preparation per lecture (2-3 annually)</li>
+                        <li><strong>Administrative Tasks:</strong> 1-2 hours weekly for reporting and coordination</li>
                     </ul>
                 </div>
             </div>
         </div>
-        
+
         <div class="section">
-            <h2>How to Participate</h2>
+            <h2>Performance Standards and Expectations</h2>
             <div class="section-intro">
-                <p>Participating in the SEED Garden is easy and rewarding! Here's how to get started and make the most of this unique community:</p>
+                <p>All leaders commit to maintaining high standards of engagement and professional conduct throughout their tenure.</p>
+            </div>
+            
+            <div class="two-columns">
+                <div class="card">
+                    <h3>Leader Commitment Statement</h3>
+                    <ul>
+                        <li>Full comprehension and acceptance of assigned responsibilities</li>
+                        <li>Adherence to collaborative decision-making protocols</li>
+                        <li>Maintenance of professional standards in all communications</li>
+                        <li>Consistent participation in leadership meetings and planning</li>
+                        <li>Respectful engagement across cultural and regional boundaries</li>
+                        <li>Commitment to SEED Garden objectives and values</li>
+                    </ul>
+                </div>
                 
-                <ol>
-                    <li><strong>Register on the SEED Intranet:</strong> Ensure your profile is complete and up-to-date</li>
-                    <li><strong>Attend the Welcome Ceremony:</strong> Join us on July 10th for the official launch</li>
-                    <li><strong>Participate in Activities:</strong> Check the calendar regularly and join events that match your schedule</li>
-                    <li><strong>Track Your Progress:</strong> Monitor your growth stage and points on the SEED Intranet</li>
-                    <li><strong>Give Feedback:</strong> Help us improve by sharing your thoughts on activities and the overall program</li>
-                </ol>
-                
-                <p>Remember that your participation not only helps you earn rewards but also creates tremendous value for current SEED participants who benefit from your experience and insights. Together, we can create a vibrant, supportive community that extends far beyond the formal SEED Program timeline.</p>
-                
-                <p>If you have any questions about the SEED Garden or how to get involved, please contact Alonso Hernandez, who serves as the Project Coordinator for this initiative.</p>
+                <div class="card">
+                    <h3>Support and Development</h3>
+                    <ul>
+                        <li><strong>Monthly Leadership Meetings:</strong> Strategy sessions and problem-solving</li>
+                        <li><strong>Resource Access:</strong> Templates, tools, and materials for organizing activities</li>
+                        <li><strong>Professional Development:</strong> Leadership training workshops and skill-building</li>
+                        <li><strong>Recognition Program:</strong> Regular acknowledgment of outstanding contributions</li>
+                        <li><strong>Direct Support:</strong> Immediate access to Project Coordinator for urgent matters</li>
+                    </ul>
+                </div>
             </div>
         </div>
-        
+
         <div class="section">
-            <h2>Contact Information</h2>
+            <h2>Program Duration and Continuity</h2>
             <div class="section-intro">
-                <p>For any questions, suggestions, or concerns about the SEED Garden project, please don't hesitate to reach out to our team:</p>
+                <p>Leadership commitment extends through January 2026, encompassing all SEED Garden activities, events, and responsibilities. Should circumstances prevent fulfillment of responsibilities, leaders commit to providing advance notice and collaborating on appropriate solutions or transitions.</p>
                 
+                <p><strong>Acknowledgment:</strong> By participating as SEED Garden leaders, each individual confirms their voluntary acceptance of these terms and dedication to contributing meaningfully to the success of the SEED Garden 2025 initiative and the broader SEED Program community.</p>
+            </div>
+        </div>
+        </div>
+
+        <!-- PROTOCOL TAB -->
+        <div id="protocol" class="tab-content">
+            <header>
+                <div class="header-bg"></div>
+                <h1>Event Protocol & Guidelines</h1>
+                <p>Standards and procedures for SEED Garden events and meetings</p>
+            </header>
+
+            <div class="section">
+                <h2>Virtual Events Protocol</h2>
+                <div class="two-columns">
+                    <div class="card">
+                        <h3><i class="fas fa-video"></i> Technical Requirements</h3>
+                        <ul>
+                            <li><strong>Platform:</strong> Zoom (primary), Google Meet (backup)</li>
+                            <li><strong>Camera Policy:</strong> Cameras ON throughout the session (bonus points awarded)</li>
+                            <li><strong>Microphone:</strong> Mute when not speaking, unmute for participation</li>
+                            <li><strong>Internet:</strong> Stable connection required, test beforehand</li>
+                            <li><strong>Backup Plan:</strong> Phone dial-in available for technical issues</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3><i class="fas fa-users"></i> Participation Guidelines</h3>
+                        <ul>
+                            <li><strong>Punctuality:</strong> Join 5 minutes before start time</li>
+                            <li><strong>Professional Setup:</strong> Good lighting, quiet environment, appropriate background</li>
+                            <li><strong>Engagement:</strong> Active participation in discussions and activities</li>
+                            <li><strong>Respect:</strong> Listen actively, wait for speaking turns, be culturally sensitive</li>
+                            <li><strong>Documentation:</strong> Take notes, questions welcome during designated times</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>In-Person Events Protocol</h2>
+                <div class="two-columns">
+                    <div class="card">
+                        <h3><i class="fas fa-map-marker-alt"></i> Event Organization</h3>
+                        <ul>
+                            <li><strong>Venue Selection:</strong> Accessible, culturally appropriate, safe location</li>
+                            <li><strong>Capacity:</strong> Confirmed headcount 48 hours in advance</li>
+                            <li><strong>Materials:</strong> Name tags, printed materials, cultural items if applicable</li>
+                            <li><strong>Documentation:</strong> Photography/video with participant consent</li>
+                            <li><strong>Safety:</strong> Emergency contacts and procedures clearly communicated</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3><i class="fas fa-handshake"></i> Networking Standards</h3>
+                        <ul>
+                            <li><strong>Introductions:</strong> Structured ice-breaker activities</li>
+                            <li><strong>Contact Exchange:</strong> Business cards, LinkedIn connections encouraged</li>
+                            <li><strong>Cultural Sensitivity:</strong> Respect for diverse backgrounds and customs</li>
+                            <li><strong>Follow-up:</strong> Leaders facilitate post-event connections</li>
+                            <li><strong>Inclusivity:</strong> Ensure all participants feel welcome and included</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Cultural Workshop Standards</h2>
+                <div class="section-intro">
+                    <p>Cultural workshops are core components of the SEED Garden experience. All cultural activities must meet these standards:</p>
+                    
+                    <ul>
+                        <li><strong>Authenticity:</strong> Information must be accurate and culturally respectful</li>
+                        <li><strong>Engagement:</strong> Interactive elements to encourage participation</li>
+                        <li><strong>Duration:</strong> 45-60 minutes for virtual, 90-120 minutes for in-person</li>
+                        <li><strong>Materials:</strong> Provide resources for continued learning</li>
+                        <li><strong>Q&A Session:</strong> Dedicated time for questions and discussion</li>
+                        <li><strong>Cultural Context:</strong> Explain historical and social background</li>
+                        <li><strong>Practical Application:</strong> How knowledge applies to current SEED projects</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Point Distribution Protocol</h2>
+                <div class="cards-container">
+                    <div class="card">
+                        <h3>Attendance Verification</h3>
+                        <ul>
+                            <li>Check-in required at event start</li>
+                            <li>Mid-event participation checkpoint</li>
+                            <li>Completion confirmation for full points</li>
+                            <li>Partial attendance = proportional points</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>Bonus Point Criteria</h3>
+                        <ul>
+                            <li>Camera on for 80%+ of virtual event (+20-30 pts)</li>
+                            <li>Active participation in discussions (+10 pts)</li>
+                            <li>Helping with event organization (+15 pts)</li>
+                            <li>Bringing new participants (+25 pts)</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>Quality Standards</h3>
+                        <ul>
+                            <li>Professional behavior throughout</li>
+                            <li>Constructive contribution to discussions</li>
+                            <li>Respect for facilitators and participants</li>
+                            <li>Adherence to scheduled timing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- REGISTER TAB -->
+        <div id="register" class="tab-content">
+            <header>
+                <div class="header-bg"></div>
+                <h1>Join the SEED Garden 2025</h1>
+                <p>Register now to become part of our growing global community</p>
+            </header>
+
+            <div class="section">
+                <div class="register-container">
+                    <img src="/api/placeholder/400/300" alt="SEED Garden Registration" class="register-image" />
+                    
+                    <h2>Ready to Plant Your Seed?</h2>
+                    <p style="font-size: 1.2rem; margin: 20px 0;">Join the SEED Garden and connect with alumni from around the world while supporting current SEED 2025 participants in their journey. Earn points, unlock rewards, and build lasting professional relationships!</p>
+                    
+                    <p><strong>What you'll gain:</strong></p>
+                    <ul style="text-align: left; max-width: 500px; margin: 20px auto;">
+                        <li>Access to exclusive cultural workshops and professional development sessions</li>
+                        <li>Networking opportunities with international alumni</li>
+                        <li>Mentorship opportunities with current SEED participants</li>
+                        <li>Points-based rewards including Japanese souvenirs and experiences</li>
+                        <li>Connection to Professional Groves in your field of expertise</li>
+                        <li>Real-time progress tracking and monthly leaderboard recognition</li>
+                    </ul>
+                    
+                    <a href="https://forms.google.com/your-actual-form-link-here" target="_blank" class="register-btn">
+                        <i class="fas fa-user-plus"></i> Register Now - Join the Garden!
+                    </a>
+                    
+                    <p style="margin-top: 30px; color: var(--text-light);">
+                        <small>Registration takes only 3 minutes. Complete the form to secure your spot in the SEED Garden 2025!</small>
+                    </p>
+                </div>
+            </div>
+
+            <div class="privacy-notice">
+                <h3><i class="fas fa-shield-alt"></i> Data Privacy & Usage Policy</h3>
+                <p><strong>By registering for the SEED Garden 2025 program, you acknowledge and agree to the following:</strong></p>
                 <ul>
-                    <li><strong>Alonso Hernandez (Project Coordinator):</strong> Available through the SEED Intranet or WhatsApp</li>
-                    <li><strong>Regional Leaders:</strong> Contact your country's leader for local activities and support</li>
-                    <li><strong>GOROM Association:</strong> For general inquiries about the SEED Program</li>
+                    <li>You grant GOROM Association permission to collect, store, and use your personal information (name, email, university, country, professional background) for non-profit educational purposes related to the SEED Program</li>
+                    <li>Your information will be used exclusively for SEED program activities, alumni network management, and promotional materials for future SEED editions</li>
+                    <li>GOROM Association may use your photos, testimonials, and participation highlights in social media content, website materials, and program promotion with proper attribution</li>
+                    <li>Your data will not be shared with third parties outside of GOROM Association and participating universities without your explicit consent</li>
+                    <li>You have the right to request access to, modification of, or deletion of your personal data at any time by contacting the SEED Garden coordinators</li>
+                    <li>Participation in the SEED Garden is voluntary, and you may withdraw from the program at any time</li>
                 </ul>
-                
-                <p>We're excited to embark on this journey with you and look forward to watching our garden grow throughout 2025!</p>
+                <p>We are committed to protecting your privacy while building a vibrant, connected global community of SEED alumni.</p>
             </div>
         </div>
     </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+    </script>
 </body>
 </html>
