@@ -40,16 +40,19 @@
         .floating-nav {
             position: fixed;
             top: 20px;
-            right: 20px;
+            right: 80px;
             background: white;
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.15);
             z-index: 1000;
             padding: 10px;
+            height: 300px;
+            width: auto;
         }
 
         .nav-tabs {
             display: flex;
+            flex-direction: column;
             flex-wrap: wrap;
             gap: 5px;
         }
@@ -146,6 +149,8 @@
         .section-intro {
             margin-bottom: 20px;
             line-height: 1.6;
+            padding-left: 15px;
+            padding-right: 15px;
         }
         
         .cards-container {
@@ -541,10 +546,15 @@
                 top: 0;
                 right: 0;
                 margin-bottom: 20px;
+                height: auto;
             }
 
             .dashboard {
                 padding-top: 20px;
+            }
+            
+            #nav-bar-img {
+                display: none;
             }
 
             .nav-tabs {
@@ -593,12 +603,18 @@
             <button class="nav-tab" onclick="showTab('leaders')">
                 <i class="fas fa-users"></i> Leader Roles
             </button>
+            <button class="nav-tab" onclick="showTab('seed-pro-network')">
+                <i class="fas fa-users"></i> SEED ProNets
+            </button>
             <button class="nav-tab" onclick="showTab('protocol')">
                 <i class="fas fa-file-alt"></i> Event Protocol
             </button>
             <button class="nav-tab" onclick="showTab('register')">
                 <i class="fas fa-user-plus"></i> Register
             </button>
+
+            <img id="nav-bar-img" src="alumni-logo-no-text.png" alt="SEED Garden 2025" style="width: 80px; height: auto; margin: auto; border-radius: 4px;" />
+            
         </div>
     </div>
 
@@ -608,28 +624,34 @@
             <header>
                 <div class="header-bg"></div>
                 <img id="logo-img" src="SEED Alumni Garden.png" alt="Logo" />
-                <h1>The SEED Garden Project 2025</h1>
+                <h1>The SEED Garden Project</h1>
                 <p>Global Connections Rooted in Japan and Growing Around the World</p>
+                <h4><i>By GOROM Association</i></h4>
             </header>
             
             <div class="section">
                 <h2>About the SEED Garden</h2>
-                <div class="section-intro">
-                    <p>The SEED Garden is a new and innovative approach to the SEED Alumni Project for 2025. It reimagines our community as a thriving ecosystem where each participant contributes to a beautiful, diverse, and productive network of relationships that span across countries, cohorts, and cultures.</p>
+                <div class="two-columns">
+                    <div class="section-intro">
+                        <p>The SEED Garden is a new and innovative approach to the SEED Alumni Project for 2025. It reimagines our community as a thriving ecosystem where each participant contributes to a beautiful, diverse, and productive network of relationships that span across countries, cohorts, and cultures.</p>
+                        
+                        <p>Through this initiative, we aim to foster meaningful connections between current SEED 2025 participants and alumni from previous years (2022-2024), creating a supportive community that continues to grow long after the program ends. The SEED Garden combines professional development, cultural exchange, and mutual support in a gamified structure that rewards engagement and contribution.</p>
+                        
+                        <p>Key objectives of the SEED Garden include:</p>
+                        <ul>
+                            <li>Strengthening connections between alumni across all cohorts</li>
+                            <li>Providing mentorship opportunities for current participants</li>
+                            <li>Supporting Yamanashi producers through continued engagement</li>
+                            <li>Creating valuable networking opportunities across countries</li>
+                            <li>Maintaining and deepening everyone's connection to Japanese culture</li>
+                            <li>Building <strong>Professional Nets</strong> - specialized communities where alumni with similar academic backgrounds, career goals, or professional interests can collaborate and share insights</li>
+                        </ul>
+                    </div>
                     
-                    <p>Through this initiative, we aim to foster meaningful connections between current SEED 2025 participants and alumni from previous years (2022-2024), creating a supportive community that continues to grow long after the program ends. The SEED Garden combines professional development, cultural exchange, and mutual support in a gamified structure that rewards engagement and contribution.</p>
-                    
-                    <p>Key objectives of the SEED Garden include:</p>
-                    <ul>
-                        <li>Strengthening connections between alumni across all cohorts</li>
-                        <li>Providing mentorship opportunities for current participants</li>
-                        <li>Supporting Yamanashi producers through continued engagement</li>
-                        <li>Creating valuable networking opportunities across countries</li>
-                        <li>Maintaining and deepening everyone's connection to Japanese culture</li>
-                        <li>Building <strong>Professional Groves</strong> - specialized communities where alumni with similar academic backgrounds, career goals, or professional interests can collaborate and share insights</li>
-                    </ul>
-
-                    <p>Join us in cultivating this unique community where everyone can grow, share knowledge, and build lasting professional relationships!</p>
+                    <div style="text-align: center;">
+                        <img src="photos/seed-pro-net-banner.JPG" alt="SEED Garden Community" style="max-width: 100%; height: 500px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" />
+                        <p style="font-style: italic; font-size: 0.9rem; color: var(--text-light); margin-top: 15px; line-height: 1.4; padding: 10px;">Join us in cultivating this unique community where everyone can grow, share knowledge, and build lasting professional relationships!</p>
+                    </div>
                 </div>
             </div>
             
@@ -689,21 +711,21 @@
             </div>
 
             <div class="section">
-                <h2>Professional Groves</h2>
+                <h2>Professional Nets</h2>
                 <div class="section-intro">
-                    <p>Professional Groves are specialized communities within the SEED Garden where alumni with similar academic backgrounds, career paths, or professional interests can connect in more intimate spaces. These groves facilitate deeper conversations, knowledge sharing, and collaborative opportunities among like-minded individuals.</p>
+                    <p>Professional Nets are specialized communities within the SEED Garden where alumni with similar academic backgrounds, career paths, or professional interests can connect in more intimate spaces. These Nets facilitate deeper conversations, knowledge sharing, and collaborative opportunities among like-minded individuals.</p>
                     
-                    <p>Current Professional Groves include:</p>
+                    <p>Current Professional Nets include:</p>
                     <ul>
-                        <li><strong>Engineering Grove:</strong> For engineers and technical professionals</li>
-                        <li><strong>Business Grove:</strong> For entrepreneurs, consultants, and business professionals</li>
-                        <li><strong>Design Grove:</strong> For designers, artists, and creative professionals</li>
-                        <li><strong>Academic Grove:</strong> For researchers, professors, and those in academic careers</li>
-                        <li><strong>Social Impact Grove:</strong> For those working in NGOs, social enterprises, and sustainability</li>
-                        <li><strong>Technology Grove:</strong> For software developers, data scientists, and tech innovators</li>
+                        <li><strong>Engineering Net:</strong> For engineers and technical professionals</li>
+                        <li><strong>Business Net:</strong> For entrepreneurs, consultants, and business professionals</li>
+                        <li><strong>Design Net:</strong> For designers, artists, and creative professionals</li>
+                        <li><strong>Academic Net:</strong> For researchers, professors, and those in academic careers</li>
+                        <li><strong>Social Impact Net:</strong> For those working in NGOs, social enterprises, and sustainability</li>
+                        <li><strong>Technology Net:</strong> For software developers, data scientists, and tech innovators</li>
                     </ul>
                     
-                    <p>Participation in Professional Groves provides additional networking opportunities and specialized mentorship that complements the broader SEED Garden activities.</p>
+                    <p>Participation in Professional Nets provides additional networking opportunities and specialized mentorship that complements the broader SEED Garden activities.</p>
                 </div>
             </div>
             
@@ -916,7 +938,7 @@
                         <li><strong>Attend the Welcome Ceremony:</strong> Join us on July 10th for the official launch</li>
                         <li><strong>Participate in Activities:</strong> Check the calendar regularly and join events that match your schedule</li>
                         <li><strong>Track Your Progress:</strong> Monitor your growth stage and points on the SEED Intranet real-time leaderboard</li>
-                        <li><strong>Join Professional Groves:</strong> Connect with alumni in your field of expertise</li>
+                        <li><strong>Join Professional Nets:</strong> Connect with alumni in your field of expertise</li>
                         <li><strong>Give Feedback:</strong> Help us improve by sharing your thoughts on activities and the overall program</li>
                     </ol>
                     
@@ -1465,6 +1487,155 @@
             </div>
         </div>
 
+        <!-- Professional Nets Section -->
+        <div id="seed-pro-network" class="tab-content">
+            <header>
+                <div class="header-bg"></div>
+                <h1>The SEED Professional Networks (ProNets)</h1>
+                <p>Engage in this unique professional network, designed to benefit our Alumni's careers</p>
+            </header>
+
+            <div class="section">
+
+                <h2>🌳 SEED Professional Networks</h2>
+
+                <div class="section-intro">
+                    <p>The SEED Professional Networks (ProNets) are specialized career communities within the SEED Garden where alumni and current participants connect based on their academic backgrounds, career paths, and professional interests. Think of them as intimate professional circles where meaningful career conversations happen naturally.</p>
+                    
+                    <p>Whether you're curious about how Sofia (SEED 2022) landed her tech internship in Tokyo, or want to know how Eduardo (SEED 2024) navigated his path into sustainable business consulting, ProNets make these connections possible through our SEED Intranet platform.</p>
+                </div>
+            </div>
+
+            <!-- Professional Nets Image Placeholder -->
+            <div style="text-align: center; margin: 30px 0;">
+                <img src="photos/seed-pro-net-banner2.JPG" alt="Professional Nets Network" style="max-width: 100%; height: 350px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" />
+                <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 10px;">Connect across cohorts, countries, and career paths</p>
+            </div>
+
+            <div class="two-columns">
+                <div class="card">
+                    <h3><i class="fas fa-search"></i> How It Works</h3>
+                    <ul>
+                        <li><strong>Browse & Discover:</strong> Use the SEED Intranet to find alumni by university, major, current role, or company</li>
+                        <li><strong>Net Matching:</strong> Get automatically suggested connections based on your interests and career goals</li>
+                        <li><strong>Direct Connect:</strong> Send messages through the intranet or join Net-specific discussion channels</li>
+                        <li><strong>Experience Sharing:</strong> Access exclusive Net sessions where alumni share career insights and opportunities</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-lightbulb"></i> What You Can Ask</h3>
+                    <ul>
+                        <li>"How did you get that scholarship/internship opportunity?"</li>
+                        <li>"What's it like working at [specific company]?"</li>
+                        <li>"Can you review my resume for the Japanese market?"</li>
+                        <li>"What skills should I develop for [specific industry]?"</li>
+                        <li>"Do you know anyone hiring in [specific field]?"</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="activity-groups">
+                <div class="activity-group">
+                    <h3><i class="fas fa-code"></i> <span>Tech Net</span></h3>
+                    <p style="font-size: 0.9rem; margin: 10px 0;">Software engineers, data scientists, product managers, and tech innovators. Share coding experiences, technical interviews, and startup journeys.</p>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+                        <span style="background: #E3F2FD; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem;">Programming</span>
+                        <span style="background: #E3F2FD; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem;">Startups</span>
+                        <span style="background: #E3F2FD; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem;">AI/ML</span>
+                        <span style="background: #E3F2FD; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem;">Product Design</span>
+                    </div>
+                </div>
+
+                <div class="activity-group">
+                    <h3><i class="fas fa-chart-line"></i> <span>Business Net</span></h3>
+                    <p style="font-size: 0.9rem; margin: 10px 0;">Entrepreneurs, consultants, finance professionals, and business strategists. Navigate corporate paths, startup ventures, and consulting careers.</p>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+                        <span style="background: #E8F5E8; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem;">Consulting</span>
+                        <span style="background: #E8F5E8; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem;">Finance</span>
+                        <span style="background: #E8F5E8; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem;">Entrepreneurship</span>
+                        <span style="background: #E8F5E8; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem;">Strategy</span>
+                    </div>
+                </div>
+
+                <div class="activity-group">
+                    <h3><i class="fas fa-palette"></i> <span>Creative Net</span></h3>
+                    <p style="font-size: 0.9rem; margin: 10px 0;">Designers, artists, marketers, and creative professionals. Explore portfolio building, agency life, and creative entrepreneurship.</p>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+                        <span style="background: #FFF3E0; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem;">UX/UI Design</span>
+                        <span style="background: #FFF3E0; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem;">Marketing</span>
+                        <span style="background: #FFF3E0; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem;">Branding</span>
+                        <span style="background: #FFF3E0; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem;">Content Creation</span>
+                    </div>
+                </div>
+
+                <div class="activity-group">
+                    <h3><i class="fas fa-cogs"></i> <span>Engineering Net</span></h3>
+                    <p style="font-size: 0.9rem; margin: 10px 0;">Mechanical, civil, industrial, and systems engineers. Share technical career paths, project management, and engineering leadership.</p>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+                        <span style="background: #F3E5F5; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem;">Project Management</span>
+                        <span style="background: #F3E5F5; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem;">Manufacturing</span>
+                        <span style="background: #F3E5F5; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem;">R&D</span>
+                        <span style="background: #F3E5F5; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem;">Quality Control</span>
+                    </div>
+                </div>
+
+                <div class="activity-group">
+                    <h3><i class="fas fa-graduation-cap"></i> <span>Academic Net</span></h3>
+                    <p style="font-size: 0.9rem; margin: 10px 0;">Researchers, professors, PhD candidates, and those pursuing academic careers. Navigate graduate programs, research funding, and academic publishing.</p>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+                        <span style="background: #E1F5FE; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem;">Research</span>
+                        <span style="background: #E1F5FE; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem;">PhD Programs</span>
+                        <span style="background: #E1F5FE; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem;">Publishing</span>
+                        <span style="background: #E1F5FE; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem;">Grants</span>
+                    </div>
+                </div>
+
+                <div class="activity-group">
+                    <h3><i class="fas fa-leaf"></i> <span>Global Impact Net</span></h3>
+                    <p style="font-size: 0.9rem; margin: 10px 0;">Social entrepreneurs, NGO leaders, sustainability professionals, and those creating positive change. Share paths into impact-driven careers.</p>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+                        <span style="background: #F1F8E9; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem;">Sustainability</span>
+                        <span style="background: #F1F8E9; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem;">Social Enterprise</span>
+                        <span style="background: #F1F8E9; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem;">NGOs</span>
+                        <span style="background: #F1F8E9; padding: 4px 8px; border-radius: 12px; font-size: 0.8rem;">Policy</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="points-highlight">
+                <h3><i class="fas fa-trophy"></i> Net Engagement Rewards</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+                    <div>
+                        <strong>Net Discovery (+25 pts):</strong><br>
+                        <small>Join your first Professional Net and complete your profile</small>
+                    </div>
+                    <div>
+                        <strong>Mentorship Sessions (+40 pts):</strong><br>
+                        <small>Participate in 1-on-1 career conversations</small>
+                    </div>
+                    <div>
+                        <strong>Net Leadership (+60 pts):</strong><br>
+                        <small>Organize Net events and facilitate connections</small>
+                    </div>
+                    <div>
+                        <strong>Success Stories (+80 pts):</strong><br>
+                        <small>Share your career journey and help others learn</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-intro" style="margin-top: 30px; text-align: center; background: linear-gradient(135deg, #4CAF50, #2E7D32); color: white; padding: 25px; border-radius: 12px;">
+                <h3 style="margin: 0 0 15px 0; color: white;"><i class="fas fa-network-wired"></i> Your Career Network Awaits</h3>
+                <p style="margin: 0; font-size: 1.1rem;">Every SEED alumni has a unique story. Through Professional Nets, these stories become stepping stones for others. Share yours, learn from others, and build the career connections that will last a lifetime.</p>
+                <div style="margin-top: 20px;">
+                    <a href="#register" onclick="showTab('register')" style="background: white; color: var(--primary); padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: bold; display: inline-block;">
+                        <i class="fas fa-arrow-right"></i> Join Your Professional Net
+                    </a>
+                </div>
+            </div>
+        </div>
+
         <!-- REGISTER TAB -->
         <div id="register" class="tab-content">
             <header>
@@ -1475,22 +1646,23 @@
 
             <div class="section">
                 <div class="register-container">
-                    <img src="/api/placeholder/400/300" alt="SEED Garden Registration" class="register-image" />
-                    
+
                     <h2>Ready to Plant Your Seed?</h2>
                     <p style="font-size: 1.2rem; margin: 20px 0;">Join the SEED Garden and connect with alumni from around the world while supporting current SEED 2025 participants in their journey. Earn points, unlock rewards, and build lasting professional relationships!</p>
                     
+                    <img src="photos/register-image.JPG" alt="SEED Garden Registration" class="register-image" />
+
                     <p><strong>What you'll gain:</strong></p>
                     <ul style="text-align: left; max-width: 500px; margin: 20px auto;">
                         <li>Access to exclusive cultural workshops and professional development sessions</li>
                         <li>Networking opportunities with international alumni</li>
                         <li>Mentorship opportunities with current SEED participants</li>
                         <li>Points-based rewards including Japanese souvenirs and experiences</li>
-                        <li>Connection to Professional Groves in your field of expertise</li>
+                        <li>Connection to Professional Nets in your field of expertise</li>
                         <li>Real-time progress tracking and monthly leaderboard recognition</li>
                     </ul>
                     
-                    <a href="https://forms.google.com/your-actual-form-link-here" target="_blank" class="register-btn">
+                    <a href="https://forms.google.com/your-actual-form-link-here" style="margin-bottom:0px; margin-top:20px;" target="_blank" class="register-btn">
                         <i class="fas fa-user-plus"></i> Register Now - Join the Garden!
                     </a>
                     
