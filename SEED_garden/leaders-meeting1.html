@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEED Garden 2025 - Alumni Leaders</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: black;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            max-width: 1200px;
+            width: 90%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #2E7D32;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .leaders-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .leaders-row {
+            display: contents;
+        }
+
+        .leader-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .leader-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-color: #4CAF50;
+        }
+
+        .leader-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 12px;
+            background: #4CAF50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            font-weight: 600;
+            overflow: hidden;
+        }
+
+        .leader-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .leader-name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: black;
+            margin-bottom: 6px;
+        }
+
+        .leader-role {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #666;
+            background: #e8f5e8;
+            padding: 4px 8px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-bottom: 6px;
+        }
+
+        .leader-specialization {
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: #888;
+            font-style: italic;
+        }
+
+        .coordinator-card {
+            background: linear-gradient(135deg, #2E7D32, #4CAF50);
+            color: white;
+        }
+
+        .coordinator-card .leader-role {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        .coordinator-card .leader-name {
+            color: white;
+        }
+
+        .coordinator-card .leader-specialization {
+            color: rgba(255,255,255,0.8);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .leaders-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .coordinator-card {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>SEED Garden 2025</h1>
+            <p>Meet Your Alumni Leaders Team</p>
+        </div>
+
+        <div class="leaders-grid">
+            <!-- First Row -->
+            <div class="leader-card">
+                <div class="leader-photo">
+                    <img src="photos/Fai.jpg" alt="Alonso Hernandez" />
+                </div>
+                <div class="leader-name">Alonso Hernandez</div>
+                <div class="leader-role">Project Coordinator</div>
+                <div class="leader-specialization">Community Coordinator & IT Specialist</div>
+            </div>
+
+            <div class="leader-card">
+                <div class="leader-photo">
+                    <img src="photos/Luli.png" alt="Lucia Bocalandro" />
+                </div>
+                <div class="leader-name">Lucia Bocalandro</div>
+                <div class="leader-role">Argentina Alumni Leader</div>
+                <div class="leader-specialization">Design Thinking & UX Specialist</div>
+            </div>
+
+            <div class="leader-card">
+                <div class="leader-photo">
+                    <img src="photos/Eduardo.jpg" alt="Eduardo Viel" />
+                </div>
+                <div class="leader-name">Eduardo Viel</div>
+                <div class="leader-role">Brazil Alumni Leader</div>
+                <div class="leader-specialization">Digital Marketing & Engagement Specialist</div>
+            </div>
+
+            <div class="leader-card">
+                <div class="leader-photo">
+                    <img src="photos/Ana Herazo.jpg" alt="Ana Herazo" />
+                </div>
+                <div class="leader-name">Ana Herazo</div>
+                <div class="leader-role">Colombia Alumni Leader</div>
+                <div class="leader-specialization">Team Leadership Specialist</div>
+            </div>
+
+            <!-- Second Row -->
+            <div class="leader-card">
+                <div class="leader-photo">
+                    <img src="photos/Tomomi.png" alt="Tomomi Suzuki" />
+                </div>
+                <div class="leader-name">Tomomi Suzuki</div>
+                <div class="leader-role">Japan Alumni Leader</div>
+                <div class="leader-specialization">Japan-Latam Relations Specialist</div>
+            </div>
+
+            <div class="leader-card">
+                <div class="leader-photo">
+                    <img src="photos/Ben.jpg" alt="Benjamin Velez" />
+                </div>
+                <div class="leader-name">Benjamin Velez</div>
+                <div class="leader-role">Medellin Alumni Leader</div>
+                <div class="leader-specialization">Economics & Japanese Labor Culture Specialist</div>
+            </div>
+
+            <div class="leader-card">
+                <div class="leader-photo">
+                    <img src="photos/Mar.jpg" alt="Mar Sampedro" />
+                </div>
+                <div class="leader-name">Mar Sampedro</div>
+                <div class="leader-role">Bogota Alumni Leader</div>
+                <div class="leader-specialization">Entrepreneurship & Business Specialist</div>
+            </div>
+
+            <div class="leader-card">
+                <div class="leader-photo">
+                    <img src="photos/Camilo.png" alt="Camilo Rodriguez" />
+                </div>
+                <div class="leader-name">Camilo Rodriguez</div>
+                <div class="leader-role">Global Moderator</div>
+                <div class="leader-specialization">International Relations & Asian Culture Specialist</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
