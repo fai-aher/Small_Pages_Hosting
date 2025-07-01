@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEED Database Update Form</title>
+    <style>
+        :root {
+            --primary: #2E7D32;
+            --primary-light: #4CAF50;
+            --primary-dark: #1B5E20;
+            --secondary: #FF9800;
+            --text: #333;
+            --text-light: #555;
+            --background: #F9F9F9;
+            --card-bg: #fff;
+            --border: #e0e0e0;
+            --error: #f44336;
+            --success: #4CAF50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            background: var(--primary);
+            color: white;
+            padding: 30px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .form-container {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .privacy-notice {
+            background: #E8F5E8;
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .privacy-notice h3 {
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .privacy-notice p {
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        #alumni-logo-image {
+            width: 150px;
+            height: 150px;
+            margin: -4%;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .step-dot {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .step-dot.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .step-dot.completed {
+            background: var(--success);
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        .form-group input.error,
+        .form-group select.error {
+            border-color: var(--error);
+        }
+
+        .error-message {
+            color: var(--error);
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .radio-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .radio-option:hover {
+            border-color: var(--primary-light);
+            background: #f8f9fa;
+        }
+
+        .radio-option.selected {
+            border-color: var(--primary);
+            background: #E8F5E8;
+        }
+
+        .radio-option input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .radio-option label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 120px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: var(--border);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success-message {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--success);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 4px solid var(--border);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .form-container {
+                padding: 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .radio-group {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .step-indicator {
+                margin-bottom: 20px;
+            }
+
+            .step-dot {
+                width: 35px;
+                height: 35px;
+                margin: 0 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <div class="header">
+            <img id="alumni-logo-image" src="./SEED 2025 Logo.png" alt="SEED Alumni logo">
+            <h1>SEED Database Update</h1>
+            <p>Annual Information Update Process</p>
+        </div>
+
+        <div class="form-container">
+            <div class="step-indicator">
+                <div class="step-dot active" id="dot-1">1</div>
+                <div class="step-dot" id="dot-2">2</div>
+                <div class="step-dot" id="dot-3">3</div>
+                <div class="step-dot" id="dot-4">4</div>
+            </div>
+
+            <form id="seedForm">
+                <!-- Step 1: Privacy Notice -->
+                <div class="step active" id="step-1">
+                    <div class="privacy-notice">
+                        <h3>Data Privacy & Usage Agreement</h3>
+                        <p><strong>Purpose:</strong> This form is designed to update the SEED database with current Alumni and stakeholder information as part of our yearly data maintenance process.</p>
+                        <p><strong>Data Usage:</strong> By completing this form, you consent to GOROM Association storing and using your information exclusively for organizational processes related to programs like SEED and internship opportunities.</p>
+                        <p><strong>Privacy Commitment:</strong> Your data will not be shared, sold, or distributed to any third parties outside of GOROM Association and participating universities.</p>
+                        <p><strong>Your Rights:</strong> You may request access to, modification of, or deletion of your personal data at any time by contacting our coordinators.</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="privacyAccept" required>
+                            I acknowledge and accept the data privacy terms outlined above
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Step 2: Basic Information -->
+                <div class="step" id="step-2">
+                    <h2 style="margin-bottom: 25px; color: var(--primary);">Basic Information</h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" required>
+                            <div class="error-message">Please enter your full name</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                            <div class="error-message">Please enter a valid email address</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="birthDate">Birth Date *</label>
+                            <input type="date" id="birthDate" name="birthDate" required>
+                            <div class="error-message">Please enter your birth date</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">Gender *</label>
+                            <select id="gender" name="gender" required>
+                                <option value="">Select gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Non-binary">Non-binary</option>
+                                <option value="Prefer not to say">Prefer not to say</option>
+                            </select>
+                            <div class="error-message">Please select your gender</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="country">Country *</label>
+                            <select id="country" name="country" required>
+                                <option value="">Select country</option>
+                                <option value="Argentina">Argentina</option>
+                                <option value="Brazil">Brazil</option>
+                                <option value="Colombia">Colombia</option>
+                                <option value="Japan">Japan</option>
+                                <option value="South Korea">South Korea</option>
+                                <option value="United States">United States</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <div class="error-message">Please select your country</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="phoneCountryCode">Country Code *</label>
+                            <input type="text" id="phoneCountryCode" name="phoneCountryCode" placeholder="+57" required>
+                            <div class="error-message">Please enter country code</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" placeholder="3001234567" required>
+                        <div class="error-message">Please enter your phone number</div>
+                    </div>
+                </div>
+
+                <!-- Step 3: SEED Role -->
+                <div class="step" id="step-3">
+                    <h2 style="margin-bottom: 25px; color: var(--primary);">Your Role in SEED</h2>
+                    
+                    <div class="form-group">
+                        <label>What is your current or past role in the SEED Program? *</label>
+                        <div class="radio-group">
+                            <div class="radio-option" onclick="selectRole('current-participant')">
+                                <input type="radio" id="current-participant" name="role" value="current-participant" required>
+                                <label for="current-participant">
+                                    <strong>SEED 2025 Participant</strong><br>
+                                    <small>Current participant in SEED 2025</small>
+                                </label>
+                            </div>
+                            <div class="radio-option" onclick="selectRole('alumni')">
+                                <input type="radio" id="alumni" name="role" value="alumni" required>
+                                <label for="alumni">
+                                    <strong>SEED Alumni</strong><br>
+                                    <small>Former participant (2022-2024)</small>
+                                </label>
+                            </div>
+                            <div class="radio-option" onclick="selectRole('professor')">
+                                <input type="radio" id="professor" name="role" value="professor" required>
+                                <label for="professor">
+                                    <strong>Current Professor</strong><br>
+                                    <small>Currently involved in SEED 2025</small>
+                                </label>
+                            </div>
+                            <div class="radio-option" onclick="selectRole('previous-professor')">
+                                <input type="radio" id="previous-professor" name="role" value="previous-professor" required>
+                                <label for="previous-professor">
+                                    <strong>Previous Professor</strong><br>
+                                    <small>Previously involved in SEED</small>
+                                </label>
+                            </div>
+                            <div class="radio-option" onclick="selectRole('gorom-staff')">
+                                <input type="radio" id="gorom-staff" name="role" value="gorom-staff" required>
+                                <label for="gorom-staff">
+                                    <strong>Current GOROM Staff</strong><br>
+                                    <small>Current GOROM Association team member</small>
+                                </label>
+                            </div>
+                            <div class="radio-option" onclick="selectRole('previous-gorom-staff')">
+                                <input type="radio" id="previous-gorom-staff" name="role" value="previous-gorom-staff" required>
+                                <label for="previous-gorom-staff">
+                                    <strong>Previous GOROM Staff</strong><br>
+                                    <small>Former GOROM Association team member</small>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="error-message">Please select your role</div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Detailed Information -->
+                <div class="step" id="step-4">
+                    <h2 style="margin-bottom: 25px; color: var(--primary);">Additional Information</h2>
+                    
+                    <!-- Common fields for all roles -->
+                    <div class="form-group">
+                        <label for="university">University/Institution</label>
+                        <input type="text" id="university" name="university">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="emergencyRelationship">Emergency Contact Relationship *</label>
+                        <select id="emergencyRelationship" name="emergencyRelationship" required>
+                            <option value="">Select relationship</option>
+                            <option value="Mother">Mother</option>
+                            <option value="Father">Father</option>
+                            <option value="Family">Family</option>
+                            <option value="Friend">Friend</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <div class="error-message">Please select emergency contact relationship</div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="emergencyCountryCode">Emergency Contact Country Code *</label>
+                            <input type="text" id="emergencyCountryCode" name="emergencyCountryCode" placeholder="+57" required>
+                            <div class="error-message">Please enter country code</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="emergencyPhone">Emergency Contact Phone *</label>
+                            <input type="tel" id="emergencyPhone" name="emergencyPhone" placeholder="3001234567" required>
+                            <div class="error-message">Please enter emergency contact phone</div>
+                        </div>
+                    </div>
+
+                    <!-- Role-specific fields -->
+                    <div id="participant-fields" style="display: none;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="seedEdition">SEED Edition</label>
+                                <select id="seedEdition" name="seedEdition">
+                                    <option value="SEED 2025">SEED 2025</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="theme">Team Theme</label>
+                                <select id="theme" name="theme">
+                                    <option value="">Select theme</option>
+                                    <option value="Sake">Sake</option>
+                                    <option value="Wine">Wine</option>
+                                    <option value="Food">Food</option>
+                                    <option value="Textile">Textile</option>
+                                    <option value="Jewelry">Jewelry</option>
+                                    <option value="Jewelry">Tourism</option>
+                                    <option value="Jewelry">Souvenir</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="internshipInterest">Interested in Future Internship Opportunities?</label>
+                            <select id="internshipInterest" name="internshipInterest">
+                                <option value="">Select option</option>
+                                <option value="Very Interested">Very Interested</option>
+                                <option value="Somewhat Interested">Somewhat Interested</option>
+                                <option value="Not Interested">Not Interested</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="alumni-fields" style="display: none;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="alumniSeedEdition">SEED Edition Participated</label>
+                                <select id="alumniSeedEdition" name="seedEdition">
+                                    <option value="">Select edition</option>
+                                    <option value="SEED 2022">SEED 2022</option>
+                                    <option value="SEED 2023">SEED 2023</option>
+                                    <option value="SEED 2024">SEED 2024</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="alumniTheme">Team Theme</label>
+                                <select id="alumniTheme" name="theme">
+                                    <option value="">Select theme</option>
+                                    <option value="Sake">Sake</option>
+                                    <option value="Wine">Wine</option>
+                                    <option value="Food">Food</option>
+                                    <option value="Textile">Textile</option>
+                                    <option value="Jewelry">Jewelry</option>
+                                    <option value="Jewelry">Tourism</option>
+                                    <option value="Jewelry">Souvenir</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="occupation">Current Occupation Status</label>
+                                <select id="occupation" name="occupation">
+                                    <option value="">Select status</option>
+                                    <option value="Studying">Studying</option>
+                                    <option value="Working">Working</option>
+                                    <option value="Looking for a job">Looking for a job</option>
+                                    <option value="Graduated">Graduated</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="alumniInternshipInterest">Interested in Future Internship Opportunities?</label>
+                                <select id="alumniInternshipInterest" name="internshipInterest">
+                                    <option value="">Select option</option>
+                                    <option value="Very Interested">Very Interested</option>
+                                    <option value="Somewhat Interested">Somewhat Interested</option>
+                                    <option value="Not Interested">Not Interested</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="professor-fields" style="display: none;">
+                        <div class="form-group">
+                            <label for="profSeedEdition">SEED Edition Involved</label>
+                            <select id="profSeedEdition" name="seedEdition">
+                                <option value="SEED 2025">SEED 2025</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="previous-professor-fields" style="display: none;">
+                        <div class="form-group">
+                            <label for="previousProfSeedEdition">SEED Edition(s) Involved</label>
+                            <select id="previousProfSeedEdition" name="seedEdition">
+                                <option value="">Select edition</option>
+                                <option value="SEED 2022">SEED 2022</option>
+                                <option value="SEED 2023">SEED 2023</option>
+                                <option value="SEED 2024">SEED 2024</option>
+                                <option value="Multiple Editions">Multiple Editions</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="gorom-fields" style="display: none;">
+                        <div class="form-group">
+                            <label for="joinedOn">Joined GOROM Association</label>
+                            <input type="date" id="joinedOn" name="joinedOn">
+                        </div>
+                    </div>
+
+                    <div id="previous-gorom-fields" style="display: none;">
+                        <div class="form-group">
+                            <label for="previousJoinedOn">Joined GOROM Association</label>
+                            <input type="date" id="previousJoinedOn" name="joinedOn">
+                        </div>
+                    </div>
+
+                    <!-- Current Status for all -->
+                    <div class="form-group">
+                        <label for="currentStatus">Current Status/Occupation</label>
+                        <input type="text" id="currentStatus" name="currentStatus" placeholder="e.g., Student, Engineer, Consultant, etc.">
+                    </div>
+                </div>
+
+                <!-- Navigation buttons -->
+                <div class="button-group">
+                    <button type="button" class="btn btn-secondary" id="prevBtn" onclick="changeStep(-1)" style="display: none;">Previous</button>
+                    <button type="button" class="btn btn-primary" id="nextBtn" onclick="changeStep(1)">Next</button>
+                    <button type="submit" class="btn btn-primary" id="submitBtn" style="display: none;">Submit Information</button>
+                </div>
+            </form>
+
+            <!-- Loading state -->
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Submitting your information...</p>
+            </div>
+
+            <!-- Success message -->
+            <div class="step" id="success" style="display: none;">
+                <div class="success-message">
+                    <div class="success-icon">✓</div>
+                    <h2 style="color: var(--primary-dark); margin-bottom: 20px;">Thank You!</h2>
+                    <p style="font-size: 1.2rem; margin-bottom: 15px;">Your information has been successfully submitted to the SEED database.</p>
+                    <p style="color: var(--text-light); font-size: 1rem;">We appreciate your participation in keeping our community connected and up-to-date.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 4;
+
+        function changeStep(direction) {
+            if (direction === 1 && !validateCurrentStep()) {
+                return;
+            }
+
+            // Update step
+            document.getElementById(`step-${currentStep}`).classList.remove('active');
+            document.getElementById(`dot-${currentStep}`).classList.remove('active');
+            
+            if (direction === 1) {
+                document.getElementById(`dot-${currentStep}`).classList.add('completed');
+            }
+
+            currentStep += direction;
+
+            document.getElementById(`step-${currentStep}`).classList.add('active');
+            document.getElementById(`dot-${currentStep}`).classList.add('active');
+
+            // Update buttons
+            updateButtons();
+
+            // Show role-specific fields when reaching step 4
+            if (currentStep === 4) {
+                showRoleFields();
+            }
+        }
+
+        function updateButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const submitBtn = document.getElementById('submitBtn');
+
+            prevBtn.style.display = currentStep > 1 ? 'block' : 'none';
+            
+            if (currentStep === totalSteps) {
+                nextBtn.style.display = 'none';
+                submitBtn.style.display = 'block';
+            } else {
+                nextBtn.style.display = 'block';
+                submitBtn.style.display = 'none';
+            }
+        }
+
+        function validateCurrentStep() {
+            const step = document.getElementById(`step-${currentStep}`);
+            const requiredFields = step.querySelectorAll('[required]');
+            let isValid = true;
+
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    showError(field);
+                    isValid = false;
+                } else {
+                    clearError(field);
+                }
+            });
+
+            return isValid;
+        }
+
+        function showError(field) {
+            field.classList.add('error');
+            const errorMsg = field.parentNode.querySelector('.error-message');
+            if (errorMsg) {
+                errorMsg.style.display = 'block';
+            }
+        }
+
+        function clearError(field) {
+            field.classList.remove('error');
+            const errorMsg = field.parentNode.querySelector('.error-message');
+            if (errorMsg) {
+                errorMsg.style.display = 'none';
+            }
+        }
+
+        function selectRole(roleId) {
+            // Clear all selections
+            document.querySelectorAll('.radio-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Select the clicked option
+            document.querySelector(`input[value="${roleId}"]`).checked = true;
+            document.querySelector(`input[value="${roleId}"]`).closest('.radio-option').classList.add('selected');
+        }
+
+        function showRoleFields() {
+            // Hide all role-specific fields
+            document.querySelectorAll('#participant-fields, #alumni-fields, #professor-fields, #previous-professor-fields, #gorom-fields, #previous-gorom-fields').forEach(field => {
+                field.style.display = 'none';
+            });
+
+            // Show fields based on selected role
+            const selectedRole = document.querySelector('input[name="role"]:checked').value;
+            
+            switch(selectedRole) {
+                case 'current-participant':
+                    document.getElementById('participant-fields').style.display = 'block';
+                    break;
+                case 'alumni':
+                    document.getElementById('alumni-fields').style.display = 'block';
+                    break;
+                case 'professor':
+                    document.getElementById('professor-fields').style.display = 'block';
+                    break;
+                case 'previous-professor':
+                    document.getElementById('previous-professor-fields').style.display = 'block';
+                    break;
+                case 'gorom-staff':
+                    document.getElementById('gorom-fields').style.display = 'block';
+                    break;
+                case 'previous-gorom-staff':
+                    document.getElementById('previous-gorom-fields').style.display = 'block';
+                    break;
+            }
+        }
+
+        function calculateAge(birthDate) {
+            const today = new Date();
+            const birth = new Date(birthDate);
+            let age = today.getFullYear() - birth.getFullYear();
+            const monthDiff = today.getMonth() - birth.getMonth();
+            
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+                age--;
+            }
+            
+            return age;
+        }
+
+        function toTitleCase(str) {
+            return str.toLowerCase().split(' ').map(function(word) {
+                return word.charAt(0).toUpperCase() + word.slice(1);
+            }).join(' ');
+        }
+
+        function formatPhoneNumber(countryCode, phoneNumber) {
+            // Remove any non-numeric characters and the + sign from country code
+            const cleanCountryCode = countryCode.replace(/\D/g, '');
+            const cleanPhoneNumber = phoneNumber.replace(/\D/g, '');
+            return `${cleanCountryCode} - ${cleanPhoneNumber}`;
+        }
+
+        // Format name input in real-time
+        document.getElementById('name').addEventListener('blur', function() {
+            this.value = toTitleCase(this.value);
+        });
+
+        // Format country code input
+        document.getElementById('phoneCountryCode').addEventListener('input', function() {
+            let value = this.value;
+            if (!value.startsWith('+') && value.length > 0) {
+                this.value = '+' + value;
+            }
+        });
+
+        // Format emergency contact country code input
+        document.getElementById('emergencyCountryCode').addEventListener('input', function() {
+            let value = this.value;
+            if (!value.startsWith('+') && value.length > 0) {
+                this.value = '+' + value;
+            }
+        });
+
+        function formatEmergencyContact(relationship, countryCode, phoneNumber) {
+            const cleanCountryCode = countryCode.replace(/\D/g, '');
+            const cleanPhoneNumber = phoneNumber.replace(/\D/g, '');
+            return `${relationship} - ${cleanCountryCode} ${cleanPhoneNumber}`;
+        }
+
+        // Form submission
+        document.getElementById('seedForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!validateCurrentStep()) {
+                return;
+            }
+
+            // Hide all form elements
+            document.querySelector('.form-container').style.display = 'none';
+            document.getElementById('loading').style.display = 'block';
+
+            // Collect form data
+            const formData = new FormData(this);
+            const data = {};
+            
+            // Convert FormData to regular object
+            for (let [key, value] of formData.entries()) {
+                data[key] = value;
+            }
+
+            // Format name properly
+            if (data.name) {
+                data.name = toTitleCase(data.name);
+            }
+
+            // Format phone number with country code
+            if (data.phoneCountryCode && data.phone) {
+                data.formattedPhone = formatPhoneNumber(data.phoneCountryCode, data.phone);
+            }
+
+            // Format emergency contact
+            if (data.emergencyRelationship && data.emergencyCountryCode && data.emergencyPhone) {
+                data.formattedEmergencyContact = formatEmergencyContact(data.emergencyRelationship, data.emergencyCountryCode, data.emergencyPhone);
+            }
+
+            // Calculate age
+            if (data.birthDate) {
+                data.age = calculateAge(data.birthDate);
+            }
+
+            // Set current status based on role
+            if (data.role === 'gorom-staff') {
+                data.roleStatus = 'Current';
+            } else if (data.role === 'previous-gorom-staff') {
+                data.roleStatus = 'Previous';
+            }
+
+            // Add timestamp
+            data.timestamp = new Date().toISOString();
+
+            // Submit to Google Sheets (replace with your Web App URL)
+            fetch('https://script.google.com/macros/s/AKfycbyeJ4TMZO7DbsfpwSsMyFrrfbjYmmdxW7jh1koHAcrQKVFqCV8ebK8rdJ4gmgukiw68/exec', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                // Hide everything and show only success message
+                document.getElementById('loading').style.display = 'none';
+                document.querySelector('.container').innerHTML = `
+                    <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+                        <div style="text-align: center; padding: 40px; background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 500px; margin: 20px;">
+                            <div style="width: 80px; height: 80px; background: var(--success); border-radius: 50%; margin: 0 auto 30px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: white;">✓</div>
+                            <h2 style="color: var(--primary-dark); margin-bottom: 20px; font-size: 2rem;">Thank You!</h2>
+                            <p style="font-size: 1.2rem; margin-bottom: 15px; color: var(--text);">Your information has been successfully submitted to the SEED database.</p>
+                            <p style="color: var(--text-light); font-size: 1rem;">We appreciate your participation in keeping our community connected and up-to-date.</p>
+                        </div>
+                    </div>
+                `;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error submitting your information. Please try again.');
+                document.getElementById('loading').style.display = 'none';
+                document.querySelector('.form-container').style.display = 'block';
+            });
+        });
+
+        // Clear errors on input
+        document.addEventListener('input', function(e) {
+            if (e.target.matches('input, select')) {
+                clearError(e.target);
+            }
+        });
+    </script>
+</body>
+</html>
