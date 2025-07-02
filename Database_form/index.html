@@ -95,12 +95,6 @@
             animation: fadeIn 0.3s ease-in;
         }
 
-        #alumni-logo-image {
-            width: 150px;
-            height: 150px;
-            margin: -4%;
-        }
-
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -271,43 +265,10 @@
             transform: none;
         }
 
-        .success-message {
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .success-icon {
-            width: 80px;
-            height: 80px;
-            background: var(--success);
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: white;
-        }
-
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .spinner {
-            border: 4px solid var(--border);
-            border-top: 4px solid var(--primary);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 15px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        #alumni-logo-image {
+            width: 150px;
+            height: 150px;
+            margin: -4%;
         }
 
         @media (max-width: 768px) {
@@ -350,11 +311,10 @@
 </head>
 <body>
     <div class="container">
-
         <div class="header">
             <img id="alumni-logo-image" src="./SEED 2025 Logo.png" alt="SEED Alumni logo">
             <h1>SEED Database Update</h1>
-            <p>Annual Information Update Process</p>
+            <p>Annual information update process</p>
         </div>
 
         <div class="form-container">
@@ -521,6 +481,7 @@
                             <option value="Father">Father</option>
                             <option value="Family">Family</option>
                             <option value="Friend">Friend</option>
+                            <option value="Couple">Couple</option>
                             <option value="Other">Other</option>
                         </select>
                         <div class="error-message">Please select emergency contact relationship</div>
@@ -557,8 +518,8 @@
                                     <option value="Food">Food</option>
                                     <option value="Textile">Textile</option>
                                     <option value="Jewelry">Jewelry</option>
-                                    <option value="Jewelry">Tourism</option>
-                                    <option value="Jewelry">Souvenir</option>
+                                    <option value="Tourism">Tourism</option>
+                                    <option value="Souvenir">Souvenir</option>
                                     <option value="Other">Other</option>
                                 </select>
                             </div>
@@ -571,6 +532,7 @@
                                 <option value="Somewhat Interested">Somewhat Interested</option>
                                 <option value="Not Interested">Not Interested</option>
                             </select>
+                            <small style="color: var(--text-light); font-size: 0.85rem;">These are possible internship opportunities in Japan with the support of the GOROM Association according to availability and your Japanese proficiency level.</small>
                         </div>
                     </div>
 
@@ -594,8 +556,8 @@
                                     <option value="Food">Food</option>
                                     <option value="Textile">Textile</option>
                                     <option value="Jewelry">Jewelry</option>
-                                    <option value="Jewelry">Tourism</option>
-                                    <option value="Jewelry">Souvenir</option>
+                                    <option value="Tourism">Tourism</option>
+                                    <option value="Souvenir">Souvenir</option>
                                     <option value="Other">Other</option>
                                 </select>
                             </div>
@@ -620,6 +582,7 @@
                                     <option value="Somewhat Interested">Somewhat Interested</option>
                                     <option value="Not Interested">Not Interested</option>
                                 </select>
+                                <small style="color: var(--text-light); font-size: 0.85rem;">These are possible internship opportunities in Japan with the support of the GOROM Association according to availability and your Japanese proficiency level.</small>
                             </div>
                         </div>
                     </div>
@@ -635,27 +598,26 @@
 
                     <div id="previous-professor-fields" style="display: none;">
                         <div class="form-group">
-                            <label for="previousProfSeedEdition">SEED Edition(s) Involved</label>
+                            <label for="previousProfSeedEdition">SEED Edition When You Joined</label>
                             <select id="previousProfSeedEdition" name="seedEdition">
                                 <option value="">Select edition</option>
                                 <option value="SEED 2022">SEED 2022</option>
                                 <option value="SEED 2023">SEED 2023</option>
                                 <option value="SEED 2024">SEED 2024</option>
-                                <option value="Multiple Editions">Multiple Editions</option>
                             </select>
                         </div>
                     </div>
 
                     <div id="gorom-fields" style="display: none;">
                         <div class="form-group">
-                            <label for="joinedOn">Joined GOROM Association</label>
+                            <label for="joinedOn">Joined GOROM Association (if unsure of exact day, use day 1)</label>
                             <input type="date" id="joinedOn" name="joinedOn">
                         </div>
                     </div>
 
                     <div id="previous-gorom-fields" style="display: none;">
                         <div class="form-group">
-                            <label for="previousJoinedOn">Joined GOROM Association</label>
+                            <label for="previousJoinedOn">Joined GOROM Association (if unsure of exact day, use day 1)</label>
                             <input type="date" id="previousJoinedOn" name="joinedOn">
                         </div>
                     </div>
@@ -674,22 +636,6 @@
                     <button type="submit" class="btn btn-primary" id="submitBtn" style="display: none;">Submit Information</button>
                 </div>
             </form>
-
-            <!-- Loading state -->
-            <div class="loading" id="loading">
-                <div class="spinner"></div>
-                <p>Submitting your information...</p>
-            </div>
-
-            <!-- Success message -->
-            <div class="step" id="success" style="display: none;">
-                <div class="success-message">
-                    <div class="success-icon">✓</div>
-                    <h2 style="color: var(--primary-dark); margin-bottom: 20px;">Thank You!</h2>
-                    <p style="font-size: 1.2rem; margin-bottom: 15px;">Your information has been successfully submitted to the SEED database.</p>
-                    <p style="color: var(--text-light); font-size: 1rem;">We appreciate your participation in keeping our community connected and up-to-date.</p>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -747,7 +693,10 @@
 
             requiredFields.forEach(field => {
                 if (!field.value.trim()) {
-                    showError(field);
+                    showError(field, 'This field is required');
+                    isValid = false;
+                } else if (field.type === 'email' && !isValidEmail(field.value)) {
+                    showError(field, 'Please enter a valid email address');
                     isValid = false;
                 } else {
                     clearError(field);
@@ -757,10 +706,54 @@
             return isValid;
         }
 
-        function showError(field) {
+        function validateAllSteps() {
+            for (let step = 1; step <= totalSteps; step++) {
+                const stepElement = document.getElementById(`step-${step}`);
+                const requiredFields = stepElement.querySelectorAll('[required]');
+                
+                for (let field of requiredFields) {
+                    if (!field.value.trim()) {
+                        // Navigate to the step with invalid field
+                        document.getElementById(`step-${currentStep}`).classList.remove('active');
+                        document.getElementById(`dot-${currentStep}`).classList.remove('active');
+                        currentStep = step;
+                        document.getElementById(`step-${currentStep}`).classList.add('active');
+                        document.getElementById(`dot-${currentStep}`).classList.add('active');
+                        updateButtons();
+                        showRoleFields();
+                        
+                        showError(field, 'This field is required');
+                        field.focus();
+                        return false;
+                    } else if (field.type === 'email' && !isValidEmail(field.value)) {
+                        // Navigate to the step with invalid email
+                        document.getElementById(`step-${currentStep}`).classList.remove('active');
+                        document.getElementById(`dot-${currentStep}`).classList.remove('active');
+                        currentStep = step;
+                        document.getElementById(`step-${currentStep}`).classList.add('active');
+                        document.getElementById(`dot-${currentStep}`).classList.add('active');
+                        updateButtons();
+                        showRoleFields();
+                        
+                        showError(field, 'Please enter a valid email address');
+                        field.focus();
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function showError(field, message) {
             field.classList.add('error');
             const errorMsg = field.parentNode.querySelector('.error-message');
             if (errorMsg) {
+                errorMsg.textContent = message || 'This field is required';
                 errorMsg.style.display = 'block';
             }
         }
@@ -872,13 +865,9 @@
         document.getElementById('seedForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            if (!validateCurrentStep()) {
+            if (!validateAllSteps()) {
                 return;
             }
-
-            // Hide all form elements
-            document.querySelector('.form-container').style.display = 'none';
-            document.getElementById('loading').style.display = 'block';
 
             // Collect form data
             const formData = new FormData(this);
@@ -887,6 +876,27 @@
             // Convert FormData to regular object
             for (let [key, value] of formData.entries()) {
                 data[key] = value;
+            }
+
+            // Manually capture role-specific fields to ensure they're included
+            const role = data.role;
+            if (role === 'current-participant') {
+                data.theme = document.getElementById('theme').value || '';
+                data.internshipInterest = document.getElementById('internshipInterest').value || '';
+                data.seedEdition = document.getElementById('seedEdition').value || 'SEED 2025';
+            } else if (role === 'alumni') {
+                data.theme = document.getElementById('alumniTheme').value || '';
+                data.internshipInterest = document.getElementById('alumniInternshipInterest').value || '';
+                data.seedEdition = document.getElementById('alumniSeedEdition').value || '';
+                data.occupation = document.getElementById('occupation').value || '';
+            } else if (role === 'professor') {
+                data.seedEdition = document.getElementById('profSeedEdition').value || 'SEED 2025';
+            } else if (role === 'previous-professor') {
+                data.seedEdition = document.getElementById('previousProfSeedEdition').value || '';
+            } else if (role === 'gorom-staff') {
+                data.joinedOn = document.getElementById('joinedOn').value || '';
+            } else if (role === 'previous-gorom-staff') {
+                data.joinedOn = document.getElementById('previousJoinedOn').value || '';
             }
 
             // Format name properly
@@ -919,35 +929,50 @@
             // Add timestamp
             data.timestamp = new Date().toISOString();
 
-            // Submit to Google Sheets (replace with your Web App URL)
-            fetch('https://script.google.com/macros/s/AKfycbxTf802f-XrKnYlmcR8mf0pIhJ6aYHLybVSxITMt-tRZqsw64mvQu4mAeQzUW1n4HiF/exec', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(result => {
-                // Hide everything and show only success message
-                document.getElementById('loading').style.display = 'none';
-                document.querySelector('.container').innerHTML = `
-                    <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center;">
-                        <div style="text-align: center; padding: 40px; background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 500px; margin: 20px;">
-                            <div style="width: 80px; height: 80px; background: var(--success); border-radius: 50%; margin: 0 auto 30px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: white;">✓</div>
-                            <h2 style="color: var(--primary-dark); margin-bottom: 20px; font-size: 2rem;">Thank You!</h2>
-                            <p style="font-size: 1.2rem; margin-bottom: 15px; color: var(--text);">Your information has been successfully submitted to the SEED database.</p>
-                            <p style="color: var(--text-light); font-size: 1rem;">We appreciate your participation in keeping our community connected and up-to-date.</p>
-                        </div>
+            // Debug log to check data
+            console.log('Form data being sent:', data);
+            console.log('Role:', data.role);
+            console.log('Theme:', data.theme);
+            console.log('Internship Interest:', data.internshipInterest);
+
+            // Show thank you screen immediately
+            document.querySelector('.container').innerHTML = `
+                <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+                    <div style="text-align: center; padding: 40px; background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 500px; margin: 20px;">
+                        <div style="width: 80px; height: 80px; background: var(--success); border-radius: 50%; margin: 0 auto 30px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: white;">✓</div>
+                        <h2 style="color: var(--primary-dark); margin-bottom: 20px; font-size: 2rem;">Thank You!</h2>
+                        <p style="font-size: 1.2rem; margin-bottom: 15px; color: var(--text);">Your information has been successfully submitted to the SEED database.</p>
+                        <p style="color: var(--text-light); font-size: 1rem;">We appreciate your participation in keeping our community connected and up-to-date.</p>
                     </div>
-                `;
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('There was an error submitting your information. Please try again.');
-                document.getElementById('loading').style.display = 'none';
-                document.querySelector('.form-container').style.display = 'block';
-            });
+                </div>
+            `;
+
+            // Submit to Google Sheets in background
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'https://script.google.com/macros/s/AKfycbzEYjuZDo7pcW1ONoy_Fk4og7_PQcAhfQKTDEK1GH0LDUcmFZ4lFbAYLlniBJ96lwHt/exec';
+            
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'data';
+            input.value = JSON.stringify(data);
+            form.appendChild(input);
+            
+            document.body.appendChild(form);
+            
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.name = 'submit-frame';
+            form.target = 'submit-frame';
+            document.body.appendChild(iframe);
+            
+            form.submit();
+            
+            // Clean up after a delay
+            setTimeout(() => {
+                if (document.body.contains(form)) document.body.removeChild(form);
+                if (document.body.contains(iframe)) document.body.removeChild(iframe);
+            }, 5000);
         });
 
         // Clear errors on input
