@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEED Garden Points – Leaderboard</title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a2e00c44e3.js" crossorigin="anonymous"></script>
+
+    <style>
+        :root {
+            /* Brand palette (borrowed from seed_garden.html) */
+            --primary: #2E7D32;
+            --primary-light: #4CAF50;
+            --primary-dark: #1B5E20;
+            --secondary: #FF9800;
+            --text: #333;
+            --text-light: #666;
+            --background: #F4F7F5;
+            --card-bg: #fff;
+            --border: #e0e0e0;
+            /* Stage colours */
+            --col-seed: #424242;
+            --col-sprout: #0d5302;
+            --col-sapling: #004d40;
+            --col-young: #003c8f;
+            --col-blooming: #6a1b9a;
+            --col-radiant: #b71c1c;
+            --col-mythical: #4e342e;
+        }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--background); color: var(--text); }
+        a { text-decoration: none; }
+
+        /* Navbar */
+        .navbar { display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; background: var(--primary); color: #fff; position: sticky; top: 0; z-index: 100; }
+        .brand { display: flex; align-items: center; gap: 12px; }
+        .brand img { width: 42px; height: 42px; border-radius: 4px; }
+        .brand span { font-weight: 600; font-size: 1.1rem; }
+        .nav-links { display: flex; gap: 18px; }
+        .nav-links a { color: #fff; font-weight: 500; padding: 8px 0; position: relative; }
+        .nav-links a.active::after,
+        .nav-links a:hover::after { content: ""; position: absolute; left: 0; bottom: -4px; height: 3px; width: 100%; background: var(--secondary); border-radius: 2px; }
+        .admin-btn { background: var(--secondary); color: #fff; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+
+        /* Sections */
+        section { display: none; padding: 40px 5vw; }
+        section.active { display: block; }
+        h1.section-title { margin: 0 0 24px; font-size: 2rem; }
+        h2 { font-size: 1.35rem; margin-top: 32px; }
+
+        /* Table */
+        .table-wrapper { background: var(--card-bg); border-radius: 8px; overflow-x: auto; box-shadow: 0 4px 12px rgba(0, 0, 0, .05); }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px 16px; text-align: left; }
+        th { background: var(--primary-light); color: #fff; font-weight: 600; }
+        tbody tr:nth-child(odd) { background: #fafafa; }
+        tbody tr:hover { background: #f1f8f2; }
+        td.stage-cell { color: #fff; font-weight: 600; }
+        .pagination { margin-top: 12px; display: flex; justify-content: center; gap: 8px; }
+        .pagination button { background: var(--primary-light); border: none; color: #fff; padding: 6px 10px; border-radius: 4px; cursor: pointer; }
+        .pagination button[disabled] { opacity: .4; cursor: default; }
+
+        /* Calendar */
+        .calendar-iframe { width: 100%; height: 800px; border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, .05); }
+
+        /* Points grid */
+        .points-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin-top: 24px; }
+        .point-card { background: var(--card-bg); border-left: 6px solid var(--primary-light); padding: 16px 14px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, .05); display: flex; align-items: flex-start; gap: 10px; min-height: 90px; }
+        .point-card i { font-size: 1.4rem; color: var(--primary); margin-top: 2px; }
+        .point-card .action { font-weight: 600; display: block; }
+        .point-card .pts { font-weight: 600; color: var(--secondary); font-size: .9rem; }
+
+        /* Admin modal */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, .5); display: none; align-items: center; justify-content: center; z-index: 200; }
+        .modal { background: var(--card-bg); padding: 24px; border-radius: 8px; width: 90%; max-width: 420px; box-shadow: 0 4px 20px rgba(0, 0, 0, .15); }
+        .modal h3 { margin-top: 0; }
+        .modal label { display: block; margin-bottom: 6px; font-weight: 500; }
+        .modal input, .modal select, .modal textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; margin-bottom: 14px; }
+        .modal button { margin-top: 4px; }
+        .close-btn { background: #ccc; margin-left: 8px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="brand"><img src="alumni-logo-no-text.png" alt="SEED Garden logo"><span>SEED Garden Points</span></div>
+        <div class="nav-links"><a href="#" class="active" data-target="leaderboard">Leaderboard</a><a href="#" data-target="calendar">Calendar</a><a href="#" data-target="points">Points&nbsp;System</a></div>
+        <button class="admin-btn" id="admin-login"><i class="fas fa-user-lock"></i> Admin</button>
+    </nav>
+
+    <!-- Leaderboard Section -->
+    <section id="leaderboard" class="active">
+        <h1 class="section-title">Current Standings</h1>
+        <div class="table-wrapper">
+            <table id="leaderboard-table">
+                <thead>
+                    <tr><th>#</th><th>Stage</th><th>Name</th><th>Role</th><th>Points</th></tr>
+                </thead>
+                <tbody><!-- rows injected by JS --></tbody>
+            </table>
+        </div>
+        <div class="pagination" id="pagination"></div>
+    </section>
+
+    <!-- Calendar Section -->
+    <section id="calendar">
+        <h1 class="section-title">Activity Calendar</h1>
+        <p>Explore upcoming activities. Descriptions show how many points each task is worth.</p>
+        <iframe class="calendar-iframe" src="https://calendar.google.com/calendar/embed?src=NjdmZjdiODA1NDM3NmExNDkxMzU1N2RhOGVhYzU2YmY0NThiN2E4NWE4OWM2NzM0ODU2MzBhZDllOGMwMGYwOUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t"></iframe>
+        <h2>Standard Point Values</h2>
+        <div class="points-grid">
+            <div class="point-card"><i class="fas fa-video"></i>
+                <div><span class="action">Official Online Session</span><span class="pts">40 pts + bonuses</span></div></div>
+            <div class="point-card"><i class="fas fa-users"></i>
+                <div><span class="action">Club Meeting</span><span class="pts">25 pts + camera bonus</span></div></div>
+            <div class="point-card"><i class="fas fa-briefcase"></i>
+                <div><span class="action">ProNet Event</span><span class="pts">35 pts</span></div></div>
+            <div class="point-card"><i class="fas fa-map-marker-alt"></i>
+                <div><span class="action">City Meetup</span><span class="pts">80 pts</span></div></div>
+            <div class="point-card"><i class="fas fa-comment-dots"></i>
+                <div><span class="action">Forum Post / Comment</span><span class="pts">20 / 10 pts</span></div></div>
+            <div class="point-card"><i class="fas fa-id-badge"></i>
+                <div><span class="action">Profile Update</span><span class="pts">30 pts (one‑time)</span></div></div>
+        </div>
+    </section>
+
+    <!-- Points System Section -->
+    <section id="points">
+        <h1 class="section-title">Growth Stages & Rewards</h1>
+        <h2>Alumni</h2>
+        <table>
+            <thead><tr><th>Stage</th><th>Garden Points</th><th>Reward</th></tr></thead>
+            <tbody>
+                <tr><td>🌱 Seed</td><td>0</td><td>Digital welcome badge</td></tr>
+                <tr><td>🌿 Sprout</td><td>120</td><td>Japanese snack pack</td></tr>
+                <tr><td>🍃 Sapling</td><td>300</td><td>Washi bookmark</td></tr>
+                <tr><td>🌴 Young Tree</td><td>500</td><td>Producer souvenir</td></tr>
+                <tr><td>🌸 Radiant Blossom</td><td>1000</td><td>Cooking kit (top 3)</td></tr>
+                <tr><td>🌲 Mythical Tree</td><td>1300</td><td>Premium Yamanashi hamper (top 1)</td></tr>
+            </tbody>
+        </table>
+        <h2>SEED 2025 Participants</h2>
+        <p>Participants earn <strong>Garden Points (GP)</strong> with the same thresholds plus additional <strong>Mission Points (MP)</strong> during the Japan study tour. GP controls the growth stage and year‑end gifts; MP is tallied separately for special Tokyo prizes.</p>
+        <table>
+            <thead><tr><th>Stage</th><th>Garden Points</th><th>Participant‑exclusive Reward</th></tr></thead>
+            <tbody>
+                <tr><td>🌱 Seed</td><td>0</td><td>Digital badge</td></tr>
+                <tr><td>🌿 Sprout</td><td>120</td><td>Snack pack + team sticker set</td></tr>
+                <tr><td>🍃 Sapling</td><td>300</td><td>Bookmark + sake candy</td></tr>
+                <tr><td>🌴 Young Tree</td><td>500</td><td>Producer souvenir + sticker set</td></tr>
+                <tr><td>🌸 Radiant Blossom</td><td>1000</td><td>Group dinner in Tokyo (top 6)</td></tr>
+                <tr><td>🌲 Mythical Tree</td><td>1300</td><td>Premium Yamanashi hamper (top 1)</td></tr>
+            </tbody>
+        </table>
+        <h2>Mission Points (MP)</h2>
+        <p>Daily missions from <strong>1–12 Dec</strong> are worth 60 MP each, with three bonus “star” missions at +40 MP. MP decides on‑tour spot prizes and is displayed on a separate leaderboard visible only to participants.</p>
+    </section>
+
+    <!-- Admin Modal -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal">
+            <h3>Add Points</h3>
+            <label for="person-select">Select Person</label>
+            <select id="person-select"></select>
+            <label for="points-input">Points</label>
+            <input type="number" id="points-input" placeholder="e.g. 40">
+            <label for="reason-input">Reason / Description</label>
+            <textarea id="reason-input" rows="3" placeholder="Describe the activity"></textarea>
+            <button class="admin-btn" id="save-points">Save</button>
+            <button class="admin-btn close-btn" id="close-modal">Close</button>
+        </div>
+    </div>
+
+<script>
+/* ========= 1. CONFIG ========= */
+const API_BASE  = 'https://seed-alumni.org/api/v1/garden';   // ← backend URL
+const PAGE_SIZE = 15;
+
+/* ========= 2. STAGE HELPERS ========= */
+function getStage(pts){
+  if (pts >= 1300) return 'Mythical Tree';
+  if (pts >= 1000) return 'Radiant Blossom';
+  if (pts >=  750) return 'Blooming';
+  if (pts >=  500) return 'Young Tree';
+  if (pts >=  300) return 'Sapling';
+  if (pts >=  120) return 'Sprout';
+  return 'Seed';
+}
+const stageColors = {
+  'Seed'            : 'var(--col-seed)',
+  'Sprout'          : 'var(--col-sprout)',
+  'Sapling'         : 'var(--col-sapling)',
+  'Young Tree'      : 'var(--col-young)',
+  'Blooming'        : 'var(--col-blooming)',
+  'Radiant Blossom' : 'var(--col-radiant)',
+  'Mythical Tree'   : 'var(--col-mythical)'
+};
+
+/* ========= 3. NAVIGATION TABS ========= */
+const navLinks  = document.querySelectorAll('.nav-links a');
+const sections  = document.querySelectorAll('section');
+
+navLinks.forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    navLinks.forEach(l => l.classList.remove('active'));
+    link.classList.add('active');
+    const target = link.dataset.target;
+    sections.forEach(sec => sec.classList.toggle('active', sec.id === target));
+  });
+});
+
+/* ========= 4. DATA ACCESS ========= */
+async function fetchTotals() {
+  const res = await fetch(`${API_BASE}/totals`);
+  if (!res.ok) throw new Error('Failed to load leaderboard');
+  return await res.json();   // [{ userId, name, role, points }]
+}
+
+async function addPoints(userId, pointsAdded, description) {
+  const res = await fetch(`${API_BASE}/points`, {
+    method : 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body   : JSON.stringify({ userId, pointsAdded, description })
+  });
+  if (!res.ok) throw new Error('Add-points API error');
+  return await res.json();   // { newQuantity: … }
+}
+
+/* ========= 5. LEADERBOARD RENDERING ========= */
+let leaderboardData = [];
+let currentPage     = 1;
+
+function renderPagination() {
+  const totalPages = Math.ceil(leaderboardData.length / PAGE_SIZE) || 1;
+  const pag        = document.getElementById('pagination');
+  pag.innerHTML    = '';
+
+  ['Prev', 'Next'].forEach(label => {
+    const btn   = document.createElement('button');
+    btn.textContent = label;
+    btn.disabled = (label === 'Prev' && currentPage === 1) ||
+                   (label === 'Next' && currentPage >= totalPages);
+    btn.onclick  = () => { currentPage += (label === 'Prev' ? -1 : 1); renderTable(); };
+    pag.appendChild(btn);
+  });
+}
+
+function renderTable() {
+  const tbody    = document.querySelector('#leaderboard-table tbody');
+  tbody.innerHTML = '';
+
+  const start = (currentPage - 1) * PAGE_SIZE;
+  leaderboardData.slice(start, start + PAGE_SIZE).forEach((row, idx) => {
+    const stage = getStage(row.points);
+    const tr    = document.createElement('tr');
+    tr.innerHTML =
+      `<td>${start + idx + 1}</td>
+       <td class="stage-cell" style="background:${stageColors[stage]}">${stage}</td>
+       <td>${row.name}</td><td>${row.role}</td><td>${row.points}</td>`;
+    tbody.appendChild(tr);
+  });
+  renderPagination();
+}
+
+function populatePersonSelect() {
+  const sel = document.getElementById('person-select');
+  sel.innerHTML = leaderboardData
+    .map(p => `<option value="${p.userId}">${p.name}</option>`)
+    .join('');
+}
+
+/* ========= 6. ADMIN MODAL ========= */
+const modal        = document.getElementById('modal');
+const adminBtn     = document.getElementById('admin-login');
+const closeBtn     = document.getElementById('close-modal');
+const saveBtn      = document.getElementById('save-points');
+const personSelect = document.getElementById('person-select');
+const pointsInput  = document.getElementById('points-input');
+const reasonInput  = document.getElementById('reason-input');
+
+adminBtn.addEventListener('click', () => {
+  const pass = prompt('Admin password');
+  if (pass === 'SEEDAdmin2025') modal.style.display = 'flex';
+  else if (pass) alert('Incorrect password');
+});
+closeBtn.addEventListener('click', () => modal.style.display = 'none');
+
+saveBtn.addEventListener('click', async () => {
+  const userId = personSelect.value;
+  const pts    = Number(pointsInput.value);
+  const reason = reasonInput.value.trim();
+  if (!userId || !pts || !reason) return alert('Fill every field');
+
+  try {
+    await addPoints(userId, pts, reason);
+    alert('Points added!');
+    modal.style.display = 'none';
+    /* Refresh board */
+    leaderboardData = await fetchTotals();
+    renderTable();
+  } catch (err) {
+    console.error(err);
+    alert(err.message);
+  }
+});
+
+/* ========= 7. BOOTSTRAP ========= */
+async function initLeaderboard() {
+  try {
+    leaderboardData = await fetchTotals();
+    renderTable();
+    populatePersonSelect();
+  } catch (err) {
+    console.error(err);
+    alert('Unable to load leaderboard');
+  }
+}
+
+window.addEventListener('DOMContentLoaded', initLeaderboard);
+</script>
+
+</body>
+</html>
