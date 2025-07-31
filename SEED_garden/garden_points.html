@@ -57,6 +57,33 @@
           .modal { width: 95%; max-width: none; margin: 20px; }
         }
 
+        .nav-overlay {
+          position: fixed;
+          top: 0; left: 0; width: 100%; height: 100%;
+          background: var(--primary);
+          display: none;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          z-index: 150;
+        }
+        .nav-overlay a {
+          color: #fff;
+          font-size: 1.5rem;
+          margin: 1rem 0;
+          text-decoration: none;
+        }
+        .nav-overlay .close-btn {
+          position: absolute;
+          top: 1rem;
+          right: 1rem;
+          background: none;
+          border: none;
+          color: #fff;
+          font-size: 1.75rem;
+          cursor: pointer;
+        }
+
         /* Sections */
         section { display: none; padding: 40px 5vw; }
         section.active { display: block; }
@@ -118,6 +145,13 @@
         </div>
         <button class="admin-btn" id="admin-login"><i class="fas fa-user-lock"></i> Admin</button>
     </nav>
+
+    <div class="nav-overlay" id="nav-overlay">
+      <button id="nav-close" class="close-btn"><i class="fas fa-times"></i></button>
+      <a href="#" data-target="leaderboard">Leaderboard</a>
+      <a href="#" data-target="calendar">Calendar</a>
+      <a href="#" data-target="points">Points System</a>
+    </div>
 
     <!-- Leaderboard Section -->
     <section id="leaderboard" class="active">
@@ -257,6 +291,27 @@ navLinks.forEach(link => {
     sections.forEach(sec => sec.classList.toggle('active', sec.id === target));
   });
 });
+
+const overlay = document.getElementById('nav-overlay');
+const burger  = document.getElementById('nav-toggle');
+const close   = document.getElementById('nav-close');
+burger.addEventListener('click', () => {
+  overlay.style.display = 'flex';
+});
+close.addEventListener('click', () => {
+  overlay.style.display = 'none';
+});
+// Also hook each overlay link to switch sections and then close:
+overlay.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    document
+      .querySelector(`.nav-links a[data-target="${link.dataset.target}"]`)
+      .click();
+    overlay.style.display = 'none';
+  });
+});
+
 
 /* ========= 4. DATA ACCESS ========= */
 async function fetchTotals() {
