@@ -305,14 +305,21 @@ function populatePersonSelect() {
     .join('');
 }
 
+/***** SEARCH *****/
+const searchLb=document.getElementById('search-leaderboard');
+searchLb.addEventListener('input',()=>{const q=searchLb.value.toLowerCase();filteredData=leaderboardData.filter(r=>r.name.toLowerCase().includes(q));currentPage=1;renderTable();});
+const personSearch=document.getElementById('person-search');
+personSearch.addEventListener('input',()=>{const q=personSearch.value.toLowerCase();const sel=document.getElementById('person-select');[...sel.options].forEach(opt=>{opt.hidden=!opt.text.toLowerCase().includes(q);});});
+
+
 /* ========= 6. ADMIN MODAL ========= */
-const modal        = document.getElementById('modal');
-const adminBtn     = document.getElementById('admin-login');
-const closeBtn     = document.getElementById('close-modal');
-const saveBtn      = document.getElementById('save-points');
+const modal = document.getElementById('modal');
+const adminBtn = document.getElementById('admin-login');
+const closeBtn = document.getElementById('close-modal');
+const saveBtn = document.getElementById('save-points');
 const personSelect = document.getElementById('person-select');
-const pointsInput  = document.getElementById('points-input');
-const reasonInput  = document.getElementById('reason-input');
+const pointsInput = document.getElementById('points-input');
+const reasonInput = document.getElementById('reason-input');
 
 adminBtn.addEventListener('click', async () => {
   const password = prompt('Enter admin password');
@@ -330,24 +337,33 @@ adminBtn.addEventListener('click', async () => {
   }
 });
 
+closeBtn.addEventListener('click', () => {
+  modal.style.display = 'none';
+});
+
 saveBtn.addEventListener('click', async () => {
   const userId = personSelect.value;
-  const pts    = Number(pointsInput.value);
-  const reason = reasonInput.value.trim();
-  if (!userId || !pts || !reason) return alert('Fill every field');
+  const pts = parseInt(pointsInput.value, 10);
+  const desc = reasonInput.value.trim();
+  if (!userId || !pts || !desc) return alert('Fill all fields');
 
   try {
-    await addPoints(userId, pts, reason);
+    await addPoints(userId, pts, desc);
     alert('Points added!');
-    modal.style.display = 'none';
-    /* Refresh board */
+
+    // Refresh and keep modal open
     leaderboardData = await fetchTotals();
-    renderTable();
+    filterAfterSave();
+    populatePersonSelect();
+
+    pointsInput.value = '0';
+    reasonInput.value = '';
+    personSearch.value = '';
   } catch (err) {
-    console.error(err);
     alert(err.message);
   }
 });
+
 
 /* ========= 7. BOOTSTRAP ========= */
 async function initLeaderboard() {
