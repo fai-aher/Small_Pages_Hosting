@@ -38,16 +38,30 @@
         .brand { display: flex; align-items: center; gap: 12px; }
         .brand img { width: 42px; height: 42px; border-radius: 4px; }
         .brand span { font-weight: 600; font-size: 1.1rem; }
+        .nav-toggle { display: none; background: none; border: none; font-size: 1.5rem; color: #fff; cursor: pointer; }
         .nav-links { display: flex; gap: 18px; }
         .nav-links a { color: #fff; font-weight: 500; padding: 8px 0; position: relative; }
         .nav-links a.active::after,
         .nav-links a:hover::after { content: ""; position: absolute; left: 0; bottom: -4px; height: 3px; width: 100%; background: var(--secondary); border-radius: 2px; }
         .admin-btn { background: var(--secondary); color: #fff; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; }
 
+        /* Responsive Navbar */
+        @media (max-width: 768px) {
+          .navbar { flex-wrap: wrap; }
+          .nav-toggle { display: block; }
+          .nav-links { display: none; flex-direction: column; width: 100%; gap: 12px; margin-top: 12px; }
+          .nav-links.open { display: flex; }
+          .admin-btn { width: 100%; margin-top: 12px; }
+          #search-leaderboard { margin-left: 0; width: 100%; margin-top: 12px; }
+          .table-wrapper { font-size: 0.9rem; }
+          .modal { width: 95%; max-width: none; margin: 20px; }
+        }
+
         /* Sections */
         section { display: none; padding: 40px 5vw; }
         section.active { display: block; }
         h1.section-title {
+          display: flex;
           margin: 0 0 24px;
           font-size: 2rem;
           align-items: center;
@@ -59,12 +73,7 @@
 
         /* Search input */
         .search-box { padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit; min-width: 220px; }
-        #search-leaderboard {
-          margin-left: 80%;
-          display: inline-block;
-          max-width: 90%;
-          margin-top: 0;
-        }
+        #search-leaderboard { margin-left: auto; }
 
         /* Table */
         .table-wrapper { background: var(--card-bg); border-radius: 8px; overflow-x: auto; box-shadow: 0 4px 12px rgba(0,0,0,.05); }
@@ -96,21 +105,17 @@
         .point-card i { font-size: 1.4rem; color: var(--primary); margin-top: 2px; }
         .point-card .action { font-weight: 600; display: block; }
         .point-card .pts { font-weight: 600; color: var(--secondary); font-size: .9rem; }
-
-        /* Admin modal */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, .5); display: none; align-items: center; justify-content: center; z-index: 200; }
-        .modal { background: var(--card-bg); padding: 24px; border-radius: 8px; width: 90%; max-width: 420px; box-shadow: 0 4px 20px rgba(0, 0, 0, .15); }
-        .modal h3 { margin-top: 0; }
-        .modal label { display: block; margin-bottom: 6px; font-weight: 500; }
-        .modal input, .modal select, .modal textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; margin-bottom: 14px; }
-        .modal button { margin-top: 4px; }
-        .close-btn { background: #ccc; margin-left: 8px; }
     </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="brand"><img src="alumni-logo-no-text.png" alt="SEED Garden logo"><span>SEED Garden Points</span></div>
-        <div class="nav-links"><a href="#" class="active" data-target="leaderboard">Leaderboard</a><a href="#" data-target="calendar">Calendar</a><a href="#" data-target="points">Points&nbsp;System</a></div>
+        <button class="nav-toggle" id="nav-toggle"><i class="fas fa-bars"></i></button>
+        <div class="nav-links">
+          <a href="#" class="active" data-target="leaderboard">Leaderboard</a>
+          <a href="#" data-target="calendar">Calendar</a>
+          <a href="#" data-target="points">Points&nbsp;System</a>
+        </div>
         <button class="admin-btn" id="admin-login"><i class="fas fa-user-lock"></i> Admin</button>
     </nav>
 
@@ -149,7 +154,7 @@
             <div class="point-card"><i class="fas fa-comment-dots"></i>
                 <div><span class="action">Forum Post / Comment</span><span class="pts">20 / 10 pts</span></div></div>
             <div class="point-card"><i class="fas fa-id-badge"></i>
-                <div><span class="action">Profile Update</span><span class="pts">30 pts (one‑time)</span></div></div>
+                <div><span class="action">Profile Update</span><span class="pts">30 pts (one-time)</span></div></div>
         </div>
     </section>
 
@@ -169,7 +174,7 @@
             </tbody>
         </table>
         <h2>SEED 2025 Participants</h2>
-        <p>Participants earn <strong>Garden Points (GP)</strong> with the same thresholds plus additional <strong>Mission Points (MP)</strong> during the Japan study tour. GP controls the growth stage and year‑end gifts; MP is tallied separately for special Tokyo prizes.</p>
+        <p>Participants earn <strong>Garden Points (GP)</strong>...nd gifts; MP is tallied separately for special Tokyo prizes.</p>
         <table>
             <thead><tr><th>Stage</th><th>Garden Points</th><th>Participant‑exclusive Reward</th></tr></thead>
             <tbody>
@@ -182,7 +187,7 @@
             </tbody>
         </table>
         <h2>Mission Points (MP)</h2>
-        <p>Daily missions from <strong>1–12 Dec</strong> are worth 60 MP each, with three bonus “star” missions at +40 MP. MP decides on‑tour spot prizes and is displayed on a separate leaderboard visible only to participants.</p>
+        <p>Daily missions from <strong>1–12 Dec</strong> are wor...ayed on a separate leaderboard visible only to participants.</p>
     </section>
 
     <!-- Admin Modal -->
@@ -221,6 +226,15 @@ function getStage(pts){
   if (pts >=  120) return 'Sprout';
   return 'Seed';
 }
+const stageEmojis = {
+  'Seed': '🌱 Seed',
+  'Sprout': '🌿 Sprout',
+  'Sapling': '🍃 Sapling',
+  'Young Tree': '🌴 Young Tree',
+  'Blooming': '🌳 Blooming',
+  'Radiant Blossom': '🌸 Radiant Blossom',
+  'Mythical Tree': '🌲 Mythical Tree'
+};
 const stageColors = {
   'Seed'            : 'var(--col-seed)',
   'Sprout'          : 'var(--col-sprout)',
@@ -234,7 +248,6 @@ const stageColors = {
 /* ========= 3. NAVIGATION TABS ========= */
 const navLinks  = document.querySelectorAll('.nav-links a');
 const sections  = document.querySelectorAll('section');
-
 navLinks.forEach(link => {
   link.addEventListener('click', e => {
     e.preventDefault();
@@ -249,9 +262,8 @@ navLinks.forEach(link => {
 async function fetchTotals() {
   const res = await fetch(`${API_BASE}/totals`);
   if (!res.ok) throw new Error('Failed to load leaderboard');
-  return await res.json();   // [{ userId, name, role, points }]
+  return await res.json();
 }
-
 async function addPoints(userId, pointsAdded, description) {
   const res = await fetch(`${API_BASE}/points`, {
     method : 'POST',
@@ -259,15 +271,16 @@ async function addPoints(userId, pointsAdded, description) {
     body   : JSON.stringify({ userId, pointsAdded, description })
   });
   if (!res.ok) throw new Error('Add-points API error');
-  return await res.json();   // { newQuantity: … }
+  return await res.json();
 }
 
 /* ========= 5. LEADERBOARD RENDERING ========= */
 let leaderboardData = [];
+let filteredData = [];
 let currentPage     = 1;
 
 function renderPagination() {
-  const totalPages = Math.ceil(leaderboardData.length / PAGE_SIZE) || 1;
+  const totalPages = Math.ceil(filteredData.length / PAGE_SIZE) || 1;
   const pag        = document.getElementById('pagination');
   pag.innerHTML    = '';
 
@@ -286,12 +299,13 @@ function renderTable() {
   tbody.innerHTML = '';
 
   const start = (currentPage - 1) * PAGE_SIZE;
-  leaderboardData.slice(start, start + PAGE_SIZE).forEach((row, idx) => {
+  filteredData.slice(start, start + PAGE_SIZE).forEach((row, idx) => {
     const stage = getStage(row.points);
+    const displayStage = stageEmojis[stage] || stage;
     const tr    = document.createElement('tr');
     tr.innerHTML =
       `<td>${start + idx + 1}</td>
-       <td class="stage-cell" style="background:${stageColors[stage]}">${stage}</td>
+       <td class="stage-cell" style="background:${stageColors[stage]}">${displayStage}</td>
        <td>${row.name}</td><td>${row.role}</td><td>${row.points}</td>`;
     tbody.appendChild(tr);
   });
@@ -305,12 +319,24 @@ function populatePersonSelect() {
     .join('');
 }
 
-/***** SEARCH *****/
-const searchLb=document.getElementById('search-leaderboard');
-searchLb.addEventListener('input',()=>{const q=searchLb.value.toLowerCase();filteredData=leaderboardData.filter(r=>r.name.toLowerCase().includes(q));currentPage=1;renderTable();});
-const personSearch=document.getElementById('person-search');
-personSearch.addEventListener('input',()=>{const q=personSearch.value.toLowerCase();const sel=document.getElementById('person-select');[...sel.options].forEach(opt=>{opt.hidden=!opt.text.toLowerCase().includes(q);});});
+/* ========= SEARCH ========= */
+const searchLb = document.getElementById('search-leaderboard');
+searchLb.addEventListener('input', () => {
+  const q = searchLb.value.toLowerCase();
+  filteredData = leaderboardData.filter(r => r.name.toLowerCase().includes(q));
+  currentPage = 1;
+  renderTable();
+});
 
+const personSearch = document.getElementById('person-search');
+personSearch.addEventListener('input', () => {
+  const q = personSearch.value.toLowerCase();
+  const sel = document.getElementById('person-select');
+  sel.innerHTML = leaderboardData
+    .filter(p => p.name.toLowerCase().includes(q))
+    .map(p => `<option value="${p.userId}">${p.name}</option>`)
+    .join('');
+});
 
 /* ========= 6. ADMIN MODAL ========= */
 const modal = document.getElementById('modal');
@@ -353,7 +379,8 @@ saveBtn.addEventListener('click', async () => {
 
     // Refresh and keep modal open
     leaderboardData = await fetchTotals();
-    filterAfterSave();
+    filteredData = leaderboardData.slice();
+    renderTable();
     populatePersonSelect();
 
     pointsInput.value = '0';
@@ -364,11 +391,11 @@ saveBtn.addEventListener('click', async () => {
   }
 });
 
-
 /* ========= 7. BOOTSTRAP ========= */
 async function initLeaderboard() {
   try {
     leaderboardData = await fetchTotals();
+    filteredData = leaderboardData.slice();
     renderTable();
     populatePersonSelect();
   } catch (err) {
