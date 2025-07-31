@@ -11,24 +11,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         :root {
-            /* Brand palette (borrowed from seed_garden.html) */
-            --primary: #2E7D32;
-            --primary-light: #4CAF50;
-            --primary-dark: #1B5E20;
-            --secondary: #FF9800;
-            --text: #333;
-            --text-light: #666;
-            --background: #F4F7F5;
-            --card-bg: #fff;
-            --border: #e0e0e0;
-            /* Stage colours */
-            --col-seed: #424242;
-            --col-sprout: #0d5302;
-            --col-sapling: #004d40;
-            --col-young: #003c8f;
-            --col-blooming: #6a1b9a;
-            --col-radiant: #b71c1c;
-            --col-mythical: #4e342e;
+          --primary: #2E7D32;
+          --primary-light: #4CAF50;
+          --primary-dark: #1B5E20;
+          --secondary: #FF9800;
+          --text: #333;
+          --text-light: #666;
+          --background: #F4F7F5;
+          --card-bg: #fff;
+          --border: #e0e0e0;
+          /* Stage colours – darker for white text */
+          --col-seed: #37474f;
+          --col-sprout: #1b5e20;
+          --col-sapling: #004d40;
+          --col-young: #0d47a1;
+          --col-blooming: #4a148c;
+          --col-radiant: #b71c1c;
+          --col-mythical: #3e2723;
         }
         * { box-sizing: border-box; }
         body { margin: 0; font-family: 'Inter', sans-serif; background: var(--background); color: var(--text); }
@@ -48,11 +47,27 @@
         /* Sections */
         section { display: none; padding: 40px 5vw; }
         section.active { display: block; }
-        h1.section-title { margin: 0 0 24px; font-size: 2rem; }
+        h1.section-title {
+          margin: 0 0 24px;
+          font-size: 2rem;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 12px;
+        }
         h2 { font-size: 1.35rem; margin-top: 32px; }
 
+        /* Search input */
+        .search-box { padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit; min-width: 220px; }
+        #search-leaderboard {
+          margin-left: 80%;
+          display: inline-block;
+          max-width: 90%;
+          margin-top: 0;
+        }
+
         /* Table */
-        .table-wrapper { background: var(--card-bg); border-radius: 8px; overflow-x: auto; box-shadow: 0 4px 12px rgba(0, 0, 0, .05); }
+        .table-wrapper { background: var(--card-bg); border-radius: 8px; overflow-x: auto; box-shadow: 0 4px 12px rgba(0,0,0,.05); }
         table { width: 100%; border-collapse: collapse; }
         th, td { padding: 12px 16px; text-align: left; }
         th { background: var(--primary-light); color: #fff; font-weight: 600; }
@@ -62,6 +77,15 @@
         .pagination { margin-top: 12px; display: flex; justify-content: center; gap: 8px; }
         .pagination button { background: var(--primary-light); border: none; color: #fff; padding: 6px 10px; border-radius: 4px; cursor: pointer; }
         .pagination button[disabled] { opacity: .4; cursor: default; }
+
+        /* Modal */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.5); display: none; align-items: center; justify-content: center; z-index: 200; }
+        .modal { background: var(--card-bg); padding: 24px; border-radius: 8px; width: 92%; max-width: 460px; box-shadow: 0 4px 20px rgba(0,0,0,.15); }
+        .modal h3 { margin-top: 0; }
+        .modal label { display: block; margin-bottom: 6px; font-weight: 500; }
+        .modal input, .modal select, .modal textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; margin-bottom: 14px; font-family: inherit; }
+        .modal button { margin-top: 4px; }
+        .close-btn { background: #ccc; margin-left: 8px; }
 
         /* Calendar */
         .calendar-iframe { width: 100%; height: 800px; border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, .05); }
@@ -92,16 +116,19 @@
 
     <!-- Leaderboard Section -->
     <section id="leaderboard" class="active">
-        <h1 class="section-title">Current Standings</h1>
-        <div class="table-wrapper">
-            <table id="leaderboard-table">
-                <thead>
-                    <tr><th>#</th><th>Stage</th><th>Name</th><th>Role</th><th>Points</th></tr>
-                </thead>
-                <tbody><!-- rows injected by JS --></tbody>
-            </table>
-        </div>
-        <div class="pagination" id="pagination"></div>
+      <h1 class="section-title">
+        <span>Current Standings</span>
+        <input placeholder="Search name…" id="search-leaderboard" class="search-box" />
+      </h1>
+      <div class="table-wrapper">
+        <table id="leaderboard-table">
+          <thead>
+            <tr><th>#</th><th>Stage</th><th>Name</th><th>Role</th><th>Points</th></tr>
+          </thead>
+          <tbody><!-- rows injected by JS --></tbody>
+        </table>
+      </div>
+      <div class="pagination" id="pagination"></div>
     </section>
 
     <!-- Calendar Section -->
@@ -160,22 +187,28 @@
 
     <!-- Admin Modal -->
     <div class="modal-overlay" id="modal">
-        <div class="modal">
-            <h3>Add Points</h3>
-            <label for="person-select">Select Person</label>
-            <select id="person-select"></select>
-            <label for="points-input">Points</label>
-            <input type="number" id="points-input" placeholder="e.g. 40">
-            <label for="reason-input">Reason / Description</label>
-            <textarea id="reason-input" rows="3" placeholder="Describe the activity"></textarea>
-            <button class="admin-btn" id="save-points">Save</button>
-            <button class="admin-btn close-btn" id="close-modal">Close</button>
-        </div>
+      <div class="modal">
+        <h3>Add Points</h3>
+        <label for="person-search">Search Person</label>
+        <input id="person-search" placeholder="Type to filter…" />
+
+        <label for="person-select">Select Person</label>
+        <select id="person-select"></select>
+
+        <label for="points-input">Points</label>
+        <input type="number" id="points-input" value="0" />
+
+        <label for="reason-input">Reason / Description</label>
+        <textarea id="reason-input" rows="3" placeholder="Describe the activity"></textarea>
+
+        <button class="admin-btn" id="save-points">Save</button>
+        <button class="admin-btn close-btn" id="close-modal">Close</button>
+      </div>
     </div>
 
 <script>
 /* ========= 1. CONFIG ========= */
-const API_BASE  = 'https://seed-alumni.org/api/v1/garden';   // ← backend URL
+const API_BASE  = 'https://seed-alumni.org/api/v1/garden';
 const PAGE_SIZE = 15;
 
 /* ========= 2. STAGE HELPERS ========= */
@@ -281,12 +314,21 @@ const personSelect = document.getElementById('person-select');
 const pointsInput  = document.getElementById('points-input');
 const reasonInput  = document.getElementById('reason-input');
 
-adminBtn.addEventListener('click', () => {
-  const pass = prompt('Admin password');
-  if (pass === 'SEEDAdmin2025') modal.style.display = 'flex';
-  else if (pass) alert('Incorrect password');
+adminBtn.addEventListener('click', async () => {
+  const password = prompt('Enter admin password');
+  if (!password) return;
+  try {
+    const res = await fetch(`${API_BASE}/validate-password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password })
+    });
+    if (!res.ok) throw new Error('Invalid password');
+    modal.style.display = 'flex';
+  } catch (err) {
+    alert('Wrong password');
+  }
 });
-closeBtn.addEventListener('click', () => modal.style.display = 'none');
 
 saveBtn.addEventListener('click', async () => {
   const userId = personSelect.value;
