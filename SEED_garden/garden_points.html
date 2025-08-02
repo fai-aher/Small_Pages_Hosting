@@ -126,7 +126,7 @@
         /* Calendar */
         .calendar-iframe { width: 100%; height: 800px; border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, .05); }
 
-        /* Points grid */
+        /* Points grid / cards (reuse) */
         .points-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin-top: 24px; }
         .point-card { background: var(--card-bg); border-left: 6px solid var(--primary-light); padding: 16px 14px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, .05); display: flex; align-items: flex-start; gap: 10px; min-height: 90px; }
         .point-card i { font-size: 1.4rem; color: var(--primary); margin-top: 2px; }
@@ -175,56 +175,99 @@
         <h1 class="section-title">Activity Calendar</h1>
         <p>Explore upcoming activities. Descriptions show how many points each task is worth.</p>
         <iframe class="calendar-iframe" src="https://calendar.google.com/calendar/embed?src=NjdmZjdiODA1NDM3NmExNDkxMzU1N2RhOGVhYzU2YmY0NThiN2E4NWE4OWM2NzM0ODU2MzBhZDllOGMwMGYwOUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t"></iframe>
-        <h2>Standard Point Values</h2>
-        <div class="points-grid">
-            <div class="point-card"><i class="fas fa-video"></i>
-                <div><span class="action">Official Online Session</span><span class="pts">40 pts + bonuses</span></div></div>
-            <div class="point-card"><i class="fas fa-users"></i>
-                <div><span class="action">Club Meeting</span><span class="pts">25 pts + camera bonus</span></div></div>
-            <div class="point-card"><i class="fas fa-briefcase"></i>
-                <div><span class="action">ProNet Event</span><span class="pts">35 pts</span></div></div>
-            <div class="point-card"><i class="fas fa-map-marker-alt"></i>
-                <div><span class="action">City Meetup</span><span class="pts">80 pts</span></div></div>
-            <div class="point-card"><i class="fas fa-comment-dots"></i>
-                <div><span class="action">Forum Post / Comment</span><span class="pts">20 / 10 pts</span></div></div>
-            <div class="point-card"><i class="fas fa-id-badge"></i>
-                <div><span class="action">Profile Update</span><span class="pts">30 pts (one-time)</span></div></div>
-        </div>
+        <!-- Standard Point Values moved to Points tab -->
     </section>
 
     <!-- Points System Section -->
     <section id="points">
         <h1 class="section-title">Growth Stages & Rewards</h1>
+
+        <!-- NEW: How to gain points -->
+        <h2>How can I gain Garden points?</h2>
+        <ul>
+          <li>Participating actively in live SEED sessions</li>
+          <li>Showing strong engagement in team work</li>
+          <li>Meeting in-person or remotely with team members or alumni</li>
+          <li>Alumni supporting SEED 2025 participants as consultants</li>
+          <li>Joining Intranet activities, ProNet conversations, and club meetings</li>
+        </ul>
+
+        <!-- Standard Point Values (moved from Calendar) -->
+        <h2>Standard Point Values</h2>
+        <div class="points-grid">
+            <div class="point-card"><i class="fas fa-video"></i>
+                <div><span class="action">Official Online Session</span><span class="pts">40 pts&nbsp;+ bonuses</span></div></div>
+            <div class="point-card"><i class="fas fa-users"></i>
+                <div><span class="action">Club Meeting</span><span class="pts">25 pts&nbsp;+ camera bonus</span></div></div>
+            <div class="point-card"><i class="fas fa-briefcase"></i>
+                <div><span class="action">ProNet Event</span><span class="pts">35 pts</span></div></div>
+            <div class="point-card"><i class="fas fa-map-marker-alt"></i>
+                <div><span class="action">City Meetup</span><span class="pts">100 pts</span></div></div>
+            <div class="point-card"><i class="fas fa-comment-dots"></i>
+                <div><span class="action">Forum Post / Comment</span><span class="pts">40 / 15 pts</span></div></div>
+            <div class="point-card"><i class="fas fa-id-badge"></i>
+                <div><span class="action">Profile Update</span><span class="pts">50 pts (one-time)</span></div></div>
+        </div>
+
+        <!-- REWARDS TABLES – participants FIRST -->
+        <h2>SEED 2025 Participants</h2>
+        <p>Garden Points (GP) count toward stage advancement and gifts; Mission Points (MP) are tallied separately for special Tokyo prizes.</p>
+        <table>
+            <thead><tr><th>Stage</th><th>Garden Points</th><th>Participant-exclusive Reward</th></tr></thead>
+            <tbody>
+                <tr><td>🌱 Seed</td><td>0</td><td>GOROM Association Shirt</td></tr>
+                <tr><td>🌿 Sprout</td><td>240</td><td>To be announced soon…</td></tr>
+                <tr><td>🍃 Sapling</td><td>500</td><td>To be announced soon…</td></tr>
+                <tr><td>🌴 Young Tree</td><td>1000</td><td>To be announced soon…</td></tr>
+                <tr><td>🌸 Radiant Blossom</td><td>1500</td><td>To be announced soon…</td></tr>
+                <tr><td>🌲 Mythical Tree</td><td>2000</td><td>To be announced soon…</td></tr>
+            </tbody>
+        </table>
+
         <h2>Alumni</h2>
         <table>
             <thead><tr><th>Stage</th><th>Garden Points</th><th>Reward</th></tr></thead>
             <tbody>
-                <tr><td>🌱 Seed</td><td>0</td><td>Digital welcome badge</td></tr>
-                <tr><td>🌿 Sprout</td><td>120</td><td>Japanese snack pack</td></tr>
-                <tr><td>🍃 Sapling</td><td>300</td><td>Washi bookmark</td></tr>
-                <tr><td>🌴 Young Tree</td><td>500</td><td>Producer souvenir</td></tr>
-                <tr><td>🌸 Radiant Blossom</td><td>1000</td><td>Cooking kit (top 3)</td></tr>
-                <tr><td>🌲 Mythical Tree</td><td>1300</td><td>Premium Yamanashi hamper (top 1)</td></tr>
+                <tr><td>🌱 Seed</td><td>0</td><td>To be announced soon…</td></tr>
+                <tr><td>🌿 Sprout</td><td>120</td><td>To be announced soon…</td></tr>
+                <tr><td>🍃 Sapling</td><td>350</td><td>To be announced soon…</td></tr>
+                <tr><td>🌴 Young Tree</td><td>500</td><td>To be announced soon…</td></tr>
+                <tr><td>🌸 Radiant Blossom</td><td>1000</td><td>To be announced soon…</td></tr>
+                <tr><td>🌲 Mythical Tree</td><td>1500</td><td>To be announced soon…</td></tr>
             </tbody>
         </table>
-        <h2>SEED 2025 Participants</h2>
-        <p>Participants earn <strong>Garden Points (GP)</strong>...nd gifts; MP is tallied separately for special Tokyo prizes.</p>
-        <table>
-            <thead><tr><th>Stage</th><th>Garden Points</th><th>Participant‑exclusive Reward</th></tr></thead>
-            <tbody>
-                <tr><td>🌱 Seed</td><td>0</td><td>Digital badge</td></tr>
-                <tr><td>🌿 Sprout</td><td>120</td><td>Snack pack + team sticker set</td></tr>
-                <tr><td>🍃 Sapling</td><td>300</td><td>Bookmark + sake candy</td></tr>
-                <tr><td>🌴 Young Tree</td><td>500</td><td>Producer souvenir + sticker set</td></tr>
-                <tr><td>🌸 Radiant Blossom</td><td>1000</td><td>Group dinner in Tokyo (top 6)</td></tr>
-                <tr><td>🌲 Mythical Tree</td><td>1300</td><td>Premium Yamanashi hamper (top 1)</td></tr>
-            </tbody>
-        </table>
-        <h2>Mission Points (MP)</h2>
-        <p>Daily missions from <strong>1–12 Dec</strong> are wor...ayed on a separate leaderboard visible only to participants.</p>
-    </section>
 
-    <!-- Admin Modal -->
+  <h2>Study Tour Daily Missions</h2>
+  <p>During the <strong>Study Tour (1 Dec – 14 Dec 2025)</strong>, daily missions let you earn additional Garden Points (GP) that boost your overall ranking. New missions are published each evening! Examples of daily missions are:</p>
+
+  <div class="points-grid">
+    <div class="point-card">
+      <i class="fas fa-utensils"></i>
+      <div>
+        <span class="action">🍣 Dinner with your team</span>
+        <span class="pts">+20 GP</span>
+      </div>
+    </div>
+    <div class="point-card">
+      <i class="fas fa-globe-asia"></i>
+      <div>
+        <span class="action">🌏 Dinner with friends from <em>3+ different countries</em></span>
+        <span class="pts">+35 GP</span>
+      </div>
+    </div>
+    <div class="point-card">
+      <i class="fas fa-video"></i>
+      <div>
+        <span class="action">📹 Short vlog about an activity<br><small>(share on social media)</small></span>
+        <span class="pts">+50 GP</span>
+      </div>
+    </div>
+  </div>
+
+  <p style="margin-top:20px;">Mission points are added directly to your overall GP total on the main leaderboard. Top mission achievers unlock surprise rewards in Tokyo!</p>
+
+
+    <!-- Admin Modal (unchanged) -->
     <div class="modal-overlay" id="modal">
       <div class="modal">
         <h3>Add Points</h3>
