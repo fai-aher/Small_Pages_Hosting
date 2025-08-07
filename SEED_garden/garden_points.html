@@ -310,8 +310,6 @@ const personList        = document.getElementById('person-list');
 const selectedCounter   = document.getElementById('selected-counter');
 const selectedUserIds   = new Set();      
 
-personSearch.addEventListener('input', renderFilteredPersons);
-
 function renderFilteredPersons() {
   const q = personSearch.value.toLowerCase();
   const matches = leaderboardData.filter(p => p.name.toLowerCase().includes(q));
@@ -545,6 +543,7 @@ saveBtn.addEventListener('click', async () => {
   }
 });
 
+personSearch.addEventListener('input', renderFilteredPersons);
 
 /* ========= 7. BOOTSTRAP ========= */
 async function initLeaderboard() {
