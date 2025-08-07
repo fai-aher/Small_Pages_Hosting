@@ -140,20 +140,28 @@
   <div class="modal-overlay" id="modal">
       <div class="modal">
         <h3>Add Points</h3>
-        <label for="person-search">Search Person</label>
-        <input id="person-search" placeholder="Type to filter…" />
+          <!-- NUEVO: Lista de personas con checkboxes -->
+          <label for="person-search">Search Participants</label>
+          <input id="person-search" placeholder="Write to filter…" />
 
-        <label for="person-select">Select Person</label>
-        <select id="person-select"></select>
+          <!-- mostrará los resultados filtrados -->
+          <div id="person-list" style="
+              max-height:200px; overflow-y:auto; border:1px solid var(--border);
+              border-radius:6px; padding:6px; margin-bottom:14px;"></div>
 
-        <label for="points-input">Points</label>
-        <input type="number" id="points-input" value="0" />
+          <p id="selected-counter" style="font-size:.85rem; color:var(--text-light); margin:-8px 0 14px 0;">
+            0 personas seleccionadas
+          </p>
 
-        <label for="reason-input">Reason / Description</label>
-        <textarea id="reason-input" rows="3" placeholder="Describe the activity"></textarea>
+          <label for="points-input">Points to Add</label>
+          <input type="number" id="points-input" value="0" />
 
-        <button class="admin-btn" id="save-points">Save</button>
-        <button class="admin-btn close-btn" id="close-modal">Close</button>
+          <label for="reason-input">Reason / Description</label>
+          <textarea id="reason-input" rows="3" placeholder="Describe la actividad"></textarea>
+
+          <button class="admin-btn" id="save-points">Save</button>
+          <button class="admin-btn close-btn" id="close-modal">Close</button>
+
       </div>
     </div>
 
@@ -296,6 +304,45 @@
 /* ========= 1. CONFIG ========= */
 const API_BASE  = 'https://seed-alumni.org/api/v1/garden';
 const PAGE_SIZE = 15;
+
+/* === Multiple selection handling === */
+const personList        = document.getElementById('person-list');
+const selectedCounter   = document.getElementById('selected-counter');
+const selectedUserIds   = new Set();      
+
+personSearch.addEventListener('input', renderFilteredPersons);
+
+function renderFilteredPersons() {
+  const q = personSearch.value.toLowerCase();
+  const matches = leaderboardData.filter(p => p.name.toLowerCase().includes(q));
+
+  personList.innerHTML = matches.map(p => `
+    <label style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
+      <input type="checkbox"
+             data-id="${p.userId}"
+             ${selectedUserIds.has(p.userId) ? 'checked' : ''}/>
+      <span>${p.name}</span>
+    </label>
+  `).join('');
+
+  // Listener para cada checkbox recién dibujado
+  personList.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', e => {
+      const id = e.target.dataset.id;
+      if (e.target.checked)  selectedUserIds.add(id);
+      else                   selectedUserIds.delete(id);
+      updateCounter();
+    });
+  });
+
+  updateCounter();
+}
+
+function updateCounter() {
+  selectedCounter.textContent =
+    `${selectedUserIds.size} persona${selectedUserIds.size === 1 ? '' : 's'} seleccionada${selectedUserIds.size === 1 ? '' : 's'}`;
+}
+
 
 /* ========= 2. STAGE HELPERS ========= */
 function getStage(pts){
@@ -470,28 +517,34 @@ closeBtn.addEventListener('click', () => {
 });
 
 saveBtn.addEventListener('click', async () => {
-  const userId = personSelect.value;
-  const pts = parseInt(pointsInput.value, 10);
+  const ids  = Array.from(selectedUserIds);
+  const pts  = parseInt(pointsInput.value, 10);
   const desc = reasonInput.value.trim();
-  if (!userId || !pts || !desc) return alert('Fill all fields');
+
+  if (!ids.length)   return alert('You have not selected participants');
+  if (!pts || !desc) return alert('Complete points and description');
 
   try {
-    await addPoints(userId, pts, desc);
-    alert('Points added!');
+    await Promise.all(ids.map(id => addPoints(id, pts, desc)));
 
-    // Refresh and keep modal open
+    alert(`¡Points added to ${ids.length} participants!`);
+
+    // recargar leaderboard
     leaderboardData = await fetchTotals();
-    filteredData = leaderboardData.slice();
+    filteredData    = leaderboardData.slice();
     renderTable();
-    populatePersonSelect();
 
-    pointsInput.value = '0';
-    reasonInput.value = '';
+    // limpiar selección y formulario
+    selectedUserIds.clear();
     personSearch.value = '';
+    pointsInput.value  = '0';
+    reasonInput.value  = '';
+    renderFilteredPersons();
   } catch (err) {
     alert(err.message);
   }
 });
+
 
 /* ========= 7. BOOTSTRAP ========= */
 async function initLeaderboard() {
@@ -500,12 +553,12 @@ async function initLeaderboard() {
     filteredData = leaderboardData.slice();
     renderTable();
     populatePersonSelect();
+    renderFilteredPersons();
   } catch (err) {
     console.error(err);
     alert('Unable to load leaderboard');
   }
 }
-
 window.addEventListener('DOMContentLoaded', initLeaderboard);
 </script>
 
