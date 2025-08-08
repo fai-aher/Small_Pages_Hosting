@@ -73,7 +73,12 @@
 
     /* Modal */
     .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:200}
-    .modal{background:var(--card-bg);padding:24px;border-radius:12px;width:92%;max-width:560px;box-shadow:0 8px 28px rgba(0,0,0,.25)}
+    .modal{
+      background:var(--card-bg);padding:24px;border-radius:12px;width:92%;max-width:560px;
+      box-shadow:0 8px 28px rgba(0,0,0,.25);
+      max-height:90vh;          /* NEW */
+      overflow:auto;            /* NEW */
+    }
     .modal h3{margin-top:0}
     .modal label{display:block;margin-bottom:6px;font-weight:600}
     .modal input,.modal select,.modal textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;margin-bottom:14px;font-family:inherit}
@@ -84,11 +89,23 @@
     .person-picker{border:1px solid var(--border);border-radius:10px;padding:10px}
     .person-toolbar{display:flex;align-items:center;gap:8px;margin-bottom:8px}
     .person-toolbar .pill{background:#eef6ef;border:1px solid var(--border);border-radius:999px;padding:6px 10px;font-size:.85rem}
-    .person-list{max-height:260px;overflow:auto;border:1px solid var(--border);border-radius:8px;padding:8px;background:#fafafa}
+    .person-list{
+      max-height:40vh;          /* was 260px; scales better */
+      overflow:auto;
+      border:1px solid var(--border);border-radius:8px;padding:8px;background:#fafafa
+    }
     .person-item{display:flex;align-items:center;gap:10px;padding:8px;border-radius:6px}
     .person-item:hover{background:#f1f8f2}
     .person-name{font-weight:600}
-    .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+    .chips{
+      display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;
+      max-height:120px;         /* NEW: cap height */
+      overflow:auto;            /* NEW: scroll if needed */
+      padding-right:4px;        /* avoid scrollbar overlap */
+      border:1px dashed var(--border);  /* subtle boundary */
+      border-radius:8px;
+      background:#fff;
+    }
     .chip{background:#e9f5ff;border:1px solid #cae7ff;border-radius:999px;padding:4px 8px;font-size:.8rem}
     .chip button{background:none;border:none;margin-left:6px;cursor:pointer}
 
@@ -392,6 +409,8 @@ const btnSelectAll = document.getElementById('select-all');
 const btnClearAll  = document.getElementById('clear-all');
 
 let selectedIds = new Set();
+let chipsExpanded = false;           
+const MAX_CHIPS = 5;                
 
 adminBtn.addEventListener('click', async ()=>{
   const password = prompt('Enter admin password');
@@ -427,29 +446,45 @@ function updatePickerUI(){
     `;
   }).join('');
 
-  // chips
+  // chips (show first 5, then +N more)
   const selected = leaderboardData.filter(p=>selectedIds.has(p.userId));
-  chipsBox.innerHTML = selected.map(p=>`
+  const toShow = chipsExpanded ? selected : selected.slice(0, MAX_CHIPS);
+
+  let chipsHTML = toShow.map(p=>`
     <span class="chip">${p.name}<button title="Remove" data-remove="${p.userId}">&times;</button></span>
   `).join('');
 
+  if (selected.length > MAX_CHIPS) {
+    if (!chipsExpanded) {
+      chipsHTML += `<button class="chip" id="expand-chips">+${selected.length - MAX_CHIPS} more</button>`;
+    } else {
+      chipsHTML += `<button class="chip" id="collapse-chips">Show less</button>`;
+    }
+  }
+  chipsBox.innerHTML = chipsHTML;
+
   countSpan.textContent = selectedIds.size.toString();
 
-  // attach listeners for freshly rendered inputs/buttons
+  // fresh listeners
   personList.querySelectorAll('input[type="checkbox"]').forEach(cb=>{
-    cb.addEventListener('change',()=>{
+    cb.addEventListener('change', ()=>{
       const id = cb.getAttribute('data-id');
-      if(cb.checked) selectedIds.add(id); else selectedIds.delete(id);
-      updatePickerUI(); // refresh chips & count, keep current filter
+      if (cb.checked) selectedIds.add(id); else selectedIds.delete(id);
+      updatePickerUI();
     });
   });
   chipsBox.querySelectorAll('button[data-remove]').forEach(btn=>{
-    btn.addEventListener('click',()=>{
+    btn.addEventListener('click', ()=>{
       const id = btn.getAttribute('data-remove');
       selectedIds.delete(id);
       updatePickerUI();
     });
   });
+
+  const exp = document.getElementById('expand-chips');
+  if (exp) exp.addEventListener('click', ()=>{ chipsExpanded = true; updatePickerUI(); });
+  const col = document.getElementById('collapse-chips');
+  if (col) col.addEventListener('click', ()=>{ chipsExpanded = false; updatePickerUI(); });
 }
 
 personSearch.addEventListener('input', updatePickerUI);
@@ -464,6 +499,7 @@ btnSelectAll.addEventListener('click', ()=>{
 
 btnClearAll.addEventListener('click', ()=>{
   selectedIds.clear();
+  chipsExpanded = false;     
   updatePickerUI();
 });
 
@@ -489,7 +525,9 @@ saveBtn.addEventListener('click', async ()=>{
     currentPage = 1; renderTable();
 
     // reset modal inputs but keep it open for convenience
-    selectedIds.clear(); updatePickerUI();
+    selectedIds.clear();
+    chipsExpanded = false; 
+    updatePickerUI();
     pointsInput.value = '0'; reasonInput.value = '';
   }catch(err){
     console.error(err);
