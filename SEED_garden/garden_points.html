@@ -1,308 +1,253 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEED Garden Points – Leaderboard</title>
-    <!-- Fonts & Icons -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        :root {
-          --primary: #2E7D32;
-          --primary-light: #4CAF50;
-          --primary-dark: #1B5E20;
-          --secondary: #FF9800;
-          --text: #333;
-          --text-light: #666;
-          --background: #F4F7F5;
-          --card-bg: #fff;
-          --border: #e0e0e0;
-          /* Stage colours – darker for white text */
-          --col-seed: #37474f;
-          --col-sprout: #1b5e20;
-          --col-sapling: #004d40;
-          --col-young: #0d47a1;
-          --col-blooming: #4a148c;
-          --col-radiant: #b71c1c;
-          --col-mythical: #3e2723;
-        }
-        * { box-sizing: border-box; }
-        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--background); color: var(--text); }
-        a { text-decoration: none; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SEED Garden Points – Leaderboard</title>
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    :root{
+      --primary:#2E7D32; --primary-light:#4CAF50; --primary-dark:#1B5E20;
+      --secondary:#FF9800; --text:#333; --text-light:#666;
+      --background:#F4F7F5; --card-bg:#fff; --border:#e0e0e0;
+      /* Stage colours */
+      --col-seed:#37474f; --col-sprout:#1b5e20; --col-sapling:#004d40;
+      --col-young:#0d47a1; --col-blooming:#4a148c; --col-radiant:#b71c1c; --col-mythical:#3e2723;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:'Inter',sans-serif;background:var(--background);color:var(--text)}
+    a{text-decoration:none}
 
-        /* Navbar */
-        .navbar { display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; background: var(--primary); color: #fff; position: sticky; top: 0; z-index: 100; }
-        .brand { display: flex; align-items: center; gap: 12px; }
-        .brand img { width: 42px; height: 42px; border-radius: 4px; }
-        .brand span { font-weight: 600; font-size: 1.1rem; }
-        .nav-toggle { display: none; background: none; border: none; font-size: 1.5rem; color: #fff; cursor: pointer; }
-        .nav-links { display: flex; gap: 18px; }
-        .nav-links a { color: #fff; font-weight: 500; padding: 8px 0; position: relative; }
-        .nav-links a.active::after,
-        .nav-links a:hover::after { content: ""; position: absolute; left: 0; bottom: -4px; height: 3px; width: 100%; background: var(--secondary); border-radius: 2px; }
-        .admin-btn { background: var(--secondary); color: #fff; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+    /* Navbar */
+    .navbar{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;background:var(--primary);color:#fff;position:sticky;top:0;z-index:100}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand img{width:42px;height:42px;border-radius:4px}
+    .brand span{font-weight:600;font-size:1.1rem}
+    .nav-toggle{display:none;background:none;border:none;font-size:1.5rem;color:#fff;cursor:pointer}
+    .nav-links{display:flex;gap:18px}
+    .nav-links a{color:#fff;font-weight:500;padding:8px 0;position:relative}
+    .nav-links a.active::after,.nav-links a:hover::after{content:"";position:absolute;left:0;bottom:-4px;height:3px;width:100%;background:var(--secondary);border-radius:2px}
+    .admin-btn{background:var(--secondary);color:#fff;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;font-weight:600}
 
-        /* Responsive Navbar */
-        @media (max-width: 768px) {
-          .navbar { flex-wrap: wrap; }
-          .nav-toggle { display: block; }
-          .nav-links { display: none; flex-direction: column; width: 100%; gap: 12px; margin-top: 12px; }
-          .nav-links.open { display: flex; }
-          .admin-btn { width: 100%; margin-top: 12px; }
-          #search-leaderboard { margin-left: 0; width: 100%; margin-top: 12px; }
-          .table-wrapper { font-size: 0.9rem; }
-          .modal { width: 95%; max-width: none; margin: 20px; }
-        }
+    /* Responsive Navbar */
+    @media (max-width:768px){
+      .navbar{flex-wrap:wrap}
+      .nav-toggle{display:block}
+      .nav-links{display:none;flex-direction:column;width:100%;gap:12px;margin-top:12px}
+      .nav-links.open{display:flex}
+      .admin-btn{width:100%;margin-top:12px}
+      #search-leaderboard{margin-left:0;width:100%;margin-top:12px}
+      .table-wrapper{font-size:.9rem}
+      .modal{width:95%;max-width:none;margin:20px}
+    }
 
-        .nav-overlay {
-          position: fixed;
-          top: 0; left: 0; width: 100%; height: 100%;
-          background: var(--primary);
-          display: none;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          z-index: 150;
-        }
-        .nav-overlay a {
-          color: #fff;
-          font-size: 1.5rem;
-          margin: 1rem 0;
-          text-decoration: none;
-        }
-        .nav-overlay .close-btn {
-          position: absolute;
-          top: 1rem;
-          right: 1rem;
-          background: none;
-          border: none;
-          color: #fff;
-          font-size: 1.75rem;
-          cursor: pointer;
-        }
+    .nav-overlay{position:fixed;inset:0;background:var(--primary);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:150}
+    .nav-overlay a{color:#fff;font-size:1.5rem;margin:1rem 0}
+    .nav-overlay .close-btn{position:absolute;top:1rem;right:1rem;background:none;border:none;color:#fff;font-size:1.75rem;cursor:pointer}
 
-        /* Sections */
-        section { display: none; padding: 40px 5vw; }
-        section.active { display: block; }
-        h1.section-title {
-          display: flex;
-          margin: 0 0 24px;
-          font-size: 2rem;
-          align-items: center;
-          justify-content: space-between;
-          flex-wrap: wrap;
-          gap: 12px;
-        }
-        h2 { font-size: 1.35rem; margin-top: 32px; }
+    /* Sections */
+    section{display:none;padding:40px 5vw}
+    section.active{display:block}
+    h1.section-title{display:flex;margin:0 0 24px;font-size:2rem;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+    h2{font-size:1.35rem;margin-top:32px}
 
-        /* Search input */
-        .search-box { padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit; min-width: 220px; }
-        #search-leaderboard { margin-left: auto; }
+    /* Search input */
+    .search-box{padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-family:inherit;min-width:220px}
+    #search-leaderboard{margin-left:auto}
 
-        /* Table */
-        .table-wrapper { background: var(--card-bg); border-radius: 8px; overflow-x: auto; box-shadow: 0 4px 12px rgba(0,0,0,.05); }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 12px 16px; text-align: left; }
-        th { background: var(--primary-light); color: #fff; font-weight: 600; }
-        tbody tr:nth-child(odd) { background: #fafafa; }
-        tbody tr:hover { background: #f1f8f2; }
-        td.stage-cell { color: #fff; font-weight: 600; }
-        .pagination { margin-top: 12px; display: flex; justify-content: center; gap: 8px; }
-        .pagination button { background: var(--primary-light); border: none; color: #fff; padding: 6px 10px; border-radius: 4px; cursor: pointer; }
-        .pagination button[disabled] { opacity: .4; cursor: default; }
+    /* Table */
+    .table-wrapper{background:var(--card-bg);border-radius:8px;overflow-x:auto;box-shadow:0 4px 12px rgba(0,0,0,.05)}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:12px 16px;text-align:left}
+    th{background:var(--primary-light);color:#fff;font-weight:600}
+    tbody tr:nth-child(odd){background:#fafafa}
+    tbody tr:hover{background:#f1f8f2}
+    td.stage-cell{color:#fff;font-weight:600}
+    .pagination{margin-top:12px;display:flex;justify-content:center;gap:8px}
+    .pagination button{background:var(--primary-light);border:none;color:#fff;padding:6px 10px;border-radius:4px;cursor:pointer}
+    .pagination button[disabled]{opacity:.4;cursor:default}
 
-        /* Modal */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.5); display: none; align-items: center; justify-content: center; z-index: 200; }
-        .modal { background: var(--card-bg); padding: 24px; border-radius: 8px; width: 92%; max-width: 460px; box-shadow: 0 4px 20px rgba(0,0,0,.15); }
-        .modal h3 { margin-top: 0; }
-        .modal label { display: block; margin-bottom: 6px; font-weight: 500; }
-        .modal input, .modal select, .modal textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; margin-bottom: 14px; font-family: inherit; }
-        .modal button { margin-top: 4px; }
-        .close-btn { background: #ccc; margin-left: 8px; }
+    /* Modal */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:200}
+    .modal{background:var(--card-bg);padding:24px;border-radius:12px;width:92%;max-width:560px;box-shadow:0 8px 28px rgba(0,0,0,.25)}
+    .modal h3{margin-top:0}
+    .modal label{display:block;margin-bottom:6px;font-weight:600}
+    .modal input,.modal select,.modal textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;margin-bottom:14px;font-family:inherit}
+    .modal .row{display:grid;grid-template-columns:1fr;gap:12px}
+    .modal .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:8px}
 
-        /* Calendar */
-        .calendar-iframe { width: 100%; height: 800px; border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, .05); }
+    /* Improved person picker */
+    .person-picker{border:1px solid var(--border);border-radius:10px;padding:10px}
+    .person-toolbar{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+    .person-toolbar .pill{background:#eef6ef;border:1px solid var(--border);border-radius:999px;padding:6px 10px;font-size:.85rem}
+    .person-list{max-height:260px;overflow:auto;border:1px solid var(--border);border-radius:8px;padding:8px;background:#fafafa}
+    .person-item{display:flex;align-items:center;gap:10px;padding:8px;border-radius:6px}
+    .person-item:hover{background:#f1f8f2}
+    .person-name{font-weight:600}
+    .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+    .chip{background:#e9f5ff;border:1px solid #cae7ff;border-radius:999px;padding:4px 8px;font-size:.8rem}
+    .chip button{background:none;border:none;margin-left:6px;cursor:pointer}
 
-        /* Points grid / cards (reuse) */
-        .points-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin-top: 24px; }
-        .point-card { background: var(--card-bg); border-left: 6px solid var(--primary-light); padding: 16px 14px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, .05); display: flex; align-items: flex-start; gap: 10px; min-height: 90px; }
-        .point-card i { font-size: 1.4rem; color: var(--primary); margin-top: 2px; }
-        .point-card .action { font-weight: 600; display: block; }
-        .point-card .pts { font-weight: 600; color: var(--secondary); font-size: .9rem; }
-    </style>
+    .close-btn{background:#ccc}
+
+    /* Calendar + cards (unchanged blocks) */
+    .calendar-iframe{width:100%;height:800px;border:none;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.05)}
+    .points-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:24px}
+    .point-card{background:var(--card-bg);border-left:6px solid var(--primary-light);padding:16px 14px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.05);display:flex;align-items:flex-start;gap:10px;min-height:90px}
+    .point-card i{font-size:1.4rem;color:var(--primary);margin-top:2px}
+    .point-card .action{font-weight:600;display:block}
+    .point-card .pts{font-weight:600;color:var(--secondary);font-size:.9rem}
+  </style>
 </head>
 <body>
 
-  <!-- Admin Modal (multi-select) -->
+  <!-- Admin Modal (new multi-select) -->
   <div class="modal-overlay" id="modal">
-    <div class="modal">
-      <h3>Add Points</h3>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="admin-title">
+      <h3 id="admin-title">Add Points</h3>
 
-      <label for="person-search">Search people</label>
-      <input id="person-search" placeholder="Type a name…" />
+      <div class="person-picker">
+        <label for="person-search">Search Participants</label>
+        <input id="person-search" placeholder="Type a name…" />
 
-      <!-- Acciones rápidas -->
-      <div style="display:flex; gap:8px; align-items:center; margin:8px 0 4px;">
-        <label style="display:flex; gap:6px; align-items:center; cursor:pointer;">
-          <input type="checkbox" id="toggle-select-all" />
-          <span>Select all (filtered)</span>
-        </label>
-        <span id="selected-count" style="margin-left:auto; font-weight:600;">0 selected</span>
+        <div class="person-toolbar">
+          <span class="pill"><span id="selected-count">0</span> selected</span>
+          <button type="button" class="admin-btn" id="select-all">Select all filtered</button>
+          <button type="button" class="close-btn" id="clear-all">Clear</button>
+        </div>
+
+        <div id="person-list" class="person-list"><!-- rows injected --></div>
+        <div class="chips" id="selected-chips"><!-- chips injected --></div>
       </div>
 
-      <!-- Resultados de búsqueda con checkboxes -->
-      <div id="person-results" style="max-height:220px; overflow:auto; border:1px solid var(--border); border-radius:6px; padding:6px;"></div>
-
-      <!-- Pills de seleccionados (opcional) -->
-      <div id="selected-pills" style="display:flex; flex-wrap:wrap; gap:6px; margin:8px 0;"></div>
-
-      <label for="points-input">Points</label>
-      <input type="number" id="points-input" value="0" />
+      <div class="row" style="margin-top:14px">
+        <div>
+          <label for="points-input">Points to Add</label>
+          <input type="number" id="points-input" value="0" min="1" />
+        </div>
+      </div>
 
       <label for="reason-input">Reason / Description</label>
       <textarea id="reason-input" rows="3" placeholder="Describe the activity"></textarea>
 
-      <button class="admin-btn" id="save-points">Save</button>
-      <button class="admin-btn close-btn" id="close-modal">Close</button>
-
-      <div id="bulk-status" style="margin-top:10px; font-size:.9rem; color:var(--text-light); display:none;"></div>
+      <div class="actions">
+        <button class="admin-btn" id="save-points"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+        <button class="admin-btn close-btn" id="close-modal">Close</button>
+      </div>
     </div>
   </div>
 
-
-    <nav class="navbar">
-        <div class="brand"><img src="alumni-logo-no-text.png" alt="SEED Garden logo"><span>SEED Garden Points</span></div>
-        <button class="nav-toggle" id="nav-toggle"><i class="fas fa-bars"></i></button>
-        <div class="nav-links">
-          <a href="#" class="active" data-target="leaderboard">Leaderboard</a>
-          <a href="#" data-target="calendar">Calendar</a>
-          <a href="#" data-target="points">Points&nbsp;System</a>
-        </div>
-        <button class="admin-btn" id="admin-login"><i class="fas fa-user-lock"></i> Admin</button>
-    </nav>
-
-    <div class="nav-overlay" id="nav-overlay">
-      <button id="nav-close" class="close-btn"><i class="fas fa-times"></i></button>
-      <a href="#" data-target="leaderboard">Leaderboard</a>
+  <nav class="navbar">
+    <div class="brand"><img src="alumni-logo-no-text.png" alt="SEED Garden logo"><span>SEED Garden Points</span></div>
+    <button class="nav-toggle" id="nav-toggle"><i class="fas fa-bars"></i></button>
+    <div class="nav-links">
+      <a href="#" class="active" data-target="leaderboard">Leaderboard</a>
       <a href="#" data-target="calendar">Calendar</a>
-      <a href="#" data-target="points">Points System</a>
+      <a href="#" data-target="points">Points&nbsp;System</a>
+    </div>
+    <button class="admin-btn" id="admin-login"><i class="fas fa-user-lock"></i> Admin</button>
+  </nav>
+
+  <div class="nav-overlay" id="nav-overlay">
+    <button id="nav-close" class="close-btn"><i class="fas fa-times"></i></button>
+    <a href="#" data-target="leaderboard">Leaderboard</a>
+    <a href="#" data-target="calendar">Calendar</a>
+    <a href="#" data-target="points">Points System</a>
+  </div>
+
+  <!-- Leaderboard Section -->
+  <section id="leaderboard" class="active">
+    <h1 class="section-title">
+      <span>Current Standings</span>
+      <input placeholder="Search name…" id="search-leaderboard" class="search-box" />
+    </h1>
+    <div class="table-wrapper">
+      <table id="leaderboard-table">
+        <thead>
+          <tr><th>#</th><th>Stage</th><th>Name</th><th>Role</th><th>Points</th></tr>
+        </thead>
+        <tbody><!-- rows injected by JS --></tbody>
+      </table>
+    </div>
+    <div class="pagination" id="pagination"></div>
+  </section>
+
+  <!-- Calendar Section -->
+  <section id="calendar">
+    <h1 class="section-title">Activity Calendar</h1>
+    <p>Explore upcoming activities. Descriptions show how many points each task is worth.</p>
+    <iframe class="calendar-iframe" src="https://calendar.google.com/calendar/embed?src=NjdmZjdiODA1NDM3NmExNDkxMzU1N2RhOGVhYzU2YmY0NThiN2E4NWE4OWM2NzM0ODU2MzBhZDllOGMwMGYwOUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t"></iframe>
+  </section>
+
+  <!-- Points System Section (same copy as el original) -->
+  <section id="points">
+    <h1 class="section-title">Growth Stages & Rewards</h1>
+    <h2>How can I gain Garden points?</h2>
+    <ul>
+      <li>Participating actively in live SEED sessions</li>
+      <li>Showing strong engagement in team work</li>
+      <li>Meeting in-person or remotely with team members or alumni</li>
+      <li>Alumni supporting SEED 2025 participants as consultants</li>
+      <li>Joining Intranet activities, ProNet conversations, and club meetings</li>
+    </ul>
+
+    <h2>Standard Point Values</h2>
+    <div class="points-grid">
+      <div class="point-card"><i class="fas fa-video"></i>
+        <div><span class="action">Official Online Session</span><span class="pts">40 pts&nbsp;+ bonuses</span></div></div>
+      <div class="point-card"><i class="fas fa-users"></i>
+        <div><span class="action">Club Meeting</span><span class="pts">25 pts&nbsp;+ camera bonus</span></div></div>
+      <div class="point-card"><i class="fas fa-briefcase"></i>
+        <div><span class="action">ProNet Event</span><span class="pts">35 pts</span></div></div>
+      <div class="point-card"><i class="fas fa-map-marker-alt"></i>
+        <div><span class="action">City Meetup</span><span class="pts">100 pts</span></div></div>
+      <div class="point-card"><i class="fas fa-comment-dots"></i>
+        <div><span class="action">Forum Post / Comment</span><span class="pts">40 / 15 pts</span></div></div>
+      <div class="point-card"><i class="fas fa-id-badge"></i>
+        <div><span class="action">Profile Update</span><span class="pts">50 pts (one-time)</span></div></div>
     </div>
 
-    <!-- Leaderboard Section -->
-    <section id="leaderboard" class="active">
-      <h1 class="section-title">
-        <span>Current Standings</span>
-        <input placeholder="Search name…" id="search-leaderboard" class="search-box" />
-      </h1>
-      <div class="table-wrapper">
-        <table id="leaderboard-table">
-          <thead>
-            <tr><th>#</th><th>Stage</th><th>Name</th><th>Role</th><th>Points</th></tr>
-          </thead>
-          <tbody><!-- rows injected by JS --></tbody>
-        </table>
-      </div>
-      <div class="pagination" id="pagination"></div>
-    </section>
+    <h2>SEED 2025 Participants</h2>
+    <p>Garden Points (GP) count toward stage advancement and gifts; Mission Points (MP) are tallied separately for special Tokyo prizes.</p>
+    <table>
+      <thead><tr><th>Stage</th><th>Garden Points</th><th>Participant-exclusive Reward</th></tr></thead>
+      <tbody>
+        <tr><td>🌱 Seed 種</td><td>0</td><td>GOROM Association Shirt</td></tr>
+        <tr><td>🌿 Sprout 芽</td><td>400</td><td>To be announced soon…</td></tr>
+        <tr><td>🍃 Sapling 苗</td><td>550</td><td>To be announced soon…</td></tr>
+        <tr><td>🌴 Young Tree 若</td><td>750</td><td>To be announced soon…</td></tr>
+        <tr><td>🌹 Blooming 咲</td><td>1000</td><td>To be announced soon…</td></tr>
+        <tr><td>🌸 Radiant Blossom 花</td><td>1500</td><td>To be announced soon…</td></tr>
+        <tr><td>🌲 Mythical Tree 莆</td><td>2000</td><td>To be announced soon…</td></tr>
+      </tbody>
+    </table>
 
-    <!-- Calendar Section -->
-    <section id="calendar">
-        <h1 class="section-title">Activity Calendar</h1>
-        <p>Explore upcoming activities. Descriptions show how many points each task is worth.</p>
-        <iframe class="calendar-iframe" src="https://calendar.google.com/calendar/embed?src=NjdmZjdiODA1NDM3NmExNDkxMzU1N2RhOGVhYzU2YmY0NThiN2E4NWE4OWM2NzM0ODU2MzBhZDllOGMwMGYwOUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t"></iframe>
-        <!-- Standard Point Values moved to Points tab -->
-    </section>
-
-    <!-- Points System Section -->
-    <section id="points">
-        <h1 class="section-title">Growth Stages & Rewards</h1>
-
-        <!-- NEW: How to gain points -->
-        <h2>How can I gain Garden points?</h2>
-        <ul>
-          <li>Participating actively in live SEED sessions</li>
-          <li>Showing strong engagement in team work</li>
-          <li>Meeting in-person or remotely with team members or alumni</li>
-          <li>Alumni supporting SEED 2025 participants as consultants</li>
-          <li>Joining Intranet activities, ProNet conversations, and club meetings</li>
-        </ul>
-
-        <!-- Standard Point Values (moved from Calendar) -->
-        <h2>Standard Point Values</h2>
-        <div class="points-grid">
-            <div class="point-card"><i class="fas fa-video"></i>
-                <div><span class="action">Official Online Session</span><span class="pts">40 pts&nbsp;+ bonuses</span></div></div>
-            <div class="point-card"><i class="fas fa-users"></i>
-                <div><span class="action">Club Meeting</span><span class="pts">25 pts&nbsp;+ camera bonus</span></div></div>
-            <div class="point-card"><i class="fas fa-briefcase"></i>
-                <div><span class="action">ProNet Event</span><span class="pts">35 pts</span></div></div>
-            <div class="point-card"><i class="fas fa-map-marker-alt"></i>
-                <div><span class="action">City Meetup</span><span class="pts">100 pts</span></div></div>
-            <div class="point-card"><i class="fas fa-comment-dots"></i>
-                <div><span class="action">Forum Post / Comment</span><span class="pts">40 / 15 pts</span></div></div>
-            <div class="point-card"><i class="fas fa-id-badge"></i>
-                <div><span class="action">Profile Update</span><span class="pts">50 pts (one-time)</span></div></div>
-        </div>
-
-        <!-- REWARDS TABLES – participants FIRST -->
-        <h2>SEED 2025 Participants</h2>
-        <p>Garden Points (GP) count toward stage advancement and gifts; Mission Points (MP) are tallied separately for special Tokyo prizes.</p>
-        <table>
-            <thead><tr><th>Stage</th><th>Garden Points</th><th>Participant-exclusive Reward</th></tr></thead>
-            <tbody>
-                <tr><td>🌱 Seed 種</td><td>0</td><td>GOROM Association Shirt</td></tr>
-                <tr><td>🌿 Sprout 芽</td><td>400</td><td>To be announced soon…</td></tr>
-                <tr><td>🍃 Sapling 苗</td><td>550</td><td>To be announced soon…</td></tr>
-                <tr><td>🌴 Young Tree 若</td><td>750</td><td>To be announced soon…</td></tr>
-                <tr><td>🌹 Blooming 咲</td><td>1000</td><td>To be announced soon…</td></tr>
-                <tr><td>🌸 Radiant Blossom 花</td><td>1500</td><td>To be announced soon…</td></tr>
-                <tr><td>🌲 Mythical Tree 莆</td><td>2000</td><td>To be announced soon…</td></tr>
-            </tbody>
-        </table>
-
-        <h2>Alumni</h2>
-        <h3>To balance, Alumni receive more points than current participants for the same activities.</h3>
-        <table>
-            <thead><tr><th>Stage</th><th>Garden Points</th><th>Reward</th></tr></thead>
-            <tbody>
-                <tr><td>🌱 Seed 種</td><td>0</td><td>To be announced soon…</td></tr>
-                <tr><td>🌿 Sprout 芽</td><td>400</td><td>To be announced soon…</td></tr>
-                <tr><td>🍃 Sapling 苗</td><td>550</td><td>To be announced soon…</td></tr>
-                <tr><td>🌴 Young Tree 若</td><td>750</td><td>To be announced soon…</td></tr>
-                <tr><td>🌹 Blooming 咲</td><td>1000</td><td>To be announced soon…</td></tr>
-                <tr><td>🌸 Radiant Blossom 花</td><td>1500</td><td>To be announced soon…</td></tr>
-                <tr><td>🌲 Mythical Tree 莆</td><td>2000</td><td>To be announced soon…</td></tr>
-            </tbody>
-        </table>
+    <h2>Alumni</h2>
+    <h3>To balance, Alumni receive more points than current participants for the same activities.</h3>
+    <table>
+      <thead><tr><th>Stage</th><th>Garden Points</th><th>Reward</th></tr></thead>
+      <tbody>
+        <tr><td>🌱 Seed 種</td><td>0</td><td>To be announced soon…</td></tr>
+        <tr><td>🌿 Sprout 芽</td><td>400</td><td>To be announced soon…</td></tr>
+        <tr><td>🍃 Sapling 苗</td><td>550</td><td>To be announced soon…</td></tr>
+        <tr><td>🌴 Young Tree 若</td><td>750</td><td>To be announced soon…</td></tr>
+        <tr><td>🌹 Blooming 咲</td><td>1000</td><td>To be announced soon…</td></tr>
+        <tr><td>🌸 Radiant Blossom 花</td><td>1500</td><td>To be announced soon…</td></tr>
+        <tr><td>🌲 Mythical Tree 莆</td><td>2000</td><td>To be announced soon…</td></tr>
+      </tbody>
+    </table>
 
     <h2>Study Tour Daily Missions</h2>
-    <p>During the <strong>Study Tour (1 Dec – 14 Dec 2025)</strong>, daily missions let you earn additional Garden Points (GP) that boost your overall ranking. New missions are published each evening! Examples of daily missions are:</p>
+    <p>During the <strong>Study Tour (1 Dec – 14 Dec 2025)</strong>, daily missions let you earn additional Garden Points (GP) that boost your overall ranking. New missions are published each evening!</p>
 
     <div class="points-grid">
-      <div class="point-card">
-        <i class="fas fa-utensils"></i>
-        <div>
-          <span class="action">🍣 Dinner with your team</span>
-          <span class="pts">+20 GP</span>
-        </div>
-      </div>
-      <div class="point-card">
-        <i class="fas fa-globe-asia"></i>
-        <div>
-          <span class="action">🌏 Dinner with friends from <em>3+ different countries</em></span>
-          <span class="pts">+35 GP</span>
-        </div>
-      </div>
-      <div class="point-card">
-        <i class="fas fa-video"></i>
-        <div>
-          <span class="action">📹 Short vlog about an activity<br><small>(share on social media)</small></span>
-          <span class="pts">+50 GP</span>
-        </div>
-      </div>
+      <div class="point-card"><i class="fas fa-utensils"></i><div><span class="action">🍣 Dinner with your team</span><span class="pts">+20 GP</span></div></div>
+      <div class="point-card"><i class="fas fa-globe-asia"></i><div><span class="action">🌏 Dinner with friends from <em>3+ different countries</em></span><span class="pts">+35 GP</span></div></div>
+      <div class="point-card"><i class="fas fa-video"></i><div><span class="action">📹 Short vlog about an activity<br><small>(share on social media)</small></span><span class="pts">+50 GP</span></div></div>
     </div>
 
     <p style="margin-top:20px;">Mission points are added directly to your overall GP total on the main leaderboard. Top mission achievers unlock surprise rewards in Tokyo!</p>
@@ -313,414 +258,262 @@
 const API_BASE  = 'https://seed-alumni.org/api/v1/garden';
 const PAGE_SIZE = 15;
 
-/* === Multiple selection handling === */
-const personList        = document.getElementById('person-list');
-const selectedCounter   = document.getElementById('selected-counter');
-const selectedUserIds   = new Set();      
-
-function renderFilteredPersons() {
-  const q = personSearch.value.toLowerCase();
-  const matches = leaderboardData.filter(p => p.name.toLowerCase().includes(q));
-
-  personList.innerHTML = matches.map(p => `
-    <label style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
-      <input type="checkbox"
-             data-id="${p.userId}"
-             ${selectedUserIds.has(p.userId) ? 'checked' : ''}/>
-      <span>${p.name}</span>
-    </label>
-  `).join('');
-
-  // Listener para cada checkbox recién dibujado
-  personList.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-    cb.addEventListener('change', e => {
-      const id = e.target.dataset.id;
-      if (e.target.checked)  selectedUserIds.add(id);
-      else                   selectedUserIds.delete(id);
-      updateCounter();
-    });
-  });
-
-  updateCounter();
-}
-
-function updateCounter() {
-  selectedCounter.textContent =
-    `${selectedUserIds.size} persona${selectedUserIds.size === 1 ? '' : 's'} seleccionada${selectedUserIds.size === 1 ? '' : 's'}`;
-}
-
-
 /* ========= 2. STAGE HELPERS ========= */
 function getStage(pts){
   if (pts >= 2000) return 'Mythical Tree';
   if (pts >= 1500) return 'Radiant Blossom';
-  if (pts >=  1000) return 'Blooming';
+  if (pts >= 1000) return 'Blooming';
   if (pts >=  750) return 'Young Tree';
   if (pts >=  550) return 'Sapling';
   if (pts >=  400) return 'Sprout';
   return 'Seed';
 }
 const stageEmojis = {
-  'Seed': '🌱 Seed 種',
-  'Sprout': '🌿 Sprout 芽',
-  'Sapling': '🍃 Sapling 苗',
-  'Young Tree': '🌴 Young Tree 若',
-  'Blooming': '🌹 Blooming 咲',
-  'Radiant Blossom': '🌸 Radiant Blossom 花',
-  'Mythical Tree': '🌲 Mythical Tree 莆'
+  'Seed':'🌱 Seed 種','Sprout':'🌿 Sprout 芽','Sapling':'🍃 Sapling 苗',
+  'Young Tree':'🌴 Young Tree 若','Blooming':'🌹 Blooming 咲',
+  'Radiant Blossom':'🌸 Radiant Blossom 花','Mythical Tree':'🌲 Mythical Tree 莆'
 };
 const stageColors = {
-  'Seed'            : 'var(--col-seed)',
-  'Sprout'          : 'var(--col-sprout)',
-  'Sapling'         : 'var(--col-sapling)',
-  'Young Tree'      : 'var(--col-young)',
-  'Blooming'        : 'var(--col-blooming)',
-  'Radiant Blossom' : 'var(--col-radiant)',
-  'Mythical Tree'   : 'var(--col-mythical)'
+  'Seed':'var(--col-seed)','Sprout':'var(--col-sprout)','Sapling':'var(--col-sapling)',
+  'Young Tree':'var(--col-young)','Blooming':'var(--col-blooming)',
+  'Radiant Blossom':'var(--col-radiant)','Mythical Tree':'var(--col-mythical)'
 };
 
 /* ========= 3. NAVIGATION TABS ========= */
 const navLinks  = document.querySelectorAll('.nav-links a');
 const sections  = document.querySelectorAll('section');
-navLinks.forEach(link => {
-  link.addEventListener('click', e => {
+navLinks.forEach(link=>{
+  link.addEventListener('click',e=>{
     e.preventDefault();
-    navLinks.forEach(l => l.classList.remove('active'));
+    navLinks.forEach(l=>l.classList.remove('active'));
     link.classList.add('active');
     const target = link.dataset.target;
-    sections.forEach(sec => sec.classList.toggle('active', sec.id === target));
+    sections.forEach(sec=>sec.classList.toggle('active', sec.id===target));
   });
 });
 
 const overlay = document.getElementById('nav-overlay');
 const burger  = document.getElementById('nav-toggle');
-const close   = document.getElementById('nav-close');
-burger.addEventListener('click', () => {
-  overlay.style.display = 'flex';
-});
-close.addEventListener('click', () => {
-  overlay.style.display = 'none';
-});
-// Also hook each overlay link to switch sections and then close:
-overlay.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', e => {
+const closeOv = document.getElementById('nav-close');
+burger.addEventListener('click',()=>{ overlay.style.display='flex'; });
+closeOv.addEventListener('click',()=>{ overlay.style.display='none'; });
+overlay.querySelectorAll('a').forEach(link=>{
+  link.addEventListener('click',e=>{
     e.preventDefault();
-    document
-      .querySelector(`.nav-links a[data-target="${link.dataset.target}"]`)
-      .click();
-    overlay.style.display = 'none';
+    document.querySelector(`.nav-links a[data-target="${link.dataset.target}"]`).click();
+    overlay.style.display='none';
   });
 });
-
 
 /* ========= 4. DATA ACCESS ========= */
-async function fetchTotals() {
+async function fetchTotals(){
   const res = await fetch(`${API_BASE}/totals`);
-  if (!res.ok) throw new Error('Failed to load leaderboard');
+  if(!res.ok) throw new Error('Failed to load leaderboard');
   return await res.json();
 }
-async function addPoints(userId, pointsAdded, description) {
-  const res = await fetch(`${API_BASE}/points`, {
-    method : 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body   : JSON.stringify({ userId, pointsAdded, description })
+async function addPoints(userId, pointsAdded, description){
+  const res = await fetch(`${API_BASE}/points`,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({ userId, pointsAdded, description })
   });
-  if (!res.ok) throw new Error('Add-points API error');
+  if(!res.ok) throw new Error('Add-points API error');
+  return await res.json();
+}
+async function validatePassword(password){
+  const res = await fetch(`${API_BASE}/validate-password`,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({ password })
+  });
+  if(!res.ok) throw new Error('Invalid password');
   return await res.json();
 }
 
 /* ========= 5. LEADERBOARD RENDERING ========= */
 let leaderboardData = [];
 let filteredData = [];
-let currentPage     = 1;
+let currentPage = 1;
 
-function renderPagination() {
+function renderPagination(){
   const totalPages = Math.ceil(filteredData.length / PAGE_SIZE) || 1;
-  const pag        = document.getElementById('pagination');
-  pag.innerHTML    = '';
+  const pag = document.getElementById('pagination');
+  pag.innerHTML = '';
 
-  ['Prev', 'Next'].forEach(label => {
-    const btn   = document.createElement('button');
+  ['Prev','Next'].forEach(label=>{
+    const btn = document.createElement('button');
     btn.textContent = label;
-    btn.disabled = (label === 'Prev' && currentPage === 1) ||
-                   (label === 'Next' && currentPage >= totalPages);
-    btn.onclick  = () => { currentPage += (label === 'Prev' ? -1 : 1); renderTable(); };
+    btn.disabled = (label==='Prev' && currentPage===1) || (label==='Next' && currentPage>=totalPages);
+    btn.onclick = ()=>{ currentPage += (label==='Prev'?-1:1); renderTable(); };
     pag.appendChild(btn);
   });
 }
 
-function renderTable() {
-  const tbody    = document.querySelector('#leaderboard-table tbody');
+function renderTable(){
+  const tbody = document.querySelector('#leaderboard-table tbody');
   tbody.innerHTML = '';
-
-  const start = (currentPage - 1) * PAGE_SIZE;
-  filteredData.slice(start, start + PAGE_SIZE).forEach((row, idx) => {
+  const start = (currentPage-1)*PAGE_SIZE;
+  filteredData.slice(start, start+PAGE_SIZE).forEach((row, idx)=>{
     const stage = getStage(row.points);
     const displayStage = stageEmojis[stage] || stage;
-    const tr    = document.createElement('tr');
-    tr.innerHTML =
-      `<td>${start + idx + 1}</td>
-       <td class="stage-cell" style="background:${stageColors[stage]}">${displayStage}</td>
-       <td>${row.name}</td><td>${row.role}</td><td>${row.points}</td>`;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${start+idx+1}</td>
+      <td class="stage-cell" style="background:${stageColors[stage]}">${displayStage}</td>
+      <td>${row.name}</td>
+      <td>${row.role}</td>
+      <td>${row.points}</td>
+    `;
     tbody.appendChild(tr);
   });
   renderPagination();
 }
 
-function populatePersonSelect() {
-  const sel = document.getElementById('person-select');
-  sel.innerHTML = leaderboardData
-    .map(p => `<option value="${p.userId}">${p.name}</option>`)
-    .join('');
-}
-
-/* ========= SEARCH ========= */
+/* ========= 5b. Simple search for leaderboard ========= */
 const searchLb = document.getElementById('search-leaderboard');
-searchLb.addEventListener('input', () => {
+searchLb.addEventListener('input', ()=>{
   const q = searchLb.value.toLowerCase();
   filteredData = leaderboardData.filter(r => r.name.toLowerCase().includes(q));
-  currentPage = 1;
-  renderTable();
+  currentPage = 1; renderTable();
 });
 
+/* ========= 6. ADMIN MODAL (multi-select) ========= */
+const modal        = document.getElementById('modal');
+const adminBtn     = document.getElementById('admin-login');
+const closeBtn     = document.getElementById('close-modal');
+const saveBtn      = document.getElementById('save-points');
 const personSearch = document.getElementById('person-search');
-personSearch.addEventListener('input', () => {
-  const q = personSearch.value.toLowerCase();
-  const sel = document.getElementById('person-select');
-  sel.innerHTML = leaderboardData
-    .filter(p => p.name.toLowerCase().includes(q))
-    .map(p => `<option value="${p.userId}">${p.name}</option>`)
-    .join('');
-});
+const personList   = document.getElementById('person-list');
+const chipsBox     = document.getElementById('selected-chips');
+const countSpan    = document.getElementById('selected-count');
+const pointsInput  = document.getElementById('points-input');
+const reasonInput  = document.getElementById('reason-input');
+const btnSelectAll = document.getElementById('select-all');
+const btnClearAll  = document.getElementById('clear-all');
 
-/* ========= 6. ADMIN MODAL ========= */
-const modal = document.getElementById('modal');
-const adminBtn = document.getElementById('admin-login');
-const closeBtn = document.getElementById('close-modal');
-const saveBtn = document.getElementById('save-points');
-const personSelect = document.getElementById('person-select');
-const pointsInput = document.getElementById('points-input');
-const reasonInput = document.getElementById('reason-input');
+let selectedIds = new Set();
 
-adminBtn.addEventListener('click', async () => {
+adminBtn.addEventListener('click', async ()=>{
   const password = prompt('Enter admin password');
-  if (!password) return;
-  try {
-    const res = await fetch(`${API_BASE}/validate-password`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password })
-    });
-    if (!res.ok) throw new Error('Invalid password');
+  if(!password) return;
+  try{
+    await validatePassword(password);
+    // reset UI but keep data loaded
+    personSearch.value = '';
+    selectedIds = new Set();
+    updatePickerUI();
     modal.style.display = 'flex';
-  } catch (err) {
+  }catch(err){
     alert('Wrong password');
   }
 });
+closeBtn.addEventListener('click', ()=>{ modal.style.display = 'none'; });
 
-closeBtn.addEventListener('click', () => {
-  modal.style.display = 'none';
-});
-
-saveBtn.addEventListener('click', async () => {
-  const pts = parseInt(pointsInput.value, 10);
-  const desc = reasonInput.value.trim();
-  if (!pts || !desc) return alert('Fill points and description');
-  if (selectedIds.size === 0) return alert('Select at least one person');
-
-  // UI: bloquear botón y mostrar estado
-  saveBtn.disabled = true;
-  const statusEl = document.getElementById('bulk-status');
-  statusEl.style.display = 'block';
-  statusEl.textContent = `Adding ${pts} pts to ${selectedIds.size} user(s)...`;
-
-  try {
-    // Enviar en paralelo con límite simple (opcional)
-    const ids = Array.from(selectedIds);
-    const promises = ids.map(userId =>
-      addPoints(userId, pts, desc).then(
-        () => ({ userId, ok: true }),
-        (err) => ({ userId, ok: false, err })
-      )
-    );
-
-    const results = await Promise.all(promises);
-    const okCount = results.filter(r => r.ok).length;
-    const fail = results.filter(r => !r.ok);
-
-    // Refrescar leaderboard y limpiar
-    leaderboardData = await fetchTotals();
-    filteredData = leaderboardData.slice();
-    renderTable();
-
-    // Mantener búsquedas, pero limpiar selección
-    selectedIds.clear();
-    renderPersonResults();
-    renderSelectedPills();
-    updateSelectedCount();
-    pointsInput.value = '0';
-    reasonInput.value = '';
-
-    // Summary
-    if (fail.length === 0) {
-      statusEl.textContent = `Done! ${okCount} / ${results.length} updated.`;
-      alert('Points added to all selected users!');
-    } else {
-      statusEl.textContent = `Partial success: ${okCount} ok, ${fail.length} failed.`;
-      const failedNames = fail.map(f => {
-        const u = leaderboardData.find(x => x.userId === f.userId);
-        return u ? u.name : f.userId;
-      });
-      alert(`Some failed:\n${failedNames.join('\n')}`);
-    }
-  } catch (err) {
-    console.error(err);
-    alert('Unexpected error while adding points.');
-  } finally {
-    saveBtn.disabled = false;
-  }
-});
-
-personSearch.addEventListener('input', renderFilteredPersons);
-
-/* ========= MULTI-SELECT STATE ========= */
-const personResultsEl = document.getElementById('person-results');
-const selectedPillsEl = document.getElementById('selected-pills');
-const selectedCountEl = document.getElementById('selected-count');
-const selectAllChk = document.getElementById('toggle-select-all');
-
-let selectedIds = new Set();
-let searchFilter = '';
-
-function renderPersonResults() {
-  const list = leaderboardData
-    .filter(p => p.name.toLowerCase().includes(searchFilter))
-    .sort((a,b) => a.name.localeCompare(b.name));
-
-  // Render filas con checkbox
-  personResultsEl.innerHTML = list.map(p => {
+function updatePickerUI(){
+  // list
+  const q = personSearch.value.trim().toLowerCase();
+  const pool = leaderboardData.filter(p => p.name.toLowerCase().includes(q));
+  personList.innerHTML = pool.map(p=>{
     const checked = selectedIds.has(p.userId) ? 'checked' : '';
     return `
-      <label style="display:flex; gap:8px; align-items:center; padding:6px 8px; border-radius:6px; cursor:pointer;">
-        <input type="checkbox" class="person-chk" value="${p.userId}" data-name="${p.name}" ${checked} />
-        <span style="flex:1;">${p.name} <small style="color:var(--text-light)">(${p.role})</small></span>
-        <small style="color:var(--text-light)">${p.points} pts</small>
+      <label class="person-item">
+        <input type="checkbox" data-id="${p.userId}" ${checked} />
+        <div>
+          <div class="person-name">${p.name}</div>
+          <div style="font-size:.85rem;color:var(--text-light)">${p.role ?? ''}</div>
+        </div>
+        <div style="margin-left:auto;font-weight:600;color:var(--secondary)">${p.points ?? 0} pts</div>
       </label>
     `;
   }).join('');
 
-  // manejar cambios
-  personResultsEl.querySelectorAll('.person-chk').forEach(chk => {
-    chk.addEventListener('change', (e) => {
-      if (e.target.checked) selectedIds.add(e.target.value);
-      else selectedIds.delete(e.target.value);
-      renderSelectedPills();
-      updateSelectedCount();
-      syncSelectAllCheckbox();
-    });
-  });
-
-  // sincronizar "select all"
-  syncSelectAllCheckbox();
-}
-
-function renderSelectedPills() {
-  // Mostrar chips removibles
-  const selectedList = leaderboardData.filter(p => selectedIds.has(p.userId));
-  selectedPillsEl.innerHTML = selectedList.map(p => `
-    <span style="background:#eef7ef; border:1px solid var(--border); padding:4px 8px; border-radius:999px;">
-      ${p.name}
-      <button data-id="${p.userId}" aria-label="Remove" style="margin-left:6px; border:none; background:transparent; cursor:pointer;">✕</button>
-    </span>
+  // chips
+  const selected = leaderboardData.filter(p=>selectedIds.has(p.userId));
+  chipsBox.innerHTML = selected.map(p=>`
+    <span class="chip">${p.name}<button title="Remove" data-remove="${p.userId}">&times;</button></span>
   `).join('');
 
-  selectedPillsEl.querySelectorAll('button[data-id]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      selectedIds.delete(btn.dataset.id);
-      renderPersonResults();
-      renderSelectedPills();
-      updateSelectedCount();
+  countSpan.textContent = selectedIds.size.toString();
+
+  // attach listeners for freshly rendered inputs/buttons
+  personList.querySelectorAll('input[type="checkbox"]').forEach(cb=>{
+    cb.addEventListener('change',()=>{
+      const id = cb.getAttribute('data-id');
+      if(cb.checked) selectedIds.add(id); else selectedIds.delete(id);
+      updatePickerUI(); // refresh chips & count, keep current filter
+    });
+  });
+  chipsBox.querySelectorAll('button[data-remove]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const id = btn.getAttribute('data-remove');
+      selectedIds.delete(id);
+      updatePickerUI();
     });
   });
 }
 
-function updateSelectedCount() {
-  selectedCountEl.textContent = `${selectedIds.size} selected`;
-}
+personSearch.addEventListener('input', updatePickerUI);
 
-function syncSelectAllCheckbox() {
-  const filteredIds = leaderboardData
-    .filter(p => p.name.toLowerCase().includes(searchFilter))
-    .map(p => p.userId);
-
-  if (filteredIds.length === 0) {
-    selectAllChk.checked = false;
-    selectAllChk.indeterminate = false;
-    return;
-  }
-
-  const allSelected = filteredIds.every(id => selectedIds.has(id));
-  const anySelected = filteredIds.some(id => selectedIds.has(id));
-
-  selectAllChk.checked = allSelected;
-  selectAllChk.indeterminate = !allSelected && anySelected;
-}
-
-/* ========= SEARCH HOOK ========= */
-personSearch.addEventListener('input', () => {
-  searchFilter = personSearch.value.toLowerCase();
-  renderPersonResults();
+btnSelectAll.addEventListener('click', ()=>{
+  const q = personSearch.value.trim().toLowerCase();
+  leaderboardData
+    .filter(p=>p.name.toLowerCase().includes(q))
+    .forEach(p=>selectedIds.add(String(p.userId)));
+  updatePickerUI();
 });
 
-/* ========= SELECT ALL (FILTERED) ========= */
-selectAllChk.addEventListener('change', (e) => {
-  const filtered = leaderboardData.filter(p => p.name.toLowerCase().includes(searchFilter));
-  if (e.target.checked) filtered.forEach(p => selectedIds.add(p.userId));
-  else filtered.forEach(p => selectedIds.delete(p.userId));
-  renderPersonResults();
-  renderSelectedPills();
-  updateSelectedCount();
+btnClearAll.addEventListener('click', ()=>{
+  selectedIds.clear();
+  updatePickerUI();
 });
 
-/* ========= OPEN MODAL: reset estado ========= */
-adminBtn.addEventListener('click', async () => {
-  const password = prompt('Enter admin password');
-  if (!password) return;
-  try {
-    const res = await fetch(`${API_BASE}/validate-password`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password })
-    });
-    if (!res.ok) throw new Error('Invalid password');
-    // reset estado
-    selectedIds = new Set();
-    searchFilter = '';
-    personSearch.value = '';
-    renderPersonResults();
-    renderSelectedPills();
-    updateSelectedCount();
+saveBtn.addEventListener('click', async ()=>{
+  const ids = Array.from(selectedIds);
+  const pts = parseInt(pointsInput.value,10);
+  const desc = reasonInput.value.trim();
 
-    modal.style.display = 'flex';
-  } catch (err) {
-    alert('Wrong password');
+  if(!ids.length) return alert('Select at least one person.');
+  if(!pts || pts<=0) return alert('Points must be a positive number.');
+  if(!desc) return alert('Please provide a reason/description.');
+
+  saveBtn.disabled = true; saveBtn.textContent = 'Saving...';
+  try{
+    // bulk: call current endpoint per user
+    await Promise.all(ids.map(id => addPoints(id, pts, desc)));
+
+    alert(`Points added to ${ids.length} participant(s).`);
+
+    // Refresh leaderboard and UI
+    leaderboardData = await fetchTotals();
+    filteredData = leaderboardData.slice();
+    currentPage = 1; renderTable();
+
+    // reset modal inputs but keep it open for convenience
+    selectedIds.clear(); updatePickerUI();
+    pointsInput.value = '0'; reasonInput.value = '';
+  }catch(err){
+    console.error(err);
+    alert('There was an error adding points.');
+  }finally{
+    saveBtn.disabled = false; saveBtn.textContent = 'Save';
   }
 });
-
 
 /* ========= 7. BOOTSTRAP ========= */
-async function initLeaderboard() {
-  try {
+async function initLeaderboard(){
+  try{
     leaderboardData = await fetchTotals();
     filteredData = leaderboardData.slice();
     renderTable();
-    populatePersonSelect();
-    renderFilteredPersons();
-  } catch (err) {
+    // (removed old populatePersonSelect to fix the null error)
+    // Initialize picker list once data exists
+    updatePickerUI();
+  }catch(err){
     console.error(err);
     alert('Unable to load leaderboard');
   }
 }
+
 window.addEventListener('DOMContentLoaded', initLeaderboard);
 </script>
 
