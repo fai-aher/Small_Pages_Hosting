@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>E-master x Feria Effix 2025 · Mentoría 1-a-1 en E-commerce + IA</title>
+  <meta name="description" content="Proyecto exclusivo de E-master: mentoría personalizada 1-a-1 durante 30 días, 4 meses de campus, soporte 24/7, alianzas y catálogo privado, 3 productos ganadores y herramientas de IA. Precio especial para asistentes de la Feria Effix 2025.">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --brand:#ff3b3b;      /* rojo emaster */
+      --brand-2:#ff7a26;    /* naranja emaster */
+      --bg:#0b0b10;
+      --card:#15151d;
+      --ink:#f5f6fb;
+      --muted:#9ba0ad;
+      --ok:#2ecc71;
+      --warn:#ffb119;
+      --radius:18px;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;color:var(--ink);
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      /* Fondo con más rojo neón opacado (estilo del logo) */
+      background:
+        radial-gradient(1200px 700px at 20% -10%, rgba(255, 70, 40, .28), transparent 60%),
+        radial-gradient(1100px 600px at 85% 110%, rgba(255, 30, 0, .22), transparent 60%),
+        radial-gradient(1400px 900px at 50% 20%, rgba(255, 0, 0, .12), transparent 65%),
+        linear-gradient(180deg, #0a0a0e 0%, #0b0b12 35%, #0a0a0e 100%);
+    }
+    a{color:inherit;text-decoration:none}
+    .container{width:min(1200px,92vw);margin-inline:auto}
+
+    /* NAV */
+    header{position:sticky;top:0;z-index:20;background:rgba(10,10,14,.55);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
+    .brand{display:flex;align-items:center;gap:.7rem}
+    .brand img{width:42px;height:42px;border-radius:12px;object-fit:contain}
+    .brand b{font-family:Poppins,Inter,sans-serif;letter-spacing:.3px}
+    .btn{display:inline-flex;align-items:center;gap:.55rem;padding:.9rem 1.15rem;border-radius:999px;font-weight:700;border:none;cursor:pointer;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;box-shadow:0 6px 24px rgba(255,60,40,.18)}
+    .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,.14);box-shadow:none}
+    .btn.glow{position:relative}
+    .btn.glow::after{content:"";position:absolute;inset:-2px;border-radius:999px;background:radial-gradient(60% 120% at 50% 0%, rgba(255,122,38,.5), rgba(255,59,59,.0));filter:blur(10px);z-index:-1}
+
+    /* HERO */
+    .hero{padding:clamp(48px,7vw,96px) 0 40px;text-align:center; padding-bottom: 56px;}
+    .badge{
+      display:inline-flex;gap:.6rem;align-items:center;
+      padding:.35rem .75rem;border:1px solid rgba(255,255,255,.16);
+      border-radius:999px;background:rgba(255,255,255,.06);font-size:.92rem
+    }
+    .badge img{width:100px;height:auto;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(0,0,0,.35))}
+    .title{
+      font-family:Poppins,Inter,sans-serif;font-size:clamp(34px,5.2vw,60px); padding-bottom: 6px;
+      line-height:1.06;margin:14px auto 10px; margin-bottom: 20px; max-width:950px;
+      background:linear-gradient(135deg,#fff,#ffe6d5);-webkit-background-clip:text;background-clip:text;color:transparent
+    }
+    .subtitle{color:#e4e6f1;font-size:clamp(16px,2.2vw,19px);max-width:850px;margin:0 auto 22px}
+    .cta{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;margin-top:10px}
+
+    .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}
+    .kpi{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);padding:14px;border-radius:14px}
+    .limit{display:inline-flex;align-items:center;gap:8px;padding:.3rem .65rem;border-radius:999px;background:rgba(255,59,59,.12);border:1px solid rgba(255,59,59,.35);color:#ffdfe0;font-weight:700}
+    .dot{width:8px;height:8px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 0 rgba(255,59,59,.55);animation:pulse 2.8s ease-out infinite}
+    @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,59,59,.55)}70%{box-shadow:0 0 0 10px rgba(255,59,59,0)}100%{box-shadow:0 0 0 0 rgba(255,59,59,0)}}
+
+    /* SECTIONS */
+    section{padding:64px 0}
+    .section-title{font-family:Poppins,Inter,sans-serif;font-size:clamp(24px,3.5vw,34px);margin:0 0 6px}
+    .section-sub{color:#dcdff0;margin:0 0 14px}
+    .grid{display:grid;gap:18px}
+    .cards-3{grid-template-columns:repeat(3,1fr)}
+    .cards-2{grid-template-columns:repeat(2,1fr)}
+    .card{background:var(--card);border:1px solid rgba(255,255,255,.09);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
+    .card h3{margin:.1rem 0 .2rem}
+    .muted{color:var(--muted)}
+    .list{padding-left:1.1rem;margin:.4rem 0 0}
+    .list li{margin:.45rem 0}
+    .chip{display:inline-flex;align-items:center;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);padding:.25rem .6rem;border-radius:999px;font-size:.8rem;margin:.22rem .22rem 0 0}
+
+    /* PLAN / PRECIO */
+    .plans .price-now{font-size:clamp(28px,4.2vw,36px);font-weight:800;color:#fff;margin:.1rem 0; margin-top: 20px; margin-bottom: 20px;}
+    .plans .price-old{color:#c9a5a5;text-decoration:line-through;opacity:.8}
+    .plans .save{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;color:#ffe6e6}
+    .tag-feria{padding:.25rem .6rem;border-radius:999px;background:linear-gradient(135deg,var(--brand),var(--brand-2));font-weight:700}
+    .ribbon{position:absolute;top:30px;right:-32px;transform:rotate(25deg);background:linear-gradient(135deg,var(--brand),var(--brand-2));color:white;padding:.3rem 2.3rem;font-weight:700;font-size:.78rem;letter-spacing:.4px}
+    .plans .card{position:relative;overflow:hidden}
+
+    /* LEAD / FORM */
+    .lead{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+    form{display:grid;gap:12px;background:#14141b;border:1px solid rgba(255,255,255,.08);padding:22px;border-radius:16px}
+    label{font-size:.92rem}
+    input,select,textarea{width:100%;padding:12px 14px;border-radius:12px;border:1px solid #2a2a33;background:#0f0f15;color:#fff}
+    input::placeholder,textarea::placeholder{color:#9aa}
+    .btn-xl{padding:1rem 1.3rem;font-size:1.02rem}
+    .note{font-size:.87rem;color:#cfd7e6}
+    .note.warn{color:#ffd7d7}
+
+    /* FOOTER */
+    footer{padding:36px 0;border-top:1px solid rgba(255,255,255,.08);color:#cfd1de}
+    .center{text-align:center}
+
+    /* RESPONSIVO: iPad y iPhone */
+    @media (max-width: 1024px){ /* iPad landscape */
+      .kpis{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width: 834px){ /* iPad portrait */
+      .lead{grid-template-columns:1fr}
+      .cards-3{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width: 640px){ /* iPhone 12 / 16 Pro */
+      header .nav nav{display:none}
+      .cards-3,.cards-2{grid-template-columns:1fr}
+      .badge img{width:68px}
+      .kpis{grid-template-columns:1fr}
+      .title{font-size:34px; padding-left: 5%; padding-right: 5%;}
+      .subtitle{font-size:16px; padding-left: 5%; padding-right: 5%;}
+    }
+
+    /* ==== Mentor hero (Brayan) en CASOS ==== */
+    .cases-section{ position: relative; overflow: hidden; }
+
+    /* Empuja el contenido para que no lo tape la foto */
+    .cases-section .container{ position: relative; z-index: 2;
+    padding-right: min(44vw, 560px);
+    }
+
+    /* Contenedor absoluto de la imagen a la derecha */
+    .cases-section .mentor-wrap{
+    position: absolute; inset: 0 0 0 auto;   /* anclado a la derecha */
+    width: min(48vw, 680px);                  /* tamaño adaptable */
+    pointer-events: none; z-index: 1;
+    display: flex; align-items: flex-end; justify-content: flex-end;
+    }
+
+    /* Halo neón detrás (como el del logo) */
+    .cases-section .mentor-wrap::before{
+    content:""; position:absolute; right:8%; top:10%;
+    width: 120%; height: 120%;
+    background: radial-gradient(50% 60% at 70% 40%,
+                rgba(255,80,40,.38),
+                rgba(255,30,0,.22) 38%,
+                rgba(255,0,0,0) 70%);
+    filter: blur(20px);
+    z-index: 0;
+    }
+
+    /* Imagen de Brayan con glow */
+    .cases-section .mentor-hero{
+    width: 100%; height: 120%; object-fit: contain; z-index: 1;
+    transform: translate(10%, 6%) scale(1.1);
+    filter: drop-shadow(0 12px 28px rgba(0,0,0,.55))
+            drop-shadow(0 0 26px rgba(255,60,40,.45))
+            drop-shadow(0 0 64px rgba(255,30,0,.25));
+    opacity: .98;
+    }
+
+    /* iPad / responsive fino */
+    @media (max-width: 1024px){ /* iPad landscape */
+    .cases-section .mentor-wrap{ width: min(44vw, 560px); }
+    .cases-section .container{ padding-right: min(40vw, 520px); }
+    }
+    @media (max-width: 834px){ /* iPad portrait */
+    .cases-section .mentor-wrap{ width: min(40vw, 520px); }
+    .cases-section .container{ padding-right: min(36vw, 460px); }
+    }
+
+    /* iPhone (12 / 16 Pro): ocultar la imagen */
+    @media (max-width: 640px){
+    .cases-section .mentor-wrap{ display: none; }
+    .cases-section .container{ padding-right: 0; }
+    }
+
+    /* ===== Mobile Burger (≤640px) ===== */
+    .burger{
+    display:none; /* desktop oculto */
+    width:42px;height:42px;border:0;border-radius:12px;cursor:pointer;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.14);
+    align-items:center;justify-content:center;gap:5px;
+    }
+    .burger span{
+    display:block;width:22px;height:2px;background:#fff;border-radius:2px;
+    transition:transform .25s ease, opacity .2s ease, width .2s ease;
+    }
+    .burger.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+    .burger.open span:nth-child(2){ opacity:0; width:0; }
+    .burger.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+
+    /* Overlay a pantalla completa */
+    .mobile-menu{
+    position:fixed; inset:0; z-index:60;
+    display:grid; place-items:center;
+    /* fondo con rojo neón */
+    background:
+        radial-gradient(1000px 700px at 70% 15%, rgba(255,60,40,.25), transparent 60%),
+        radial-gradient(1200px 900px at 30% 80%, rgba(255,0,0,.18), transparent 65%),
+        rgba(8,8,12,.96);
+    opacity:0; pointer-events:none; transition:opacity .2s ease;
+    }
+    .mobile-menu.open{ opacity:1; pointer-events:auto; }
+
+    .menu-panel{ display:flex; flex-direction:column; gap:18px; text-align:center; }
+    .menu-panel .m-link{
+    font-family:Poppins,Inter,sans-serif; font-weight:800;
+    font-size:clamp(24px,7vw,10px); letter-spacing:.5px;
+    padding:.65rem 1.2rem; border-radius:14px;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.14);
+    }
+    .menu-panel .m-link:active{ transform:scale(.98); }
+
+    /* Bloquear scroll cuando está abierto */
+    body.menu-open{ overflow:hidden; }
+
+    /* Mostrar burger solo en móvil y ocultar nav de escritorio */
+    @media (max-width:640px){
+    header .nav nav{ display:none !important; }
+    .burger{ display:inline-flex; }
+    }
+
+
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <img src="emaster-neon.jpg" alt="E-master logo">
+        <b>E-Master Project</b>
+      </div>
+      <nav style="display:flex;gap:.6rem;align-items:center">
+        <a class="btn secondary" href="#programa">El Programa</a>
+        <a class="btn secondary" href="#beneficios">Beneficios</a>
+        <a class="btn glow" href="#reserva">Precio y cupos</a>
+      </nav>
+      <button class="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Menú móvil pantalla completa -->
+<div id="mobileMenu" class="mobile-menu" role="dialog" aria-modal="true" hidden>
+<nav class="menu-panel">
+    <a href="#programa"   class="m-link">El Programa</a>
+    <a href="#beneficios" class="m-link">Beneficios</a>
+    <a href="#reserva"    class="m-link">Precio y cupos</a>
+</nav>
+</div>
+
+
+  <!-- HERO -->
+  <section class="hero container">
+    <!-- 1) Logo Feria en la primera vista -->
+    <span class="badge">
+      <img src="effix-png.png" alt="Feria Effix 2025">
+      Presencia confirmada · Effix 2025 · Medellín
+    </span>
+
+    <h1 class="title">Mentoría personalizada 1-a-1 + IA + Catálogo Privado</h1>
+    <p class="subtitle">
+      Proyecto exclusivo en Colombia: trabajas <b>1 mes</b> con tu mentor principal <b>Brayan</b> y recibes
+      <b>4 meses de campus</b> con retroalimentaciones y <b>soporte 24/7</b>. Te trasladamos del catálogo público a un
+      <b>catálogo privado con alianzas y proveedores exclusivos</b> para construir un producto único.
+    </p>
+    <div class="cta">
+      <a class="btn glow" href="#reserva">Apartar cupo</a>
+      <a class="btn secondary" href="#casos">Ver casos de éxito</a>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi"><b>Campus:</b> 4 meses · Feedback continuo</div>
+      <div class="kpi"><b>Cupos disponibles:</b> <span class="limit"><span class="dot"></span> Sólo 10 cupos</span></div>
+      <div class="kpi"><b>Soporte:</b> Acompañamiento y atención 24/7</div>
+    </div>
+  </section>
+
+  <!-- EL PROGRAMA -->
+  <section id="programa" class="container">
+    <h2 class="section-title">¿Qué incluye el proyecto?</h2>
+    <p class="section-sub">Todo lo necesario para lanzar y escalar una tienda con diferenciación real.</p>
+
+    <div class="grid cards-3">
+      <article class="card">
+        <h3>Mentoría 1-a-1 (30 días)</h3>
+        <ul class="list">
+          <li>Trabajo directo con <b>Brayan</b> durante un mes.</li>
+          <li>Reuniones <b>diarias de 1 hora</b> para avanzar sin perder tiempo.</li>
+          <li>Plan de acción personalizado y revisión de métricas.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h3>Campus + Soporte</h3>
+        <ul class="list">
+          <li><b>4 meses</b> de acceso al campus con retroalimentaciones.</li>
+          <li>Atención y acompañamiento <b>24 horas</b>.</li>
+          <li>Comunidad, materiales y sesiones grupales.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h3>Alianzas y Catálogo Privado</h3>
+        <ul class="list">
+          <li>Acceso a <b>proveedores, herramientas y laboratorios</b> exclusivos.</li>
+          <li>Construye tu producto desde cero con <b>exclusividad</b>.</li>
+          <li>Contactos y aliados quedan a tu disposición después del acompañamiento.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h3>3 Productos Ganadores</h3>
+        <p class="muted">Te obsequiamos <b>tres productos ganadores validados</b> (únicos en Colombia) para vender desde el día 1.</p>
+      </article>
+
+      <article class="card">
+        <h3>IA aplicada al e-commerce</h3>
+        <ul class="list">
+          <li>Plantillas de <b>landing pages con IA</b> listas en minutos.</li>
+          <li>Acceso a nuestros <b>GPTs</b> para landings, confirmación de pedidos y automatizaciones.</li>
+          <li>Apoyo en <b>investigación de mercado</b> con herramientas de IA.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h3>Escalado de Tráfico</h3>
+        <ul class="list">
+          <li>Campañas en <b>Meta Ads</b> y <b>TikTok Ads</b> para escalar.</li>
+          <li>Cómo pasar de <b>10 pedidos diarios</b> a <b>100+</b> con una estrategia de escalado controlada.</li>
+          <li>Acceso al <b>Club de las 5am</b> para mentalidad y disciplina.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+<!-- CASOS -->
+<section id="casos" class="cases-section">
+    <div class="container">
+        <h2 class="section-title">Casos de éxito</h2>
+        <p class="section-sub">Resultados alcanzados por alumnos y proyectos guiados por el equipo.</p>
+
+        <div class="grid cards-3">
+        <div class="card">
+            <h3>+100 millones en 30 días</h3>
+            <p class="muted">Producto exclusivo, estructura de escalado y equipo comercial ágil.</p>
+        </div>
+        <div class="card">
+            <h3>80 millones en 30 días</h3>
+            <p class="muted">Optimización de oferta, creativos con IA y control de CPA.</p>
+        </div>
+        <div class="card">
+            <h3>26 millones en 14 días</h3>
+            <p class="muted">Validación rápida con catálogo privado y remarketing.</p>
+        </div>
+        </div>
+    </div>
+
+    <!-- Imagen decorativa a la derecha (fondo) -->
+    <div class="mentor-wrap" aria-hidden="true">
+        <img src="brayan-png.png" alt="" class="mentor-hero">
+    </div>
+</section>
+
+
+  <!-- BENEFICIOS -->
+  <section id="beneficios" class="container">
+    <h2 class="section-title center">Beneficios clave</h2>
+    <p class="section-sub center">Diferenciación real + ejecución diaria + herramientas modernas.</p>
+    <div class="grid cards-3">
+      <div class="card"><h3>Exclusividad</h3><p class="muted">Catálogo privado y alianzas para crear productos que otros no pueden vender.</p></div>
+      <div class="card"><h3>Velocidad</h3><p class="muted">Plantillas y GPTs para lanzar páginas, pedidos y automatizaciones en minutos.</p></div>
+      <div class="card"><h3>Acompañamiento</h3><p class="muted">1-a-1 con Brayan + campus 4 meses + 24/7 + Club 5am.</p></div>
+    </div>
+  </section>
+
+  <!-- PRECIO / RESERVA -->
+  <section id="reserva" class="container plans">
+    <h2 class="section-title center">Precio especial de feria · Cupos limitados</h2>
+    <p class="section-sub center">Aceptamos transferencias y Dinero en efectivo.</p>
+
+    <div class="grid cards-2">
+      <article class="card">
+        <span class="ribbon">Exclusivo Feria Effix 2025</span>
+        <h3>Mentoría 1-a-1</h3>
+
+        <!-- 3) Descuento MUY claro -->
+        <div class="price-old">Antes: $ 8.000.000 COP</div>
+        <div class="price-now">Ahora: $ 6.500.000 COP</div>
+        <div class="save">
+          <span class="tag-feria">Sólo asistentes de la Feria Effix 2025</span>
+          <span>Ahorras $ 1.500.000 (-18.8%)</span>
+        </div>
+
+        <ul class="list" style="margin-top:.6rem">
+          <li>1 mes de mentoría personalizada + <b>4 meses de campus</b>.</li>
+          <li>3 productos ganadores validados.</li>
+          <li>Acceso a proveedores, herramientas y catálogo privado.</li>
+          <li>Soporte 24/7 y reuniones diarias.</li>
+          <li><span class="limit"><span class="dot"></span> Sólo 10 cupos</span></li>
+        </ul>
+        <br>
+        <a class="btn secondary" href="#form">Quiero este plan</a>
+      </article>
+
+      <article class="card" id="form">
+        <h3>Reserva tu lugar</h3>
+        <p class="muted">Déjanos tus datos y te contactamos para confirmar facilidades de pago y el inicio del proceso.</p>
+        <form id="leadForm">
+          <div>
+            <label>Nombre y apellido</label>
+            <input type="text" name="nombre" placeholder="Tu nombre" required>
+          </div>
+          <div>
+            <label>Correo electrónico</label>
+            <input type="email" name="email" placeholder="tucorreo@dominio.com" required>
+          </div>
+          <div>
+            <label>WhatsApp</label>
+            <input type="tel" name="phone" placeholder="+57 3XX XXX XXXX" required>
+          </div>
+
+          <div>
+            <label>Cantidad abonada (COP)</label>
+            <input type="number" name="abono" min="0" step="50000" placeholder="Ej. 200000">
+          </div>
+          <div>
+            <label>Plazo de pago (días)</label>
+            <input type="number" name="plazo" min="0" step="1" placeholder="Ej. 15">
+          </div>
+          <div>
+            <label>Medio de pago</label>
+            <select name="medio">
+              <option value="transferencia">Transferencia bancaria</option>
+              <option value="nequi-daviplata">Nequi</option>
+              <option value="efectivo">Efectivo en feria</option>
+              <option value="llaves">Transferencia llaves Bre-B</option>
+            </select>
+          </div>
+
+          <div>
+            <label>¿Qué te gustaría lograr en 30 días?</label>
+            <textarea name="objetivo" rows="3" placeholder="Cuéntanos tu meta y situación actual"></textarea>
+          </div>
+
+          <!-- 5) Botón mejorado -->
+          <button class="btn btn-xl glow" type="submit">✅ Confirmar cupo</button>
+          <div id="formMsg" class="note"></div>
+
+          <!-- 6) Advertencia y datos -->
+          <p class="note warn">
+            Importante: los abonos realizados <b>no son reembolsables</b>. Al enviar este formulario aceptas el
+            <b>tratamiento de tus datos personales</b> por parte de E-master con fines comerciales y de contacto.
+          </p>
+        </form>
+      </article>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container" style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:.6rem">
+        <img src="emaster-neon.jpg" alt="E-master" style="width:36px;height:36px;border-radius:10px">
+        <div>
+          <b>E-Master Project</b><br><span class="muted">Mentoría en e-commerce con IA</span>
+        </div>
+      </div>
+      <div class="muted" style="text-align:right">
+        © <span id="y"></span> E-Master Project · Precio especial válido durante la Feria Effix 2025 · Medellín
+        <div></div>
+        <br><a class="btn secondary" target="_blank" href="https://wa.me/573002732404?text=Hola%20E-master%2C%20quiero%20el%20programa%20de%20mentoria">Escríbenos por WhatsApp</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Manejo simple del formulario (demo sin backend)
+    const form = document.getElementById('leadForm');
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const fd = new FormData(form);
+      const data = Object.fromEntries(fd.entries());
+      const msg = document.getElementById('formMsg');
+
+      if(!data.nombre || !data.email || !data.phone){
+        msg.textContent = 'Por favor completa nombre, correo y WhatsApp.';
+        msg.style.color = '#ffb7b7';
+        return;
+      }
+      msg.style.color = '#cfe9d6';
+      msg.textContent = '¡Gracias! Te contactaremos muy pronto por WhatsApp y correo para confirmar tu cupo.';
+
+      // WhatsApp con resumen (reemplaza el número)
+      const resumen =
+        `Hola E-master, quiero reservar mi cupo.%0A%0A` +
+        `Nombre: ${encodeURIComponent(data.nombre)}%0A` +
+        `Email: ${encodeURIComponent(data.email)}%0A` +
+        `WhatsApp: ${encodeURIComponent(data.phone)}%0A` +
+        `Abono: ${encodeURIComponent(data.abono || '0')} COP%0A` +
+        `Plazo (días): ${encodeURIComponent(data.plazo || '0') }%0A` +
+        `Medio de pago: ${encodeURIComponent(data.medio || 'No especificado') }%0A` +
+        `Objetivo 30 días: ${encodeURIComponent(data.objetivo || 'No especificado')}`;
+      window.open(`https://wa.me/573002732404?text=${resumen}`,'_blank');
+
+      form.reset();
+    });
+
+    // Scroll suave
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const id = a.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth'}); }
+      });
+    });
+
+
+    // ===== Burger Menu Mobile =====
+    const burger = document.querySelector('.burger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    function openMenu() {
+    document.body.classList.add('menu-open');
+    burger.classList.add('open');
+    burger.setAttribute('aria-expanded', 'true');
+    mobileMenu.hidden = false;
+    requestAnimationFrame(()=> mobileMenu.classList.add('open'));
+    }
+
+    function closeMenu() {
+    document.body.classList.remove('menu-open');
+    burger.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+    mobileMenu.classList.remove('open');
+    setTimeout(()=> mobileMenu.hidden = true, 200); // espera animación
+    }
+
+    burger.addEventListener('click', () => {
+    const isOpen = document.body.classList.contains('menu-open');
+    isOpen ? closeMenu() : openMenu();
+    });
+
+    // Cerrar al tocar fuera (fondo oscuro)
+    mobileMenu.addEventListener('click', (e) => {
+    if (e.target === mobileMenu) closeMenu();
+    });
+
+    // Cerrar al elegir una opción y hacer scroll suave (tu código ya tenía smooth scroll)
+    document.querySelectorAll('.mobile-menu .m-link').forEach(link=>{
+    link.addEventListener('click', () => closeMenu());
+    });
+
+    // Cerrar con ESC
+    window.addEventListener('keydown', (e)=> { if(e.key === 'Escape') closeMenu(); });
+
+  </script>
+</body>
+</html>
