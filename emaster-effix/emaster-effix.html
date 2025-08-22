@@ -424,9 +424,29 @@
             <input type="tel" name="phone" placeholder="+57 3XX XXX XXXX" required>
           </div>
 
+          <div class="field">
+            <label for="ccnit">Cédula o NIT</label>
+            <input
+              type="text"
+              id="ccnit"
+              name="ccnit"
+              placeholder="Ej. 1012345678 o 900123456-7"
+              autocomplete="off"
+              required
+            />
+          </div>
+
           <div>
             <label>Cantidad abonada (COP)</label>
-            <input type="number" name="abono" min="0" step="50000" placeholder="Ej. 200000">
+            <input
+              type="number"
+              id="abono"
+              name="abono"
+              placeholder="Valor del abono (COP)"
+              min="0"
+              step="any"
+              inputmode="decimal"
+            />
           </div>
           <div>
             <label>Plazo de pago (días)</label>
@@ -478,88 +498,185 @@
     </div>
   </footer>
 
-  <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
+<script>
+  // ========= CONFIG =========
+  // Pega aquí la URL de tu Web App de Google Apps Script (Deploy -> Web app)
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFpHxmSV98g8TxSNSaFYh8Bg4yLeRfkKvozjGaCYHtlPISzLu8pJKa4kTNF2wm8uJf/exec";
 
-    // Manejo simple del formulario (demo sin backend)
+  // Normaliza número a formato internacional sin signos (wa.me exige sólo dígitos)
+  function toWhatsAppNumber(raw, defaultCountryCode = '57') {
+    if (!raw) return '';
+    let digits = String(raw).replace(/\D+/g, '').replace(/^0+/, '');
+    // Si parece móvil colombiano (10 dígitos iniciando por 3) y no trae indicativo, anteponer 57
+    if (/^3\d{9}$/.test(digits)) digits = defaultCountryCode + digits;
+    // Aceptar entre 7 y 15 dígitos para wa.me
+    return /^\d{7,15}$/.test(digits) ? digits : '';
+  }
+
+  // Formatea un valor como moneda COP para mostrar en el mensaje
+  function moneyCOP(val) {
+    const n = Number(String(val).replace(/[^\d.]/g, '')) || 0;
+    return new Intl.NumberFormat('es-CO', {
+      style: 'currency',
+      currency: 'COP',
+      maximumFractionDigits: 0
+    }).format(n);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Año en footer (si existe)
+    const yEl = document.getElementById('y');
+    if (yEl) yEl.textContent = new Date().getFullYear();
+
+    // -------- Envío del formulario: guarda en Sheet + abre WhatsApp del cliente --------
     const form = document.getElementById('leadForm');
-    form.addEventListener('submit', (e)=>{
-      e.preventDefault();
-      const fd = new FormData(form);
-      const data = Object.fromEntries(fd.entries());
-      const msg = document.getElementById('formMsg');
+    const msg  = document.getElementById('formMsg');
 
-      if(!data.nombre || !data.email || !data.phone){
-        msg.textContent = 'Por favor completa nombre, correo y WhatsApp.';
-        msg.style.color = '#ffb7b7';
-        return;
-      }
-      msg.style.color = '#cfe9d6';
-      msg.textContent = '¡Gracias! Te contactaremos muy pronto por WhatsApp y correo para confirmar tu cupo.';
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-      // WhatsApp con resumen (reemplaza el número)
-      const resumen =
-        `Hola E-master, quiero reservar mi cupo.%0A%0A` +
-        `Nombre: ${encodeURIComponent(data.nombre)}%0A` +
-        `Email: ${encodeURIComponent(data.email)}%0A` +
-        `WhatsApp: ${encodeURIComponent(data.phone)}%0A` +
-        `Abono: ${encodeURIComponent(data.abono || '0')} COP%0A` +
-        `Plazo (días): ${encodeURIComponent(data.plazo || '0') }%0A` +
-        `Medio de pago: ${encodeURIComponent(data.medio || 'No especificado') }%0A` +
-        `Objetivo 30 días: ${encodeURIComponent(data.objetivo || 'No especificado')}`;
-      window.open(`https://wa.me/573002732404?text=${resumen}`,'_blank');
+        const fd   = new FormData(form);
+        const data = Object.fromEntries(fd.entries());
 
-      form.reset();
-    });
+        // Validaciones mínimas
+        if (!data.nombre || !data.email || !data.phone || !data.ccnit) {
+          if (msg) {
+            msg.textContent = 'Por favor completa nombre, correo, WhatsApp y Cédula/NIT.';
+            msg.style.color = '#ffb7b7';
+          }
+          return;
+        }
 
-    // Scroll suave
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click', (e)=>{
+        // Honeypot: si el campo oculto trae dato, abortar (bot)
+        if ((data.empresa || '').trim() !== '') {
+          if (msg) {
+            msg.textContent = 'Gracias.';
+            msg.style.color = '#cfe9d6';
+          }
+          form.reset();
+          return;
+        }
+
+        // Normaliza el teléfono del cliente para WhatsApp
+        const waNumber = toWhatsAppNumber(data.phone, '57'); // 57 = CO
+        if (!waNumber) {
+          if (msg) {
+            msg.textContent = 'El número de WhatsApp no parece válido. Intenta e.g. +57 3XX XXX XXXX';
+            msg.style.color = '#ffb7b7';
+          }
+          return;
+        }
+
+        // Limpieza mínima de Cédula/NIT para el mensaje
+        const ccnit = (data.ccnit || '').toString().trim();
+
+        // Construye el registro a enviar al Sheet
+        const record = {
+          nombre:   data.nombre,
+          email:    data.email,
+          phone:    waNumber, // guardamos normalizado
+          abono:    data.abono || '',
+          plazo:    data.plazo || '',
+          medio:    data.medio || '',
+          objetivo: data.objetivo || '',
+          page:     location.href,
+          ua:       navigator.userAgent,
+          ccnit:    ccnit
+        };
+
+        // Enviar al Apps Script (x-www-form-urlencoded para evitar CORS preflight)
+        try {
+          await fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+            body: new URLSearchParams(record).toString()
+          });
+        } catch (_) {
+          // El request igual se dispara con no-cors
+        }
+
+        // ===== Mensaje WhatsApp (usar \n, luego encodeURIComponent) =====
+        const msgLines = [
+          `¡Hola ${data.nombre}! `,
+          `Bienvenid@ al equipo del E-master Project`,
+          `Tu registro quedó recibido. Estos son los datos:`,
+          `• Cédula/NIT: ${ccnit}`,
+          `• Email: ${data.email}`,
+          `• Abono: ${moneyCOP(data.abono)}`,
+          `• Plazo: ${data.plazo || '0'} días`,
+          `• Medio de pago: ${data.medio || 'No especificado'}`,
+          `• Objetivo 30 días: ${data.objetivo || 'No especificado'}`,
+          ``,
+          `Importante: el abono no es reembolsable, pues reserva uno de los cupos limitados.`,
+          `En unas horas te enviaremos por WhatsApp tu factura electrónica.`,
+          `Gracias por elegirnos. ¡Vamos con toda! `
+        ];
+        const waText = encodeURIComponent(msgLines.join('\n'));
+
+        // Abre WhatsApp del CLIENTE en nueva pestaña con el mensaje
+        window.open(`https://wa.me/${waNumber}?text=${waText}`, '_blank', 'noopener,noreferrer');
+
+        if (msg) {
+          msg.style.color = '#cfe9d6';
+          msg.textContent = '¡Listo! Abrimos WhatsApp con el resumen. También te contactaremos por correo.';
+        }
+        form.reset();
+      });
+    }
+
+    // -------- Scroll suave en anclas --------
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
         const id = a.getAttribute('href').slice(1);
         const el = document.getElementById(id);
-        if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth'}); }
+        if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth' }); }
       });
     });
 
-
-    // ===== Burger Menu Mobile =====
+    // -------- Burger Menu Mobile (si tu HTML lo incluye) --------
     const burger = document.querySelector('.burger');
     const mobileMenu = document.getElementById('mobileMenu');
 
     function openMenu() {
-    document.body.classList.add('menu-open');
-    burger.classList.add('open');
-    burger.setAttribute('aria-expanded', 'true');
-    mobileMenu.hidden = false;
-    requestAnimationFrame(()=> mobileMenu.classList.add('open'));
+      document.body.classList.add('menu-open');
+      if (burger) burger.classList.add('open');
+      if (burger) burger.setAttribute('aria-expanded', 'true');
+      if (mobileMenu) {
+        mobileMenu.hidden = false;
+        requestAnimationFrame(() => mobileMenu.classList.add('open'));
+      }
     }
 
     function closeMenu() {
-    document.body.classList.remove('menu-open');
-    burger.classList.remove('open');
-    burger.setAttribute('aria-expanded', 'false');
-    mobileMenu.classList.remove('open');
-    setTimeout(()=> mobileMenu.hidden = true, 200); // espera animación
+      document.body.classList.remove('menu-open');
+      if (burger) burger.classList.remove('open');
+      if (burger) burger.setAttribute('aria-expanded', 'false');
+      if (mobileMenu) {
+        mobileMenu.classList.remove('open');
+        setTimeout(() => (mobileMenu.hidden = true), 200);
+      }
     }
 
-    burger.addEventListener('click', () => {
-    const isOpen = document.body.classList.contains('menu-open');
-    isOpen ? closeMenu() : openMenu();
-    });
+    if (burger && mobileMenu) {
+      burger.addEventListener('click', () => {
+        const isOpen = document.body.classList.contains('menu-open');
+        isOpen ? closeMenu() : openMenu();
+      });
 
-    // Cerrar al tocar fuera (fondo oscuro)
-    mobileMenu.addEventListener('click', (e) => {
-    if (e.target === mobileMenu) closeMenu();
-    });
+      mobileMenu.addEventListener('click', (e) => {
+        if (e.target === mobileMenu) closeMenu();
+      });
 
-    // Cerrar al elegir una opción y hacer scroll suave (tu código ya tenía smooth scroll)
-    document.querySelectorAll('.mobile-menu .m-link').forEach(link=>{
-    link.addEventListener('click', () => closeMenu());
-    });
+      document.querySelectorAll('.mobile-menu .m-link').forEach(link => {
+        link.addEventListener('click', () => closeMenu());
+      });
 
-    // Cerrar con ESC
-    window.addEventListener('keydown', (e)=> { if(e.key === 'Escape') closeMenu(); });
+      window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+    }
+  });
+</script>
 
-  </script>
 </body>
 </html>
