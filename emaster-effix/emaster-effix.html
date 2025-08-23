@@ -500,20 +500,22 @@
 
 <script>
   // ========= CONFIG =========
-  // Pega aquí la URL de tu Web App de Google Apps Script (Deploy -> Web app)
+  // URL del Web App (Apps Script -> Deploy -> Web app)
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFpHxmSV98g8TxSNSaFYh8Bg4yLeRfkKvozjGaCYHtlPISzLu8pJKa4kTNF2wm8uJf/exec";
+  // WhatsApp de la empresa (solo dígitos, sin +)
+  const COMPANY_WA = "573002732404"; // +57 300 2732404
 
-  // Normaliza número a formato internacional sin signos (wa.me exige sólo dígitos)
+  // Normaliza número del cliente a formato internacional sin signos para guardar en Sheet
   function toWhatsAppNumber(raw, defaultCountryCode = '57') {
     if (!raw) return '';
     let digits = String(raw).replace(/\D+/g, '').replace(/^0+/, '');
     // Si parece móvil colombiano (10 dígitos iniciando por 3) y no trae indicativo, anteponer 57
     if (/^3\d{9}$/.test(digits)) digits = defaultCountryCode + digits;
-    // Aceptar entre 7 y 15 dígitos para wa.me
+    // Aceptar entre 7 y 15 dígitos
     return /^\d{7,15}$/.test(digits) ? digits : '';
   }
 
-  // Formatea un valor como moneda COP para mostrar en el mensaje
+  // Formatea un valor como COP para mostrar en el mensaje
   function moneyCOP(val) {
     const n = Number(String(val).replace(/[^\d.]/g, '')) || 0;
     return new Intl.NumberFormat('es-CO', {
@@ -528,7 +530,7 @@
     const yEl = document.getElementById('y');
     if (yEl) yEl.textContent = new Date().getFullYear();
 
-    // -------- Envío del formulario: guarda en Sheet + abre WhatsApp del cliente --------
+    // -------- Envío del formulario: guarda en Sheet + abre WhatsApp hacia la EMPRESA --------
     const form = document.getElementById('leadForm');
     const msg  = document.getElementById('formMsg');
 
@@ -558,9 +560,9 @@
           return;
         }
 
-        // Normaliza el teléfono del cliente para WhatsApp
-        const waNumber = toWhatsAppNumber(data.phone, '57'); // 57 = CO
-        if (!waNumber) {
+        // Normaliza el teléfono del cliente (para guardar en Sheet)
+        const waNumberClient = toWhatsAppNumber(data.phone, '57'); // 57 = CO
+        if (!waNumberClient) {
           if (msg) {
             msg.textContent = 'El número de WhatsApp no parece válido. Intenta e.g. +57 3XX XXX XXXX';
             msg.style.color = '#ffb7b7';
@@ -575,7 +577,7 @@
         const record = {
           nombre:   data.nombre,
           email:    data.email,
-          phone:    waNumber, // guardamos normalizado
+          phone:    waNumberClient, // guardamos normalizado
           abono:    data.abono || '',
           plazo:    data.plazo || '',
           medio:    data.medio || '',
@@ -597,30 +599,32 @@
           // El request igual se dispara con no-cors
         }
 
-        // ===== Mensaje WhatsApp (usar \n, luego encodeURIComponent) =====
+        // ===== Mensaje WhatsApp DESDE el cliente HACIA la empresa =====
+        // Usamos \n y luego encodeURIComponent para evitar símbolos raros
         const msgLines = [
-          `¡Hola ${data.nombre}! `,
-          `Bienvenid@ al equipo del E-master Project`,
-          `Tu registro quedó recibido. Estos son los datos:`,
+          `Hola equipo E-master Project, soy ${data.nombre}.`,
+          `Quiero CONFIRMAR mi cupo para ser parte del Proyecto E-master en su edición especial de la Feria Effix 2025.`,
+          ``,
+          `Estos son mis datos:`,
           `• Cédula/NIT: ${ccnit}`,
           `• Email: ${data.email}`,
+          `• WhatsApp: +${waNumberClient}`,
           `• Abono: ${moneyCOP(data.abono)}`,
           `• Plazo: ${data.plazo || '0'} días`,
           `• Medio de pago: ${data.medio || 'No especificado'}`,
           `• Objetivo 30 días: ${data.objetivo || 'No especificado'}`,
           ``,
-          `Importante: el abono no es reembolsable, pues reserva uno de los cupos limitados.`,
-          `En unas horas te enviaremos por WhatsApp tu factura electrónica.`,
-          `Gracias por elegirnos. ¡Vamos con toda! `
+          `Declaro que entiendo y acepto que el abono no es reembolsable, ya que reserva uno de los cupos limitados.`,
+          `Por favor, envíenme la factura electrónica por este medio o a mi correo. ¡Gracias!`
         ];
         const waText = encodeURIComponent(msgLines.join('\n'));
 
-        // Abre WhatsApp del CLIENTE en nueva pestaña con el mensaje
-        window.open(`https://wa.me/${waNumber}?text=${waText}`, '_blank', 'noopener,noreferrer');
+        // Abre chat de la EMPRESA con el mensaje prellenado (el cliente lo enviará desde su WhatsApp)
+        window.open(`https://wa.me/${COMPANY_WA}?text=${waText}`, '_blank', 'noopener,noreferrer');
 
         if (msg) {
           msg.style.color = '#cfe9d6';
-          msg.textContent = '¡Listo! Abrimos WhatsApp con el resumen. También te contactaremos por correo.';
+          msg.textContent = '¡Listo! Abrimos tu WhatsApp con el mensaje dirigido a nuestro número.';
         }
         form.reset();
       });
